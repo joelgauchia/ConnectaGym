@@ -1,0 +1,33 @@
+<div class="text-center" *ngIf="isLogged; else loggedOutTemplate">
+    <h2>Ja estas loguejat</h2>
+</div>
+
+<ng-template #loggedOutTemplate>
+    <form [formGroup]="loginForm">
+        <div class="surface-card p-4 shadow-2 border-round w-full lg:w-3">
+            <div class="text-center mb-5">
+                <img src="assets/images/connectagym logo.png" alt="Image" height="50" class="mb-3">
+                <div class="text-400 font-medium line-height-2">ConnectaGym</div>
+                <div class="text-900 text-3xl font-medium mb-3">
+                    <p class="titol">Benvingut!</p>
+                </div>
+            </div>
+        
+            <div>
+                <label for="username1" class="block text-900 font-medium mb-2">Nom d'usuari</label>
+                <input id="username1" type="text" placeholder="Entra el nom d'usuari" pInputText  formControlName="username"  class="w-full mb-3">
+        
+                <label for="password1" class="block text-900 font-medium mb-2">Contrassenya</label>
+                <input id="password1" type="password" placeholder="Entra la contrassenya" pInputText formControlName="password" class="w-full mb-3">
+        
+                <div class="flex align-items-center justify-content-end mb-6">
+                    <a class="font-medium no-underline ml-2 text-blue-500 text-right cursor-pointer" [routerLink]="['/register']">Encara no estàs registrat?</a>
+                </div>
+        
+                <button pButton pRipple label="Sign In" icon="pi pi-user" class="w-full" (click)="login()" [disabled]="!loginForm.valid"></button>
+            </div>
+        </div>
+    </form>
+</ng-template>
+
+<p-toast></p-toast>
