@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { TokenService } from '../services/token.service';
+import { SelectedComponentService } from '../services/selected-component.service';
 
 @Component({
   selector: 'app-home',
@@ -7,12 +8,11 @@ import { TokenService } from '../services/token.service';
   styleUrl: './home.component.scss'
 })
 export class HomeComponent implements OnInit {
+  selectedComponent: string = 'dashboard';
 
-  nomUsuari: string = '';
-
-  constructor(private tokenService: TokenService) { }
+  constructor(private selectedComponentService: SelectedComponentService) { }
 
   ngOnInit(): void {
-    
+    this.selectedComponent = this.selectedComponentService.selectedComponent; 
   }
 }

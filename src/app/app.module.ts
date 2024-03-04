@@ -9,13 +9,12 @@ import { HomeModule } from './home/home.module';
 import { SidebarMenuModule } from './sidebar-menu/sidebar-menu.module';
 import { LoginModule } from './login/login.module';
 import { FormsModule } from '@angular/forms';
-import { RegisterComponent } from './register/register.component';
 import { CommonModule } from '@angular/common';
+import { ComponentsModule } from './components/components.module';
 
 @NgModule({
   declarations: [
-    AppComponent,
-    RegisterComponent
+    AppComponent
   ],
   imports: [
     BrowserModule,
@@ -27,7 +26,8 @@ import { CommonModule } from '@angular/common';
     LoginModule,
     HomeModule,
     SidebarMenuModule,
-    FormsModule
+    FormsModule,
+    ComponentsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

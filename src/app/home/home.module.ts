@@ -3,6 +3,7 @@ import { HomeComponent } from './home.component';
 
 import { PrimengModule } from '../primeng/primeng.module';
 import { SidebarMenuModule } from '../sidebar-menu/sidebar-menu.module';
+import { ComponentsModule } from '../components/components.module';
 
 @NgModule({
   declarations: [
@@ -10,7 +11,8 @@ import { SidebarMenuModule } from '../sidebar-menu/sidebar-menu.module';
   ],
   imports: [
     PrimengModule,
-    SidebarMenuModule
+    SidebarMenuModule,
+    ComponentsModule  
   ],
   exports: [
     HomeComponent
