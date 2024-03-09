@@ -4,6 +4,7 @@ import { HomeComponent } from './home.component';
 import { PrimengModule } from '../primeng/primeng.module';
 import { SidebarMenuModule } from '../sidebar-menu/sidebar-menu.module';
 import { ComponentsModule } from '../components/components.module';
+import { CommonModule } from '@angular/common';
 
 @NgModule({
   declarations: [
@@ -12,7 +13,8 @@ import { ComponentsModule } from '../components/components.module';
   imports: [
     PrimengModule,
     SidebarMenuModule,
-    ComponentsModule  
+    ComponentsModule,
+    CommonModule
   ],
   exports: [
     HomeComponent

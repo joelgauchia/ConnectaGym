@@ -15,8 +15,6 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 export class LoginComponent implements OnInit {
 
   loginForm!: FormGroup;
-  isLogged: boolean = false;
-  loginFailed: boolean = false;
   loginUsuari: LoginUsuari | undefined;
   rols: string[] = [];
 
@@ -38,7 +36,7 @@ export class LoginComponent implements OnInit {
     this.loginUsuari = new LoginUsuari(this.loginForm.value.username, this.loginForm.value.password);
     this.authService.login(this.loginUsuari).subscribe(response => {
       this.tokenService.setToken(response.token);
-      this.router.navigate(['/home']);
+      this.router.navigate(['/']);
       console.log(this.loginForm.value.username, this.loginForm.value.password);
     },
     error => {
