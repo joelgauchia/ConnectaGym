@@ -13,6 +13,9 @@ import { PropietarisComponent } from './propietaris/propietaris.component';
 import { QuotesComponent } from './quotes/quotes.component';
 import { UsuarisComponent } from './usuaris/usuaris.component';
 import { VisitesComponent } from './visites/visites.component';
+import { CommonModule } from '@angular/common';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormUsuariComponent } from './usuaris/form-usuari/form-usuari.component';
 
 @NgModule({
   declarations: [
@@ -26,10 +29,14 @@ import { VisitesComponent } from './visites/visites.component';
     PropietarisComponent,
     QuotesComponent,
     UsuarisComponent,
-    VisitesComponent
+    VisitesComponent, 
+    FormUsuariComponent
   ],
   imports: [
-    PrimengModule
+    PrimengModule,
+    CommonModule,
+    FormsModule,
+    ReactiveFormsModule
   ],
   exports: [
     AjustamentsComponent,

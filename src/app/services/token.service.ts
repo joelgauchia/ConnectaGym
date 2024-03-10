@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 
 const TOKEN_KEY = 'AuthToken';
 
@@ -9,7 +10,7 @@ export class TokenService {
 
     rols: Array<string> = [];
 
-    constructor() { }
+    constructor(private router: Router) { }
 
     public setToken(token: string): void {
         window.sessionStorage.removeItem(TOKEN_KEY);
@@ -88,6 +89,7 @@ export class TokenService {
     }
 
     public logOut(): void {
-        window.sessionStorage.clear();
+        sessionStorage.removeItem(TOKEN_KEY);
+        this.router.navigate(['/login']);
     }
 }
