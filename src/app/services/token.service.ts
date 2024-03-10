@@ -89,7 +89,7 @@ export class TokenService {
     }
 
     public logOut(): void {
-        window.localStorage.clear();
+        sessionStorage.removeItem(TOKEN_KEY);
         this.router.navigate(['/login']);
     }
 }

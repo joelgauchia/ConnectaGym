@@ -13,6 +13,8 @@ import { DialogModule } from 'primeng/dialog';
 import { TagModule } from 'primeng/tag';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { DropdownModule } from 'primeng/dropdown';
+import { RadioButtonModule } from 'primeng/radiobutton';
+import { MultiSelectModule } from 'primeng/multiselect';
 
 @NgModule({
     declarations: [],
@@ -30,7 +32,9 @@ import { DropdownModule } from 'primeng/dropdown';
         DialogModule,
         TagModule,
         ConfirmDialogModule,
-        DropdownModule
+        DropdownModule,
+        RadioButtonModule,
+        MultiSelectModule
     ]
 })
 export class PrimengModule { }

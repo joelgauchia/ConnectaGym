@@ -40,8 +40,7 @@ export class LoginComponent implements OnInit {
       console.log(this.loginForm.value.username, this.loginForm.value.password);
     },
     error => {
-      this.messageService.add({ severity: 'error', summary: 'Login Error', detail: "Error d'inici de sessió" });
-      console.log("message");
+      this.messageService.add({ severity: 'error', summary: 'Login Error', detail: "Usuari inexistent" });
     });
   }
 }

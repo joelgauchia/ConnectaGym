@@ -1,3 +1,5 @@
+import { Rol } from "./rol.model";
+
 export interface Usuari {
     nomUsuari: string;
     email: string;
@@ -5,5 +7,5 @@ export interface Usuari {
     actiu: boolean;
     dataCreacio: Date;
     dataModificacio: Date;
-    rols: string[];
+    rols: Rol[];
 }

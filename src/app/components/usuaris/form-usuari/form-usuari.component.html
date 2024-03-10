@@ -1,0 +1,67 @@
+<form *ngIf="mode === 'editar'" [formGroup]="usuariForm" (ngSubmit)="guardarUsuari()">
+    <div class="field">
+        <label for="email" class="form-label">Email</label>
+        <input type="email" id="email" pInputText formControlName="email"/>
+    </div>
+    <div class="field">
+        <label for="nom" class="form-label">Nom</label>
+        <input type="text" id="nom" pInputText formControlName="nom"/>
+    </div>
+    <div class="field">
+        <label for="estat" class="form-label">Estat</label>
+        <div class="flex flex-wrap gap-3">
+            <div class="flex align-items-center">
+                <p-radioButton name="actiu" [value]="true" formControlName="actiu" inputId="estat1"></p-radioButton>
+                <label for="estat1" class="ml-2">Actiu</label>
+            </div>
+            
+            <div class="flex align-items-center">
+                <p-radioButton name="actiu" [value]="false" formControlName="actiu" inputId="estat2"></p-radioButton>
+                <label for="estat2" class="ml-2">Inactiu</label>
+            </div>
+        </div>
+    </div>
+    <div class="p-col-12">
+        <button pButton type="submit" label="Guardar" [disabled]="!usuariForm.valid"></button>
+    </div>
+</form>
+
+<form *ngIf="mode === 'crear'" [formGroup]="usuariForm" (ngSubmit)="crearUsuari()">
+    <div class="field">
+        <label for="nomUsuari" class="form-label">Nom Usuari</label>
+        <input type="text" pInputText id="nomUsuari" formControlName="nomUsuari"/>
+    </div>
+    <div class="field">
+        <label for="password" class="form-label">Contrassenya</label>
+        <input type="password" id="password" pInputText formControlName="password"/>
+    </div>
+    <div class="field">
+        <label for="nom" class="form-label">Nom</label>
+        <input type="text" id="nom" pInputText formControlName="nom"/>
+    </div>
+    <div class="field">
+        <label for="email" class="form-label">Email</label>
+        <input type="email" id="email" pInputText formControlName="email"/>
+    </div>
+    <div class="field">
+        <label for="rols" class="form-label">Rol</label>
+        <p-dropdown [options]="rols" formControlName="rols" placeholder="Escull el rol"></p-dropdown>
+    </div>
+    <div class="field">
+        <label for="estat" class="form-label">Estat</label>
+        <div class="flex flex-wrap gap-3">
+            <div class="flex align-items-center">
+                <p-radioButton name="actiu" [value]="true" formControlName="actiu" inputId="estat1"></p-radioButton>
+                <label for="estat1" class="ml-2">Actiu</label>
+            </div>
+            
+            <div class="flex align-items-center">
+                <p-radioButton name="actiu" [value]="false" formControlName="actiu" inputId="estat2"></p-radioButton>
+                <label for="estat2" class="ml-2">Inactiu</label>
+            </div>
+        </div>
+    </div>
+    <div class="p-col-12">
+        <button pButton type="submit" label="Guardar" [disabled]="!usuariForm.valid"></button>
+    </div>
+</form>
