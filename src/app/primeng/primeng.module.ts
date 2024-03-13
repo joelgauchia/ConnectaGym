@@ -14,7 +14,7 @@ import { TagModule } from 'primeng/tag';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { DropdownModule } from 'primeng/dropdown';
 import { RadioButtonModule } from 'primeng/radiobutton';
-import { MultiSelectModule } from 'primeng/multiselect';
+import { CalendarModule } from 'primeng/calendar';
 
 @NgModule({
     declarations: [],
@@ -34,7 +34,7 @@ import { MultiSelectModule } from 'primeng/multiselect';
         ConfirmDialogModule,
         DropdownModule,
         RadioButtonModule,
-        MultiSelectModule
+        CalendarModule
     ]
 })
 export class PrimengModule { }
