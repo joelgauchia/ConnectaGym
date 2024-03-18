@@ -1,9 +1,11 @@
-import { Component, LOCALE_ID, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { ExcelService } from '../../services/excel.service';
 import { Llicencia } from '../../models/llicencia.model';
 import { LlicenciesService } from '../../services/llicencies.service';
 import { forkJoin } from 'rxjs';
+import { TipusLlicenciaService } from '../../services/tipusLlicencia.service';
+import { TipusLlicencia } from '../../models/tipus-llicencia.model';
 
 @Component({
   selector: 'app-llicencies',
@@ -16,11 +18,15 @@ export class LlicenciesComponent implements OnInit {
   llicencies!: Llicencia[];
   llicencia!: Llicencia[];
   submitted: boolean = false;
+  tipusLlicenciaFormulari!: TipusLlicencia[];
 
   crearLlicenciaDialog: boolean = false;
+  veureTipusLlicencia: boolean = false;
+  veureLlicenciaDialog: boolean = false;
 
   constructor(
     private llicenciesService: LlicenciesService,
+    private tipusLlicenciaService: TipusLlicenciaService,
     private messageService: MessageService,
     private confirmationService: ConfirmationService,
     private excelService: ExcelService
@@ -46,6 +52,9 @@ export class LlicenciesComponent implements OnInit {
         }
       });
     });
+    this.tipusLlicenciaService.getTipusLlicencia().subscribe(response => {
+      this.tipusLlicenciaFormulari = response;
+    });
   }
 
   crearLlicencia() {
@@ -63,12 +72,17 @@ export class LlicenciesComponent implements OnInit {
     });
   }
  
-  tipusLlicencies() {
-  
+  tipusLlicencia() {
+    this.veureTipusLlicencia = true;
+  }
+
+  veureLlicencies() {
+    this.carregarLlicencies();
+    this.veureTipusLlicencia = false;
   }
 
   veureLlicencia(event: any) {
-  
+    this.veureLlicenciaDialog = true;
   }
   
   eliminarLlicencia(event: any) {
@@ -85,8 +99,23 @@ export class LlicenciesComponent implements OnInit {
     })
   }
 
-  exportToExcel() {
-  
+  imprimirRebut(): void {
+    window.print();
+  }
+
+  exportToExcel(): void {
+    const headers = ['Propietari', 'Nom', 'Preu', 'Activa', 'Data Inici', 'Data Venciment'];
+    const data = this.llicencies.map(llicencia => [
+      llicencia.propietari.nom,
+      llicencia.tipusLlicencia.nom,
+      llicencia.preu,
+      llicencia.activa ? 'Sí' : 'No',
+      new Date(llicencia.dataInici).toLocaleString(),
+      new Date(llicencia.dataVenciment).toLocaleString()
+    ]);
+    const fileName = 'llicencies';
+    const sheetName = 'Llicencies';
+    this.excelService.exportToExcel(headers, data, fileName, sheetName);
   }
 }
  

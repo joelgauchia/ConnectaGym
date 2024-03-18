@@ -35,5 +35,5 @@ export class LlicenciesService {
         const url = `${this.llicenciesURL}${llicencia.id}`;
         const headers = new HttpHeaders().set('Authorization', 'Bearer ' + this.tokenService.getToken());
         return this.http.delete(url, { headers, responseType: 'text' });
-      }
+    }
 }

@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, SimpleChanges } from '@angular/core';
 import { Llicencia } from '../../../models/llicencia.model';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Propietari } from '../../../models/propietari.model';
@@ -13,17 +13,16 @@ import { TipusLlicencia } from '../../../models/tipus-llicencia.model';
   templateUrl: './form-llicencia.component.html',
   styleUrl: './form-llicencia.component.scss'
 })
-export class FormLlicenciaComponent {
+export class FormLlicenciaComponent implements OnInit {
 
+  @Input() tipusLlicencia!: TipusLlicencia[];
   @Output() successfullyCreated = new EventEmitter<Llicencia>();
   
   llicenciaForm!: FormGroup;
   propietaris!: Propietari[];
-  tipusLlicencia!: TipusLlicencia[];
 
   constructor (
     private fb: FormBuilder,
-    private llicenciesService: LlicenciesService,
     private propietarisService: PropietarisService,
     private tipusLlicenciaService: TipusLlicenciaService
   ) {}

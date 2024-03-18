@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, SimpleChanges } from '@angular/core';
 import { Usuari } from '../../../models/usuari.model';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Rol, RolNom } from '../../../models/rol.model';
@@ -8,7 +8,7 @@ import { Rol, RolNom } from '../../../models/rol.model';
   templateUrl: './form-usuari.component.html',
   styleUrl: './form-usuari.component.scss'
 })
-export class FormUsuariComponent {
+export class FormUsuariComponent implements OnInit {
 
   @Input() mode!: string;
   @Input() usuari!: Usuari;
