@@ -4,7 +4,7 @@ export interface TipusLlicencia {
     id: number;
     nom: string;
     tipus: string;
-    mesos: string;
+    mesos: number;
     preu: number;
     creador: Usuari;
     dataCreacio: Date;

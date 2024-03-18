@@ -7,3 +7,32 @@ h3 {
     padding-left: 20px;
     color: var(--primary-color);
 }
+
+.invoice-container {
+    padding: 20px;
+}
+
+.invoice-details {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 10px;
+}
+
+.invoice-row {
+    margin-bottom: 10px;
+}
+
+.invoice-label {
+    font-weight: bold;
+    margin-right: 10px;
+}
+
+.invoice-value {
+    color: #333;
+}
+
+@media print {
+    .hide-on-print {
+      display: none !important;
+    }
+  }

@@ -19,6 +19,7 @@ import { FormUsuariComponent } from './usuaris/form-usuari/form-usuari.component
 import { FormPropietariComponent } from './propietaris/form-propietari/form-propietari.component';
 import { TipusLlicenciesComponent } from './llicencies/tipus-llicencies/tipus-llicencies.component';
 import { FormLlicenciaComponent } from './llicencies/form-llicencia/form-llicencia.component';
+import { FormTipusLlicenciaComponent } from './llicencies/tipus-llicencies/form-tipus-llicencia/form-tipus-llicencia.component';
 
 @NgModule({
   declarations: [
@@ -33,7 +34,7 @@ import { FormLlicenciaComponent } from './llicencies/form-llicencia/form-llicenc
     QuotesComponent,
     UsuarisComponent,
     VisitesComponent, 
-    FormUsuariComponent, FormPropietariComponent, TipusLlicenciesComponent, FormLlicenciaComponent
+    FormUsuariComponent, FormPropietariComponent, TipusLlicenciesComponent, FormLlicenciaComponent, FormTipusLlicenciaComponent
   ],
   imports: [
     PrimengModule,

@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, SimpleChanges } from '@angular/core';
 import { Propietari } from '../../../models/propietari.model';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { TokenService } from '../../../services/token.service';
@@ -10,7 +10,7 @@ import { Usuari } from '../../../models/usuari.model';
   templateUrl: './form-propietari.component.html',
   styleUrl: './form-propietari.component.scss'
 })
-export class FormPropietariComponent {
+export class FormPropietariComponent implements OnInit {
 
   @Input() mode!: string;
   @Input() propietari!: Propietari;
