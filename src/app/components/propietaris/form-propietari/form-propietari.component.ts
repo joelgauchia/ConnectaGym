@@ -26,7 +26,7 @@ export class FormPropietariComponent implements OnInit {
     private fb: FormBuilder,
     private usuarisService: UsuarisService,
     private tokenService: TokenService
-    ) { }
+  ) { }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['propietari'] && changes['propietari'].currentValue) {

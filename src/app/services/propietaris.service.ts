@@ -25,8 +25,8 @@ export class PropietarisService {
     return this.http.post(url, propietari, { headers, responseType: 'text' });
   }
 
-  actualitzarPropietari(email: string, propietari: Propietari): Observable<Propietari> {
-    const url = this.propietarisURL + email;
+  actualitzarPropietari(id: number, propietari: Propietari): Observable<Propietari> {
+    const url = this.propietarisURL + id;
     const headers = new HttpHeaders().set('Authorization', 'Bearer ' + this.tokenService.getToken());
     return this.http.put<Propietari>(url, propietari, { headers });
   }

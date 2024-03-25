@@ -88,11 +88,11 @@ export class TipusLlicenciesComponent implements OnInit {
   }
   
   exportToExcel(): void {
-    const headers = ['Nom', 'Preu', 'Tipus', 'Mesos', 'Creat per', 'Creat', 'Modificat'];
+    const headers = ['Nom', 'Preu', 'Durada', 'Mesos', 'Creat per', 'Creat', 'Modificat'];
     const data = this.tipusLlicencia.map(tipus => [
       tipus.nom,
       tipus.preu,
-      tipus.tipus,
+      tipus.durada,
       tipus.mesos,
       tipus.creador.nom,
       new Date(tipus.dataCreacio).toLocaleString(),

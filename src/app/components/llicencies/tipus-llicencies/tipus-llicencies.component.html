@@ -19,7 +19,7 @@
         [value]="tipusLlicencia"
         [rows]="10"
         [paginator]="true"
-        [globalFilterFields]="['nom','preu','tipus','mesos','creador','dataCreacio','dataModificacio']"
+        [globalFilterFields]="['nom','preu','durada','mesos','creador','dataCreacio','dataModificacio']"
         [tableStyle]="{ 'min-width': '75rem' }"
         [rowHover]="true"
         dataKey="id"
@@ -40,8 +40,9 @@
             <tr>
                 <th pSortableColumn="nom" style="min-width:6rem">Nom <p-sortIcon field="nom"></p-sortIcon></th>
                 <th pSortableColumn="preu" style="min-width:8rem">Preu <p-sortIcon field="preu"></p-sortIcon></th>
-                <th pSortableColumn="tipus">Tipus <p-sortIcon field="tipus"></p-sortIcon></th>
+                <th pSortableColumn="durada">Durada <p-sortIcon field="durada"></p-sortIcon></th>
                 <th pSortableColumn="mesos">Mesos <p-sortIcon field="mesos"></p-sortIcon></th>
+                <th pSortableColumn="tipus">Tipus <p-sortIcon field="tipus"></p-sortIcon></th>
                 <th pSortableColumn="creador" style="min-width:5rem">Creat per <p-sortIcon field="creador"></p-sortIcon></th>
                 <th pSortableColumn="dataCreacio">Creat <p-sortIcon field="dataCreacio"></p-sortIcon></th>
                 <th pSortableColumn="dataModificacio">Modificat <p-sortIcon field="dataModificacio"></p-sortIcon></th>
@@ -52,8 +53,9 @@
             <tr>
                 <td>{{ tipusLlicencia.nom }}</td>
                 <td>{{ tipusLlicencia.preu | currency: 'EUR' }}</td>
-                <td>{{ tipusLlicencia.tipus }}</td>
+                <td>{{ tipusLlicencia.durada }}</td>
                 <td>{{ tipusLlicencia.mesos }}</td>
+                <td>{{ tipusLlicencia.tipus }}</td>
                 <td>{{ tipusLlicencia.creador.nom }}</td>
                 <td>{{ tipusLlicencia.dataCreacio | date:"dd/MM/yyyy HH:mm" }}</td>
                 <td>{{ tipusLlicencia.dataModificacio | date:"dd/MM/yyyy HH:mm" }}</td>

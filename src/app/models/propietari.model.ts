@@ -1,3 +1,4 @@
+import { Gimnas } from "./gimnas.model";
 import { Usuari } from "./usuari.model";
 
 export interface Propietari {
@@ -12,4 +13,5 @@ export interface Propietari {
     creador: Usuari;
     dataCreacio: Date;
     dataModificacio: Date;
+    gimnasos: Gimnas[];
 }
