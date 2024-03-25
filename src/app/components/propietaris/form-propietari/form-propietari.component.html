@@ -9,7 +9,7 @@
     </div>
     <div class="field">
         <label for="telefon" class="form-label">Telèfon</label>
-        <input type="text" id="telefon" pInputText formControlName="telefon"/>
+        <input type="tel" id="telefon" pInputText formControlName="telefon" pattern="[0-9]{9}"/>
     </div>
     <div class="field">
         <label for="adreca" class="form-label">Adreça</label>
@@ -60,7 +60,7 @@
         </div>
     </div>
     <div class="field">
-        <label for="tipus" class="form-label">Tipus</label>
+        <label for="tipus" class="form-label">Propietari de cadena o gimnàs individual?</label>
         <p-dropdown formControlName="tipus" [options]="tipus" placeholder="Seleccioni un tipus" appendTo="body"></p-dropdown>
     </div>
     <div class="p-col-12">

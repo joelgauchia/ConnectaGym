@@ -66,10 +66,10 @@ export class LlicenciesComponent implements OnInit {
       this.messageService.add({ severity: 'success', summary: 'Fet', detail: response, life: 3000 });
       this.carregarLlicencies();
       console.log(response);
-      this.crearLlicenciaDialog = false;
     }, error => {
-      this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Ja existeix una llicència per a aquest propietari', life: 3000 });
+      this.messageService.add({ severity: 'error', summary: 'Error', detail: error.error, life: 5000 });
     });
+    this.crearLlicenciaDialog = false;
   }
  
   tipusLlicencia() {

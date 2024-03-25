@@ -20,6 +20,7 @@ import { FormPropietariComponent } from './propietaris/form-propietari/form-prop
 import { TipusLlicenciesComponent } from './llicencies/tipus-llicencies/tipus-llicencies.component';
 import { FormLlicenciaComponent } from './llicencies/form-llicencia/form-llicencia.component';
 import { FormTipusLlicenciaComponent } from './llicencies/tipus-llicencies/form-tipus-llicencia/form-tipus-llicencia.component';
+import { FormGimnasComponent } from './gimnasos/form-gimnas/form-gimnas.component';
 
 @NgModule({
   declarations: [
@@ -34,7 +35,7 @@ import { FormTipusLlicenciaComponent } from './llicencies/tipus-llicencies/form-
     QuotesComponent,
     UsuarisComponent,
     VisitesComponent, 
-    FormUsuariComponent, FormPropietariComponent, TipusLlicenciesComponent, FormLlicenciaComponent, FormTipusLlicenciaComponent
+    FormUsuariComponent, FormPropietariComponent, TipusLlicenciesComponent, FormLlicenciaComponent, FormTipusLlicenciaComponent, FormGimnasComponent
   ],
   imports: [
     PrimengModule,

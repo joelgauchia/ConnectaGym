@@ -47,11 +47,11 @@ export class PropietarisComponent implements OnInit {
       this.messageService.add({ severity: 'success', summary: 'Fet', detail: response, life: 3000});
       this.carregarPropietaris();
       console.log(response);
-      this.crearPropietariDialog = false;
     }, 
     error => {
-      this.messageService.add({ severity: 'error', summary: 'Error', detail: error, life: 3000 });
+      this.messageService.add({ severity: 'error', summary: 'Error', detail: error.error, life: 5000 });
     });
+    this.crearPropietariDialog = false;
   }
 
   editarPropietari(propietari: Propietari) {
@@ -78,7 +78,7 @@ export class PropietarisComponent implements OnInit {
         this.propietarisService.eliminarPropietari(propietari).subscribe(response => {
           this.messageService.add({ severity: 'success', summary: 'Fet!', detail: response, life: 3000 });
           this.carregarPropietaris();
-        })
+        });
       }
     })
   }

@@ -21,7 +21,8 @@ export class FormTipusLlicenciaComponent implements OnInit {
   tipusLlicenciaForm!: FormGroup;
   usuari!: Usuari;
 
-  tipus: string[] = ["MENSUAL","TRIMESTRAL","ANUAL"];
+  durada: string[] = ["MENSUAL","TRIMESTRAL","ANUAL"];
+  tipus: string[] = ["INDIVIDUAL","CADENA"];
 
   constructor (
     private fb: FormBuilder,
@@ -50,6 +51,7 @@ export class FormTipusLlicenciaComponent implements OnInit {
       this.tipusLlicenciaForm = this.fb.group({
         nom: ['', Validators.required],
         preu: ['', Validators.required],
+        durada: ['', Validators.required],
         tipus: ['', Validators.required]
       });
     }
@@ -67,17 +69,18 @@ export class FormTipusLlicenciaComponent implements OnInit {
       this.usuari = response;
       
       if (this.mode === 'editar') {
-        if (this.tipusLlicencia.tipus === "ANUAL") tipusLlicenciaGuardat.mesos = 12;
-        else if (this.tipusLlicencia.tipus === "TRIMESTRAL") tipusLlicenciaGuardat.mesos = 3;
+        if (this.tipusLlicencia.durada === "ANUAL") tipusLlicenciaGuardat.mesos = 12;
+        else if (this.tipusLlicencia.durada === "TRIMESTRAL") tipusLlicenciaGuardat.mesos = 3;
         else tipusLlicenciaGuardat.mesos = 1;
       }
       else {
-        if (tipusLlicenciaGuardat.tipus === "ANUAL") tipusLlicenciaGuardat.mesos = 12;
-        else if (tipusLlicenciaGuardat.tipus === "TRIMESTRAL") tipusLlicenciaGuardat.mesos = 3;
+        if (tipusLlicenciaGuardat.durada === "ANUAL") tipusLlicenciaGuardat.mesos = 12;
+        else if (tipusLlicenciaGuardat.durada === "TRIMESTRAL") tipusLlicenciaGuardat.mesos = 3;
         else tipusLlicenciaGuardat.mesos = 1;
       }
       if (this.mode === 'editar') {
         tipusLlicenciaGuardat.tipus = this.tipusLlicencia.tipus;
+        tipusLlicenciaGuardat.durada = this.tipusLlicencia.durada;
         tipusLlicenciaGuardat.id = this.tipusLlicencia.id;
         tipusLlicenciaGuardat.dataCreacio = this.tipusLlicencia.dataCreacio;
       } 
