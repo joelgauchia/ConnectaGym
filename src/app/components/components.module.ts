@@ -22,6 +22,8 @@ import { FormLlicenciaComponent } from './llicencies/form-llicencia/form-llicenc
 import { FormTipusLlicenciaComponent } from './llicencies/tipus-llicencies/form-tipus-llicencia/form-tipus-llicencia.component';
 import { FormGimnasComponent } from './gimnasos/form-gimnas/form-gimnas.component';
 import { FormMembresComponent } from './membres/form-membre/form-membres.component';
+import { CobrarMembreComponent } from './membres/cobrar-membre/cobrar-membre.component';
+import { FormQuotaComponent } from './quotes/form-quota/form-quota.component';
 
 @NgModule({
   declarations: [
@@ -36,7 +38,14 @@ import { FormMembresComponent } from './membres/form-membre/form-membres.compone
     QuotesComponent,
     UsuarisComponent,
     VisitesComponent, 
-    FormUsuariComponent, FormPropietariComponent, TipusLlicenciesComponent, FormLlicenciaComponent, FormTipusLlicenciaComponent, FormGimnasComponent, FormMembresComponent
+    FormUsuariComponent, 
+    FormPropietariComponent, 
+    TipusLlicenciesComponent, 
+    FormLlicenciaComponent, 
+    FormTipusLlicenciaComponent, 
+    FormGimnasComponent, 
+    FormMembresComponent, 
+    CobrarMembreComponent, FormQuotaComponent
   ],
   imports: [
     PrimengModule,

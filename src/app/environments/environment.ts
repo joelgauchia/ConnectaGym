@@ -1,6 +1,7 @@
 export const environment = {
     production: false,
     gimnasosURL: 'http://localhost:8080/gimnasos/',
+    quotesURL: 'http://localhost:8080/quotes/',
     membresURL: 'http://localhost:8080/membres/',
     llicenciesURL: 'http://localhost:8080/llicencies/',
     tipusLlicenciaURL: 'http://localhost:8080/tipusllicencia/',

@@ -78,9 +78,12 @@ export class PropietarisComponent implements OnInit {
         this.propietarisService.eliminarPropietari(propietari).subscribe(response => {
           this.messageService.add({ severity: 'success', summary: 'Fet!', detail: response, life: 3000 });
           this.carregarPropietaris();
+        },
+        error => {
+          this.messageService.add({ severity: 'error', summary: 'Error', detail: error.error, life: 5000 });
         });
       }
-    })
+    });
   }
 
   exportToExcel(): void {

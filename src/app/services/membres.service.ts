@@ -31,9 +31,9 @@ export class MembresService {
         return this.http.put<Membre>(url, membre, { headers });
     }
 
-    baixaMembre(membre: Membre): Observable<string> {
+    eliminarMembre(membre: Membre): Observable<string> {
         const url = `${this.membresURL}${membre.id}`;
         const headers = new HttpHeaders().set('Authorization', 'Bearer ' + this.tokenService.getToken());
-        return this.http.post(url, membre, { headers, responseType: 'text' });
+        return this.http.delete(url, { headers, responseType: 'text' });
     }
 }

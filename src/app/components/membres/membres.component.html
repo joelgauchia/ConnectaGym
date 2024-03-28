@@ -67,7 +67,7 @@
                 <td>
                     <button pButton pRipple icon="pi pi-eye" class="p-button-rounded mr-1" (click)="veureMembre(membre)"></button>
                     <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-help mr-1" (click)="editarMembre(membre)"></button>
-                    <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning mr-1" (click)="baixaMembre(membre)"></button>
+                    <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning mr-1" (click)="eliminarMembre(membre)"></button>
                     <button *ngIf="membre.estat === 'SENSE'" pButton pRipple icon="pi pi-wallet" class="p-button-rounded p-button-success mr-1" (click)="cobrarMembre(membre)"></button>
                 </td>
             </tr>
@@ -84,6 +84,10 @@
 
 <p-dialog [(visible)]="editarMembreDialog" [style]="{ width: '450px' }" header="Detalls del Membre" [modal]="true" styleClass="p-fluid">
     <app-form-membres [mode]="'editar'" [membre]="membre" (successfullyEdited)="membreEditat($event)"></app-form-membres>
+</p-dialog>
+
+<p-dialog *ngIf="membre" [(visible)]="cobrarMembreDialog" [style]="{ width: '600px' }" header="Realitzar pagament per a {{membre.nom}}" [modal]="true" styleClass="p-fluid">
+     <app-cobrar-membre [membre]="membre" (successfullyCreated)="realitzarPagament($event)"></app-cobrar-membre>
 </p-dialog>
 
 <p-confirmDialog #cd>

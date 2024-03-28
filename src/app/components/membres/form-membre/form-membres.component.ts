@@ -43,7 +43,7 @@ export class FormMembresComponent implements OnInit {
     this.initForm();
     this.gimnasosService.getGimnasos().subscribe(response => {
       this.gimnasos = response;
-    })
+    });
   }
 
   initForm() {
@@ -54,7 +54,7 @@ export class FormMembresComponent implements OnInit {
         telefon: ['', Validators.required],
         adreca: ['', Validators.required],
         dataNaixement: ['', Validators.required],
-        observacions: ['', Validators.required]
+        observacions: ['']
       });
     }
     else {
@@ -82,7 +82,16 @@ export class FormMembresComponent implements OnInit {
   }
 
   guardarMembre(): void {
-    
+    const membreGuardat: Membre = this.membreForm.value;
+    membreGuardat.id = this.membre.id;
+    membreGuardat.genere = this.membre.genere;
+    membreGuardat.creador = this.membre.creador;
+    membreGuardat.gimnas = this.membre.gimnas;
+    membreGuardat.dataCreacio = this.membre.dataCreacio;
+    membreGuardat.estat = this.membre.estat;
+    console.log(membreGuardat);
+    this.membreForm.reset();
+    this.successfullyEdited.emit(membreGuardat);
     
   }
 
