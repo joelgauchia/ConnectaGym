@@ -39,15 +39,15 @@
             <tr>
                 <th pSortableColumn="nom">Nom <p-sortIcon field="nom"></p-sortIcon></th>
                 <th pSortableColumn="email">Email <p-sortIcon field="email"></p-sortIcon></th>
-                <th pSortableColumn="telefon">Telefon <p-sortIcon field="telefon"></p-sortIcon></th>
+                <th pSortableColumn="telefon">Telèfon <p-sortIcon field="telefon"></p-sortIcon></th>
                 <th pSortableColumn="estat" style="min-width:8rem">Estat <p-sortIcon field="estat"></p-sortIcon></th>
                 <th pSortableColumn="genere">Gènere <p-sortIcon field="genere"></p-sortIcon></th>
-                <th pSortableColumn="dataNaixement">Data Naixement <p-sortIcon field="dataNaixement"></p-sortIcon></th>
+                <th pSortableColumn="dataNaixement" style="min-width:11rem">Data Naixement <p-sortIcon field="dataNaixement"></p-sortIcon></th>
                 <th pSortableColumn="gimnas">Gimnàs <p-sortIcon field="gimnas"></p-sortIcon></th>
                 <th pSortableColumn="creador">Creat per <p-sortIcon field="creador"></p-sortIcon></th>
                 <th pSortableColumn="dataCreacio">Creat <p-sortIcon field="dataCreacio"></p-sortIcon></th>
                 <th pSortableColumn="dataModificacio">Modificat <p-sortIcon field="dataModificacio"></p-sortIcon></th>
-                <th style="min-width:16rem"></th>
+                <th style="min-width:15rem"></th>
             </tr>
         </ng-template>
         <ng-template pTemplate="body" let-membre>
@@ -65,10 +65,10 @@
                 <td>{{ membre.dataCreacio | date:"dd/MM/yyyy HH:mm" }}</td>
                 <td>{{ membre.dataModificacio | date:"dd/MM/yyyy HH:mm" }}</td>
                 <td>
-                    <button pButton pRipple icon="pi pi-eye" class="p-button-rounded mr-1" (click)="veureMembre(membre)"></button>
+                    <button *ngIf="membre.estat === 'ACTIU'" pButton pRipple icon="pi pi-eye" class="p-button-rounded mr-1" (click)="veureMembre(membre)"></button>
+                    <button *ngIf="membre.estat === 'SENSE'" pButton pRipple icon="pi pi-wallet" class="p-button-rounded p-button-success mr-1" (click)="cobrarMembre(membre)"></button>
                     <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-help mr-1" (click)="editarMembre(membre)"></button>
                     <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning mr-1" (click)="eliminarMembre(membre)"></button>
-                    <button *ngIf="membre.estat === 'SENSE'" pButton pRipple icon="pi pi-wallet" class="p-button-rounded p-button-success mr-1" (click)="cobrarMembre(membre)"></button>
                 </td>
             </tr>
         </ng-template>

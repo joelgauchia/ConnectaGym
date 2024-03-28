@@ -4,6 +4,8 @@ import { ExcelService } from '../../services/excel.service';
 import { Membre } from '../../models/membre.model';
 import { MembresService } from '../../services/membres.service';
 import { Quota } from '../../models/quota.model';
+import { PagamentsService } from '../../services/pagaments.service';
+import { Pagament } from '../../models/pagament.model';
 
 @Component({
   selector: 'app-membres',
@@ -23,24 +25,25 @@ export class MembresComponent implements OnInit {
 
   constructor(
   private membresService: MembresService,
+  private pagamentsService: PagamentsService,
   private messageService: MessageService,
   private confirmationService: ConfirmationService,
   private excelService: ExcelService
   ) { }
 
   ngOnInit() {
-  this.carregarMembres();
+    this.carregarMembres();
   }
 
   carregarMembres(): void {
-  this.membresService.getMembres().subscribe(response => {
-    this.membres = response;
-    console.log(this.membres);
-  })
+    this.membresService.getMembres().subscribe(response => {
+      this.membres = response;
+      console.log(this.membres);
+    });
   }
 
   crearMembre() {
-  this.crearMembreDialog = true;
+    this.crearMembreDialog = true;
   }
 
   membreCreat(event: any) {
@@ -97,7 +100,29 @@ export class MembresComponent implements OnInit {
     this.cobrarMembreDialog = true;
   }
 
-  realitzarPagament(quota: Quota) {
+  realitzarPagament(event: any) {
+    const dataInici = new Date();
+    const dataFi = new Date();
+    dataFi.setMonth(dataFi.getMonth() + event.mesos);
+    console.log(dataFi);
+    const nouPagament: Pagament = {
+      membre: this.membre,
+      quota: event,
+      quantitat: event.preu, 
+      dataInici: dataInici,
+      dataFinal: dataFi,
+      gimnas: this.membre.gimnas 
+    };
+    console.log(nouPagament);
+    this.pagamentsService.crearPagament(nouPagament).subscribe(() => {
+      this.messageService.add({ severity: 'success', summary: 'Fet', detail: 'Pagament realitzat amb èxit', life: 3000 });
+      if (this.membre.estat === 'SENSE') this.membre.estat = 'ACTIU';
+      this.membresService.actualitzarMembre(this.membre.id, this.membre).subscribe(() => {
+        console.log('Estat del membre actualitzat correctament');
+      });
+    }, error => {
+      this.messageService.add({ severity: 'error', summary: 'Error', detail: error.error, life: 5000 });
+    });
     this.cobrarMembreDialog = false;
   }
 

@@ -37,8 +37,7 @@ export class CobrarMembreComponent implements OnInit {
   }
 
   cobrarMembre(): void {
-    const quotaSeleccionada: Quota = this.cobrarForm.value;
-    console.log(quotaSeleccionada);
+    const quotaSeleccionada: Quota = this.cobrarForm.value.quota;
     this.cobrarForm.reset();
     this.successfullyCreated.emit(quotaSeleccionada);
   }
