@@ -78,9 +78,12 @@ export class TipusLlicenciesComponent implements OnInit {
         this.tipusLlicenciaService.eliminarTipusLlicencia(event).subscribe(response => {
           this.messageService.add({ severity: 'success', summary: 'Fet!', detail: response, life: 3000 });
           this.carregarTipusLlicencia();
-        })
+        },
+        error => {
+          this.messageService.add({ severity: 'error', summary: 'Error', detail: error.error, life: 5000 });
+        });
       }
-    })
+    });
   }
 
   llicencies() {
