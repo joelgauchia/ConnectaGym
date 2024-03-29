@@ -76,9 +76,12 @@ export class GimnasosComponent implements OnInit {
        this.gimnasosService.eliminarGimnas(gimnas).subscribe(response => {
         this.messageService.add({ severity: 'success', summary: 'Fet!', detail: response, life: 3000 });
         this.carregarGimnasos();
+       },
+       error => {
+         this.messageService.add({ severity: 'error', summary: 'Error', detail: error.error, life: 5000 });
        });
       }
-    })
+    });
   }
 
   exportToExcel(): void {

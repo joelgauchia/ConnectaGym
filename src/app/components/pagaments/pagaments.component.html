@@ -1,1 +1,84 @@
-<p>pagaments works!</p>
+<div class="flex align-items-center justify-content-start flex-shrink-0">
+    <h2>Administrar Pagaments</h2>
+    <h3>Llista de pagaments</h3>
+</div>
+<div class="card">
+    <p-toast></p-toast>
+    <p-toolbar styleClass="mb-4 gap-2">
+        <ng-template pTemplate="right">
+            <button pButton pRipple label="Exportar Taula" icon="pi pi-upload" class="mr-2" (click)="exportToExcel()"></button>
+        </ng-template>
+    </p-toolbar> 
+
+    <p-table
+        #dt
+        [value]="pagaments"
+        [rows]="5"
+        [paginator]="true"
+        [globalFilterFields]="['membre.nom','quota.nom','quantitat','dataInici','dataFi','gimnas.nom']"
+        [tableStyle]="{ 'min-width': '75rem' }"
+        [rowHover]="true"
+        dataKey="id"
+        currentPageReportTemplate="Mostrant {first} de {last} dels {totalRecords} totals"
+        [showCurrentPageReport]="true" 
+        [exportHeader]="'customExportHeader'"
+    >
+        <ng-template pTemplate="caption">
+            <div class="flex align-items-center justify-content-between">
+                <h5 class="m-0">Gestiona els pagaments</h5>
+                <span class="p-input-icon-left">
+                    <i class="pi pi-search"></i>
+                    <input pInputText type="text" (input)="dt.filterGlobal($any($event.target).value, 'contains')" placeholder="Busca..." />
+                </span>
+            </div>
+        </ng-template>
+        <ng-template pTemplate="header">
+            <tr>
+                <th pSortableColumn="membre" style="min-width:6rem">Membre <p-sortIcon field="membre"></p-sortIcon></th>
+                <th pSortableColumn="quota" style="min-width:8rem">Quota <p-sortIcon field="quota"></p-sortIcon></th>
+                <th pSortableColumn="quantitat">Quantitat <p-sortIcon field="quantitat"></p-sortIcon></th>
+                <th pSortableColumn="dataInici">Data Inici <p-sortIcon field="dataInici"></p-sortIcon></th>
+                <th pSortableColumn="dataFinal">Data Final <p-sortIcon field="dataFinal"></p-sortIcon></th>
+                <th pSortableColumn="gimnas" style="min-width:5rem">Gimnàs <p-sortIcon field="gimnas"></p-sortIcon></th>
+                <th style="min-width:9rem"></th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-pagament>
+            <tr>
+                <td>{{ pagament.membre.nom }}</td>
+                <td>{{ pagament.quota.nom }}</td>
+                <td>{{ pagament.quantitat | currency: 'EUR' }}</td>
+                <td>{{ pagament.dataInici | date:"dd/MM/yyyy HH:mm" }}</td>
+                <td>{{ pagament.dataFinal | date:"dd/MM/yyyy HH:mm" }}</td>
+                <td>{{ pagament.gimnas.nom }}</td>
+                <td>
+                    <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-help mr-2" (click)="editarPagament(pagament)"></button>
+                    <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="eliminarPagament(pagament)"></button>
+                </td>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="summary">
+            <div class="flex align-items-center justify-content-between">S'han trobat {{ pagaments ? pagaments.length : 0 }} pagaments</div>
+        </ng-template>
+    </p-table>
+</div>
+
+<p-dialog [(visible)]="editarPagamentDialog" [style]="{ width: '450px' }" header="Editar un pagament" [modal]="true" styleClass="p-fluid">
+    <app-form-pagament [pagament]="pagament" (successfullyEdited)="pagamentEditat($event)"></app-form-pagament>
+</p-dialog>
+
+<p-confirmDialog #cd>
+    <ng-template pTemplate="headless" let-message>
+        <div class="flex flex-column align-items-center p-5 surface-overlay border-round">
+            <div class="border-circle bg-primary inline-flex justify-content-center align-items-center h-6rem w-6rem -mt-8">
+                <i class="pi pi-exclamation-triangle text-5xl"></i>
+            </div>
+            <span class="font-bold text-2xl block mb-2 mt-4">{{ message.header }}</span>
+            <p class="mb-0">{{ message.message }}</p>
+            <div class="flex align-items-center gap-2 mt-4">
+                <button pButton label="Cancel·la" (click)="cd.reject()" class="p-button-outlined w-8rem "></button>
+                <button pButton label="Elimina" (click)="cd.accept()" class="w-8rem"></button>
+            </div>
+        </div>
+    </ng-template>
+</p-confirmDialog>

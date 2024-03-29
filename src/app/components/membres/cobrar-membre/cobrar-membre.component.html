@@ -1,0 +1,16 @@
+<form [formGroup]="cobrarForm" (ngSubmit)="cobrarMembre()">
+    <div class="field">
+        <label for="quota" class="form-label">Selecciona una quota:</label>
+        <p-dropdown formControlName="quota" [options]="quotes" optionLabel="nom" appendTo="body"></p-dropdown>
+    </div>
+    <div class="field" style="display: flex; justify-content: center" *ngIf="cobrarForm.get('quota')!.value">
+        <span style="display: flex; flex-direction: row">
+            <i style="display: flex; align-items: center; justify-content: center; margin-right: 10px; font-size: 1.5rem" class="logo-cobrar pi pi-credit-card"></i> 
+            <p style="text-align: center; font-weight: bold;">{{ cobrarForm.get('quota')!.value.preu }}€</p>
+        </span>
+    </div>
+    <div class="p-col-12">
+        <button pButton type="submit" label="Pagar" [disabled]="!cobrarForm.valid"></button>
+    </div>
+</form>
+

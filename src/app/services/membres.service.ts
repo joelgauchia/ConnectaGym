@@ -3,36 +3,36 @@ import { environment } from "../environments/environment";
 import { TokenService } from "./token.service";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Observable } from "rxjs";
-import { Gimnas } from "../models/gimnas.model";
+import { Membre } from "../models/membre.model";
 
 @Injectable({
     providedIn: 'root'
 })
-export class GimnasosService {
+export class MembresService {
 
-    gimnasosURL = environment.gimnasosURL;
+    membresURL = environment.membresURL;
 
     constructor(private http: HttpClient, private tokenService: TokenService) { }
 
-    getGimnasos(): Observable<Gimnas[]> {
+    getMembres(): Observable<Membre[]> {
         const headers = new HttpHeaders().set('Authorization', 'Bearer ' + this.tokenService.getToken());
-        return this.http.get<Gimnas[]>(this.gimnasosURL + 'llistat', { headers });
+        return this.http.get<Membre[]>(this.membresURL + 'llistat', { headers });
     }
 
-    crearGimnas(gimnas: Gimnas): Observable<string> {
-        const url = this.gimnasosURL + 'crear';
+    crearMembre(membre: Membre): Observable<string> {
+        const url = this.membresURL + 'crear';
         const headers = new HttpHeaders().set('Authorization', 'Bearer ' + this.tokenService.getToken());
-        return this.http.post(url, gimnas, { headers, responseType: 'text' });
+        return this.http.post(url, membre, { headers, responseType: 'text' });
     }
 
-    actualitzarGimnas(id: number, gimnas: Gimnas): Observable<Gimnas> {
-        const url = this.gimnasosURL + id;
+    actualitzarMembre(id: number, membre: Membre): Observable<Membre> {
+        const url = this.membresURL + id;
         const headers = new HttpHeaders().set('Authorization', 'Bearer ' + this.tokenService.getToken());
-        return this.http.put<Gimnas>(url, gimnas, { headers });
+        return this.http.put<Membre>(url, membre, { headers });
     }
 
-    eliminarGimnas(gimnas: Gimnas): Observable<string> {
-        const url = `${this.gimnasosURL}${gimnas.id}`;
+    eliminarMembre(membre: Membre): Observable<string> {
+        const url = `${this.membresURL}${membre.id}`;
         const headers = new HttpHeaders().set('Authorization', 'Bearer ' + this.tokenService.getToken());
         return this.http.delete(url, { headers, responseType: 'text' });
     }

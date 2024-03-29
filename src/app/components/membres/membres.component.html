@@ -1,0 +1,107 @@
+<div class="flex align-items-center justify-content-start flex-shrink-0">
+    <h2>Administrar Membres</h2>
+    <h3>Llista de membres</h3>
+</div>
+<div class="card">
+    <p-toast></p-toast>
+    <p-toolbar styleClass="mb-4 gap-2">
+        <ng-template pTemplate="left">
+            <button pButton pRipple label="Nou Membre" icon="pi pi-plus" class="mr-2" (click)="crearMembre()"></button>
+        </ng-template>
+        <ng-template pTemplate="right">
+            <button pButton pRipple label="Exportar Taula" icon="pi pi-upload" class="mr-2" (click)="exportToExcel()"></button>
+        </ng-template>
+    </p-toolbar> 
+
+    <p-table
+        #dt
+        [value]="membres"
+        [rows]="10"
+        [paginator]="true"
+        [globalFilterFields]="['nom','adreca','email','telefon','dataNaixement','estat','genere','gimnas.nom','creador.nom','dataCreacio','dataModificacio']"
+        [tableStyle]="{ 'min-width': '75rem' }"
+        [rowHover]="true"
+        dataKey="id"
+        currentPageReportTemplate="Mostrant {first} de {last} dels {totalRecords} totals"
+        [showCurrentPageReport]="true" 
+        [exportHeader]="'customExportHeader'"
+    >
+        <ng-template pTemplate="caption">
+            <div class="flex align-items-center justify-content-between">
+                <h5 class="m-0">Gestiona membres</h5>
+                <span class="p-input-icon-left">
+                    <i class="pi pi-search"></i>
+                    <input pInputText type="text" (input)="dt.filterGlobal($any($event.target).value, 'contains')" placeholder="Busca..." />
+                </span>
+            </div>
+        </ng-template>
+        <ng-template pTemplate="header">
+            <tr>
+                <th pSortableColumn="nom">Nom <p-sortIcon field="nom"></p-sortIcon></th>
+                <th pSortableColumn="email">Email <p-sortIcon field="email"></p-sortIcon></th>
+                <th pSortableColumn="telefon">Telèfon <p-sortIcon field="telefon"></p-sortIcon></th>
+                <th pSortableColumn="estat" style="min-width:8rem">Estat <p-sortIcon field="estat"></p-sortIcon></th>
+                <th pSortableColumn="genere">Gènere <p-sortIcon field="genere"></p-sortIcon></th>
+                <th pSortableColumn="dataNaixement" style="min-width:11rem">Data Naixement <p-sortIcon field="dataNaixement"></p-sortIcon></th>
+                <th pSortableColumn="gimnas">Gimnàs <p-sortIcon field="gimnas"></p-sortIcon></th>
+                <th pSortableColumn="creador">Creat per <p-sortIcon field="creador"></p-sortIcon></th>
+                <th pSortableColumn="dataCreacio">Creat <p-sortIcon field="dataCreacio"></p-sortIcon></th>
+                <th pSortableColumn="dataModificacio">Modificat <p-sortIcon field="dataModificacio"></p-sortIcon></th>
+                <th style="min-width:15rem"></th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-membre>
+            <tr>
+                <td>{{ membre.nom }}</td>
+                <td>{{ membre.email }}</td>
+                <td>{{ membre.telefon }}</td>
+                <td>
+                    <p-tag [value]="membre.estat" [severity]="(membre.estat === 'ACTIU' || membre.estat === 'SENSE') ? (membre.estat === 'ACTIU' ? 'success' : 'warning') : 'danger'"></p-tag>
+                </td>
+                <td>{{ membre.genere }}</td>
+                <td>{{ membre.dataNaixement | date:"dd/MM/yyyy HH:mm" }}</td>
+                <td>{{ membre.gimnas.nom }}</td>
+                <td>{{ membre.creador.nom }}</td>
+                <td>{{ membre.dataCreacio | date:"dd/MM/yyyy HH:mm" }}</td>
+                <td>{{ membre.dataModificacio | date:"dd/MM/yyyy HH:mm" }}</td>
+                <td>
+                    <button *ngIf="membre.estat === 'ACTIU'" pButton pRipple icon="pi pi-eye" class="p-button-rounded mr-1" (click)="veureMembre(membre)"></button>
+                    <button *ngIf="membre.estat === 'SENSE'" pButton pRipple icon="pi pi-wallet" class="p-button-rounded p-button-success mr-1" (click)="cobrarMembre(membre)"></button>
+                    <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-help mr-1" (click)="editarMembre(membre)"></button>
+                    <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning mr-1" (click)="eliminarMembre(membre)"></button>
+                </td>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="summary">
+            <div class="flex align-items-center justify-content-between">S'han trobat {{ membres ? membres.length : 0 }} membres</div>
+        </ng-template>
+    </p-table>
+</div>
+
+<p-dialog [(visible)]="crearMembreDialog" [style]="{ width: '450px' }" header="Crear un nou Membre" [modal]="true" styleClass="p-fluid">
+    <app-form-membres [mode]="'crear'" (successfullyCreated)="membreCreat($event)"></app-form-membres>
+</p-dialog>
+
+<p-dialog [(visible)]="editarMembreDialog" [style]="{ width: '450px' }" header="Detalls del Membre" [modal]="true" styleClass="p-fluid">
+    <app-form-membres [mode]="'editar'" [membre]="membre" (successfullyEdited)="membreEditat($event)"></app-form-membres>
+</p-dialog>
+
+<p-dialog *ngIf="membre" [(visible)]="cobrarMembreDialog" [style]="{ width: '600px' }" header="Realitzar pagament per a {{membre.nom}}" [modal]="true" styleClass="p-fluid">
+     <app-cobrar-membre [membre]="membre" (successfullyCreated)="realitzarPagament($event)"></app-cobrar-membre>
+</p-dialog>
+
+<p-confirmDialog #cd>
+    <ng-template pTemplate="headless" let-message>
+        <div class="flex flex-column align-items-center p-5 surface-overlay border-round">
+            <div class="border-circle bg-primary inline-flex justify-content-center align-items-center h-6rem w-6rem -mt-8">
+                <i class="pi pi-exclamation-triangle text-5xl"></i>
+            </div>
+            <span class="font-bold text-2xl block mb-2 mt-4">{{ message.header }}</span>
+            <p class="mb-0">{{ message.message }}</p>
+            <div class="flex align-items-center gap-2 mt-4">
+                <button pButton label="Cancel·la" (click)="cd.reject()" class="p-button-outlined w-8rem "></button>
+                <button pButton label="Elimina" (click)="cd.accept()" class="w-8rem"></button>
+            </div>
+        </div>
+    </ng-template>
+</p-confirmDialog>

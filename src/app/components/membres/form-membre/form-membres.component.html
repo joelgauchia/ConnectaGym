@@ -1,4 +1,4 @@
-<form *ngIf="mode === 'editar'" [formGroup]="propietariForm" (ngSubmit)="guardarPropietari()">
+<form *ngIf="mode === 'editar'" [formGroup]="membreForm" (ngSubmit)="guardarMembre()">
     <div class="field">
         <label for="nom" class="form-label">Nom i Cognoms</label>
         <input type="text" id="nom" pInputText formControlName="nom"/>
@@ -19,12 +19,16 @@
         <label for="dataNaixement" class="form-label">Data de Naixement</label>
         <p-calendar formControlName="dataNaixement" [showIcon]="true" [showTime]="true" inputId="dataNaixement" appendTo="body"></p-calendar>
     </div>
+    <div class="field">
+        <label for="observacions" class="form-label">Observacions</label>
+        <textarea rows="5" cols="30" pInputTextarea formControlName="observacions"></textarea>
+    </div>
     <div class="p-col-12">
-        <button pButton type="submit" label="Guardar" [disabled]="!propietariForm.valid"></button>
+        <button pButton type="submit" label="Guardar" [disabled]="!membreForm.valid"></button>
     </div>
 </form>
 
-<form *ngIf="mode === 'crear'" [formGroup]="propietariForm" (ngSubmit)="crearPropietari()">
+<form *ngIf="mode === 'crear'" [formGroup]="membreForm" (ngSubmit)="crearMembre()">
     <div class="field">
         <label for="nom" class="form-label">Nom i Cognoms</label>
         <input type="text" id="nom" pInputText formControlName="nom"/>
@@ -60,10 +64,10 @@
         </div>
     </div>
     <div class="field">
-        <label for="tipus" class="form-label">Propietari de cadena o gimnàs individual?</label>
-        <p-dropdown formControlName="tipus" [options]="tipus" placeholder="Seleccioni un tipus" appendTo="body"></p-dropdown>
+        <label for="gimnas" class="form-label">Gimnàs</label>
+        <p-dropdown formControlName="gimnas" [options]="gimnasos" placeholder="Seleccioni un gimnàs" optionLabel="nom" appendTo="body"></p-dropdown>
     </div>
     <div class="p-col-12">
-        <button pButton type="submit" label="Guardar" [disabled]="!propietariForm.valid"></button>
+        <button pButton type="submit" label="Guardar" [disabled]="!membreForm.valid"></button>
     </div>
 </form>

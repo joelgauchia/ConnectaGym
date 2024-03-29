@@ -1,0 +1,35 @@
+<form *ngIf="mode === 'editar'" [formGroup]="quotaForm" (ngSubmit)="guardarQuota()">
+    <div class="field">
+        <label for="nom" class="form-label">Nom de la quota</label>
+        <input type="text" id="nom" pInputText formControlName="nom"/>
+    </div>
+    <div class="field">
+        <label for="preu" class="form-label">Preu</label>
+        <input type="text" id="preu" pInputText formControlName="preu"/>
+    </div>
+    <div class="p-col-12">
+        <button pButton type="submit" label="Editar" [disabled]="!quotaForm.valid"></button>
+    </div>
+</form>
+<form *ngIf="mode === 'crear'" [formGroup]="quotaForm" (ngSubmit)="crearQuota()">
+    <div class="field">
+        <label for="nom" class="form-label">Nom de la quota</label>
+        <input type="text" id="nom" pInputText formControlName="nom"/>
+    </div>
+    <div class="field">
+        <label for="preu" class="form-label">Preu</label>
+        <input type="text" id="preu" pInputText formControlName="preu"/>
+    </div>
+    <div class="field">
+        <label for="gimnas" class="form-label">Gimnàs:</label>
+        <p-dropdown formControlName="gimnas" [options]="gimnasos" optionLabel="nom" appendTo="body"></p-dropdown>
+    </div>
+    <div class="field">
+        <label for="tipus" class="form-label">Tipus:</label>
+        <p-dropdown formControlName="tipus" [options]="tipus" appendTo="body"></p-dropdown>
+    </div>
+    <div class="p-col-12">
+        <button pButton type="submit" label="Crear" [disabled]="!quotaForm.valid"></button>
+    </div>
+</form>
+
