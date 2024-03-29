@@ -1,94 +1,88 @@
-<p-sidebar #sidebarRef [(visible)]="sidebarVisible" [dismissible]="false" [showCloseIcon]="false" [closeOnEscape]="false" [modal]="false">
-    <ng-template pTemplate="headless">
-        <div class="flex flex-column h-full">
-            <div class="flex align-items-center justify-content-between px-4 pt-3 flex-shrink-0">
-                <span class="inline-flex align-items-center gap-2">
-                    <span class="font-semibold text-2xl text-primary">ConnectaGym</span>
-                </span>
-            </div>
-            <div class="overflow-y-auto">
-                <ul class="list-none p-3 m-0">
-                    <li>
-                        <ul class="list-none p-0 m-0 overflow-hidden">
-                            <li>
-                                <a pRipple class="flex align-items-center cursor-pointer p-3 border-round text-700 hover:surface-100 transition-duration-150 transition-colors p-ripple" (click)="selectComponent('dashboard')">
-                                    <i class="pi pi-chart-bar mr-2"></i>
-                                    <span class="font-medium">Dashboard</span>
-                                </a>
-                            </li>
-                            <li *ngIf="esSuperAdmin">
-                                <a pRipple class="flex align-items-center cursor-pointer p-3 border-round text-700 hover:surface-100 transition-duration-150 transition-colors p-ripple" (click)="selectComponent('usuaris')">
-                                    <i class="pi pi-wrench mr-2"></i>
-                                    <span class="font-medium">Usuaris</span>
-                                </a>
-                            </li>
-                            <li *ngIf="esSuperAdmin">
-                                <a pRipple class="flex align-items-center cursor-pointer p-3 border-round text-700 hover:surface-100 transition-duration-150 transition-colors p-ripple" (click)="selectComponent('llicencies')">
-                                    <i class="pi pi-bookmark mr-2"></i>
-                                    <span class="font-medium">Llicències</span>
-                                </a>
-                            </li>
-                            <li *ngIf="esSuperAdmin">
-                                <a pRipple class="flex align-items-center cursor-pointer p-3 border-round text-700 hover:surface-100 transition-duration-150 transition-colors p-ripple" (click)="selectComponent('propietaris')">
-                                    <i class="pi pi-user mr-2"></i>
-                                    <span class="font-medium">Propietaris</span>
-                                </a>
-                            </li>
-                            <li *ngIf="esGymAdmin">
-                                <a pRipple class="flex align-items-center cursor-pointer p-3 border-round text-700 hover:surface-100 transition-duration-150 transition-colors p-ripple" (click)="selectComponent('gimnasos')">
-                                    <i class="pi pi-bolt mr-2"></i>
-                                    <span class="font-medium">Gimnasos</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a pRipple class="flex align-items-center cursor-pointer p-3 border-round text-700 hover:surface-100 transition-duration-150 transition-colors p-ripple" (click)="selectComponent('membres')">
-                                    <i class="pi pi-users mr-2"></i>
-                                    <span class="font-medium">Membres</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a pRipple class="flex align-items-center cursor-pointer p-3 border-round text-700 hover:surface-100 transition-duration-150 transition-colors p-ripple" (click)="selectComponent('quotes')">
-                                    <i class="pi pi-money-bill mr-2"></i>
-                                    <span class="font-medium">Quotes</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a pRipple class="flex align-items-center cursor-pointer p-3 border-round text-700 hover:surface-100 transition-duration-150 transition-colors p-ripple" (click)="selectComponent('pagaments')">
-                                    <i class="pi pi-credit-card mr-2"></i>
-                                    <span class="font-medium">Pagaments</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a pRipple class="flex align-items-center cursor-pointer p-3 border-round text-700 hover:surface-100 transition-duration-150 transition-colors p-ripple" (click)="selectComponent('missatgeria')">
-                                    <i class="pi pi-inbox mr-2"></i>
-                                    <span class="font-medium">Missatgeria</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a pRipple class="flex align-items-center cursor-pointer p-3 border-round text-700 hover:surface-100 transition-duration-150 transition-colors p-ripple" (click)="selectComponent('visites')">
-                                    <i class="pi pi-calendar mr-2"></i>
-                                    <span class="font-medium">Visites</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a pRipple class="flex align-items-center cursor-pointer p-3 border-round text-700 hover:surface-100 transition-duration-150 transition-colors p-ripple" (click)="selectComponent('ajustaments')">
-                                    <i class="pi pi-cog mr-2"></i>
-                                    <span class="font-medium">Ajustaments</span>
-                                </a>
-                            </li>
-                        </ul>
+<div class="flex flex-column h-full sidebar">
+    <div class="flex align-items-center justify-content-between px-4 pt-5 flex-shrink-0">
+        <span class="inline-flex align-items-center gap-2">
+            <span class="font-bold text-2xl text-primary">ConnectaGym</span>
+        </span>
+    </div>
+    <div>
+        <ul class="list-none px-3 pt-5 pb-5 m-0">
+            <li>
+                <ul class="list-none p-0 m-0 overflow-hidden">
+                    <li class="pt-1 pb-1">
+                        <a pRipple class="flex align-items-center cursor-pointer p-3 border-round text-700 hover:surface-100 transition-duration-150 transition-colors p-ripple" (click)="selectComponent('dashboard')">
+                            <i class="pi pi-chart-bar mr-2"></i>
+                            <span class="font-medium">Dashboard</span>
+                        </a>
+                    </li>
+                    <li *ngIf="esSuperAdmin" class="pt-1 pb-1">
+                        <a pRipple class="flex align-items-center cursor-pointer p-3 border-round text-700 hover:surface-100 transition-duration-150 transition-colors p-ripple" (click)="selectComponent('usuaris')">
+                            <i class="pi pi-wrench mr-2"></i>
+                            <span class="font-medium">Usuaris</span>
+                        </a>
+                    </li>
+                    <li *ngIf="esSuperAdmin" class="pt-1 pb-1">
+                        <a pRipple class="flex align-items-center cursor-pointer p-3 border-round text-700 hover:surface-100 transition-duration-150 transition-colors p-ripple" (click)="selectComponent('llicencies')">
+                            <i class="pi pi-bookmark mr-2"></i>
+                            <span class="font-medium">Llicències</span>
+                        </a>
+                    </li>
+                    <li *ngIf="esSuperAdmin" class="pt-1 pb-1">
+                        <a pRipple class="flex align-items-center cursor-pointer p-3 border-round text-700 hover:surface-100 transition-duration-150 transition-colors p-ripple" (click)="selectComponent('propietaris')">
+                            <i class="pi pi-user mr-2"></i>
+                            <span class="font-medium">Propietaris</span>
+                        </a>
+                    </li>
+                    <li *ngIf="esGymAdmin" class="pt-1 pb-1">
+                        <a pRipple class="flex align-items-center cursor-pointer p-3 border-round text-700 hover:surface-100 transition-duration-150 transition-colors p-ripple" (click)="selectComponent('gimnasos')">
+                            <i class="pi pi-bolt mr-2"></i>
+                            <span class="font-medium">Gimnasos</span>
+                        </a>
+                    </li>
+                    <li class="pt-1 pb-1">
+                        <a pRipple class="flex align-items-center cursor-pointer p-3 border-round text-700 hover:surface-100 transition-duration-150 transition-colors p-ripple" (click)="selectComponent('membres')">
+                            <i class="pi pi-users mr-2"></i>
+                            <span class="font-medium">Membres</span>
+                        </a>
+                    </li>
+                    <li class="pt-1 pb-1">
+                        <a pRipple class="flex align-items-center cursor-pointer p-3 border-round text-700 hover:surface-100 transition-duration-150 transition-colors p-ripple" (click)="selectComponent('quotes')">
+                            <i class="pi pi-money-bill mr-2"></i>
+                            <span class="font-medium">Quotes</span>
+                        </a>
+                    </li>
+                    <li class="pt-1 pb-1">
+                        <a pRipple class="flex align-items-center cursor-pointer p-3 border-round text-700 hover:surface-100 transition-duration-150 transition-colors p-ripple" (click)="selectComponent('pagaments')">
+                            <i class="pi pi-credit-card mr-2"></i>
+                            <span class="font-medium">Pagaments</span>
+                        </a>
+                    </li>
+                    <li class="pt-1 pb-1">
+                        <a pRipple class="flex align-items-center cursor-pointer p-3 border-round text-700 hover:surface-100 transition-duration-150 transition-colors p-ripple" (click)="selectComponent('missatgeria')">
+                            <i class="pi pi-inbox mr-2"></i>
+                            <span class="font-medium">Missatgeria</span>
+                        </a>
+                    </li>
+                    <li class="pt-1 pb-1">
+                        <a pRipple class="flex align-items-center cursor-pointer p-3 border-round text-700 hover:surface-100 transition-duration-150 transition-colors p-ripple" (click)="selectComponent('visites')">
+                            <i class="pi pi-calendar mr-2"></i>
+                            <span class="font-medium">Visites</span>
+                        </a>
+                    </li>
+                    <li class="pt-1 pb-1">
+                        <a pRipple class="flex align-items-center cursor-pointer p-3 border-round text-700 hover:surface-100 transition-duration-150 transition-colors p-ripple" (click)="selectComponent('ajustaments')">
+                            <i class="pi pi-cog mr-2"></i>
+                            <span class="font-medium">Ajustaments</span>
+                        </a>
                     </li>
                 </ul>
-            </div>
-            <div class="mt-auto">
-                <hr class="mb-3 mx-3 border-top-1 border-none surface-border" />
-                <a pRipple class="m-3 flex align-items-center cursor-pointer p-3 gap-2 border-round text-700 hover:surface-100 transition-duration-150 transition-colors p-ripple">
-                    <p-avatar image="assets\images\connectagym logo.png" shape="circle" />
-                    <span class="font-bold">{{ nomUsuari }}</span>
-                </a>
-            </div>
-        </div>
-    </ng-template>
-</p-sidebar>
-
-
+            </li>
+        </ul>
+    </div>
+    <div>
+        <hr class="mt-5 mb-3 mx-3 border-top-1 border-none surface-border" />
+        <a pRipple class="mt-3 mx-3 flex align-items-center cursor-pointer p-3 gap-2 border-round text-700 hover:surface-100 transition-duration-150 transition-colors p-ripple">
+            <p-avatar image="assets\images\connectagym logo.png" shape="circle" />
+            <span class="font-bold">{{ nomUsuari }}</span>
+        </a>
+    </div>
+</div>

@@ -11,9 +11,7 @@ import { Usuari } from '../models/usuari.model';
   styleUrls: ['./sidebar-menu.component.scss']
 })
 export class SidebarMenuComponent implements OnInit {
-  @ViewChild('sidebarRef') sidebarRef!: Sidebar;
 
-  sidebarVisible: boolean = true;
   usuariActual: string = '';
   esGymAdmin: boolean = false;
   esSuperAdmin: boolean = false;
@@ -35,10 +33,6 @@ export class SidebarMenuComponent implements OnInit {
     console.log(this.usuariActual);
     this.esGymAdmin = this.tokenService.isGymAdmin();
     this.esSuperAdmin = this.tokenService.isSuperAdmin();
-  }
-
-  closeCallback(e: any): void {
-    this.sidebarRef.close(e);
   }
 
   selectComponent(component: string): void {

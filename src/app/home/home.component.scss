@@ -1,13 +1,15 @@
 .container {
-    display: flex;
-  }
-  
-  .sidebar {
-    flex: 0 0 auto; /* La barra lateral no es redimensionarà */
-  }
-  
-  .main-content {
-    flex: 1; /* El contingut principal s'estendrà per omplir l'espai disponible */
-    margin-left: 350px; /* Ajusta l'espai al voltant del contingut principal */
-    margin-right: 50px;
-  }
+  display: flex;
+  position: fixed;
+  height: 100%;
+  width: 100%;
+  overflow: auto;
+}
+
+.main-content {
+  flex: 1; /* El contingut principal s'estendrà per omplir l'espai disponible */
+  margin-top: 1rem;
+  margin-left: 50px; /* Ajusta l'espai al voltant del contingut principal */
+  margin-right: 80px;
+  margin-bottom: 80px;
+}
