@@ -1,15 +1,13 @@
 .container {
   display: flex;
-  position: fixed;
   height: 100%;
-  width: 100%;
-  overflow: auto;
 }
 
 .main-content {
   flex: 1; /* El contingut principal s'estendrà per omplir l'espai disponible */
   margin-top: 1rem;
-  margin-left: 50px; /* Ajusta l'espai al voltant del contingut principal */
+  margin-left: 50px;
   margin-right: 80px;
   margin-bottom: 80px;
+  overflow-y: auto;
 }
