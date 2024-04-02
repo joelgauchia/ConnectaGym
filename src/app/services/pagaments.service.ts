@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { Pagament } from '../models/pagament.model';
 import { environment } from '../environments/environment';
 import { TokenService } from './token.service';
+import { Membre } from '../models/membre.model';
 
 @Injectable({
   providedIn: 'root'
@@ -17,6 +18,18 @@ export class PagamentsService {
   getPagaments(): Observable<Pagament[]> {
     const headers = new HttpHeaders().set('Authorization', 'Bearer ' + this.tokenService.getToken());
     return this.http.get<Pagament[]>(this.pagamentsURL + 'llistat', { headers });
+  }
+
+  getPagamentActiu(membre: Membre): Observable<Pagament> {
+    const url = this.pagamentsURL + 'pagament/' + membre.id; 
+    const headers = new HttpHeaders().set('Authorization', 'Bearer ' + this.tokenService.getToken());
+    return this.http.get<Pagament>(url, { headers });
+  }
+
+  getPagamentsInactiusMembre(membre: Membre): Observable<Pagament[]> {
+    const url = this.pagamentsURL + membre.id; 
+    const headers = new HttpHeaders().set('Authorization', 'Bearer ' + this.tokenService.getToken());
+    return this.http.get<Pagament[]>(url, { headers });
   }
 
   crearPagament(pagament: Pagament): Observable<string> {
