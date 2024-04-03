@@ -39,6 +39,23 @@ export class MembresComponent implements OnInit {
     this.membresService.getMembres().subscribe(response => {
       this.membres = response;
       console.log(this.membres);
+  
+      this.membres.forEach(membre => {
+        this.pagamentsService.getPagamentActiu(membre).subscribe(pagament => {
+          if (pagament === null) {
+            this.pagamentsService.getPagamentsInactiusMembre(membre).subscribe(pagaments => {
+              console.log('inactius: ', pagaments);
+              if(pagaments === null || pagaments.length === 0) {
+                membre.estat = 'SENSE';
+              }
+              else membre.estat = 'INACTIU';
+            });
+            this.membresService.actualitzarMembre(membre.id, membre).subscribe(response => {
+              console.log(response);
+            });
+          } 
+        }); 
+      });
     });
   }
 
@@ -116,7 +133,7 @@ export class MembresComponent implements OnInit {
     console.log(nouPagament);
     this.pagamentsService.crearPagament(nouPagament).subscribe(() => {
       this.messageService.add({ severity: 'success', summary: 'Fet', detail: 'Pagament realitzat amb èxit', life: 3000 });
-      if (this.membre.estat === 'SENSE') this.membre.estat = 'ACTIU';
+      if (this.membre.estat === 'SENSE' || this.membre.estat === 'INACTIU') this.membre.estat = 'ACTIU';
       this.membresService.actualitzarMembre(this.membre.id, this.membre).subscribe(() => {
         console.log('Estat del membre actualitzat correctament');
       });

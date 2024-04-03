@@ -52,7 +52,6 @@
                 <td>{{ pagament.dataFinal | date:"dd/MM/yyyy HH:mm" }}</td>
                 <td>{{ pagament.gimnas.nom }}</td>
                 <td>
-                    <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-help mr-2" (click)="editarPagament(pagament)"></button>
                     <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="eliminarPagament(pagament)"></button>
                 </td>
             </tr>
@@ -62,10 +61,6 @@
         </ng-template>
     </p-table>
 </div>
-
-<p-dialog [(visible)]="editarPagamentDialog" [style]="{ width: '450px' }" header="Editar un pagament" [modal]="true" styleClass="p-fluid">
-    <app-form-pagament [pagament]="pagament" (successfullyEdited)="pagamentEditat($event)"></app-form-pagament>
-</p-dialog>
 
 <p-confirmDialog #cd>
     <ng-template pTemplate="headless" let-message>
