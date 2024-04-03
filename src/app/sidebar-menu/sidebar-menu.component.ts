@@ -20,7 +20,11 @@ export class SidebarMenuComponent implements OnInit {
   usuari!: Usuari;
   nomUsuari: string = '';
 
-  constructor(private usuarisService: UsuarisService, private tokenService: TokenService, private selectedComponentService: SelectedComponentService) { } 
+  constructor(
+    private usuarisService: UsuarisService, 
+    private tokenService: TokenService, 
+    private selectedComponentService: SelectedComponentService
+  ) { } 
 
   ngOnInit(): void {
     this.usuariActual = this.tokenService.getUsername();
@@ -44,5 +48,9 @@ export class SidebarMenuComponent implements OnInit {
   selectComponent(component: string): void {
     this.selectedComponentService.showComponent(component); // Actualitza la variable del servei
     console.log(this.selectedComponentService.getActiveComponent());
+  }
+
+  logOutUser(): void {
+    this.tokenService.logOut();
   }
 }

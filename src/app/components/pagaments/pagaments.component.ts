@@ -70,5 +70,5 @@ export class PagamentsComponent implements OnInit {
     const fileName = 'pagaments';
     const sheetName = 'Pagaments';
     this.excelService.exportToExcel(headers, data, fileName, sheetName);
-}
+  }
 }
