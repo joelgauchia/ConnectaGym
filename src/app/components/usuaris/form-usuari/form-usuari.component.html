@@ -45,23 +45,41 @@
     </div>
     <div class="field">
         <label for="rols" class="form-label">Rol</label>
-        <p-dropdown [options]="rols" formControlName="rols" placeholder="Escull el rol"></p-dropdown>
+        <p-dropdown [options]="rols" formControlName="rols" placeholder="Escull el rol" appendTo="body"></p-dropdown>
     </div>
-    <div class="field">
-        <label for="estat" class="form-label">Estat</label>
-        <div class="flex flex-wrap gap-3">
-            <div class="flex align-items-center">
-                <p-radioButton name="actiu" [value]="true" formControlName="actiu" inputId="estat1"></p-radioButton>
-                <label for="estat1" class="ml-2">Actiu</label>
+    <div *ngIf="esRolGYMADMIN()">
+        <div class="field">
+            <label for="telefon" class="form-label">Telèfon</label>
+            <input type="tel" id="telefon" pInputText formControlName="telefon" pattern="[0-9]{9}"/>
+        </div>
+        <div class="field">
+            <label for="adreca" class="form-label">Adreça</label>
+            <input type="text" id="adreca" pInputText formControlName="adreca"/>
+        </div>
+        <div class="field">
+            <label for="dataNaixement" class="form-label">Data de Naixement</label>
+            <p-calendar formControlName="dataNaixement" [showIcon]="true" [showTime]="true" inputId="dataNaixement" appendTo="body"></p-calendar>
+        </div>
+        <div class="field">
+            <label for="genere" class="form-label">Gènere</label>
+            <div class="flex flex-wrap gap-3">
+                <div class="flex align-items-center">
+                    <p-radioButton name="genere" value="M" formControlName="genere" inputId="masculi"></p-radioButton>
+                    <label for="maculi" class="ml-2">M</label>
+                </div>
+                
+                <div class="flex align-items-center">
+                    <p-radioButton name="genere" value="F" formControlName="genere" inputId="femeni"></p-radioButton>
+                    <label for="femeni" class="ml-2">F</label>
+                </div>
             </div>
-            
-            <div class="flex align-items-center">
-                <p-radioButton name="actiu" [value]="false" formControlName="actiu" inputId="estat2"></p-radioButton>
-                <label for="estat2" class="ml-2">Inactiu</label>
-            </div>
+        </div>
+        <div class="field">
+            <label for="tipus" class="form-label">Propietari de cadena o gimnàs individual?</label>
+            <p-dropdown formControlName="tipus" [options]="tipusPropietari" placeholder="Seleccioni un tipus" appendTo="body"></p-dropdown>
         </div>
     </div>
     <div class="p-col-12">
-        <button pButton type="submit" label="Guardar" [disabled]="!usuariForm.valid"></button>
+        <button pButton type="submit" label="Guardar" [disabled]="!usuariForm.valid || (esRolGYMADMIN() && (!usuariForm.get('telefon')?.value || !usuariForm.get('adreca')?.value || !usuariForm.get('dataNaixement')?.value || !usuariForm.get('genere')?.value || !usuariForm.get('tipus')?.value))"></button>
     </div>
 </form>

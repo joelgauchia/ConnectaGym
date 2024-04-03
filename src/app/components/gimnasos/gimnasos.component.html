@@ -1,5 +1,6 @@
 <div class="flex align-items-center justify-content-start flex-shrink-0">
-    <h2>Administrar Gimnasos</h2>
+    <h2 *ngIf="esSuperAdmin">Administrar Gimnasos</h2>
+    <h2 *ngIf="esGymAdmin && !esSuperAdmin">Els meus Gimnasos</h2>
     <h3>Llista de gimnasos</h3>
 </div>
 <div class="card">
@@ -40,7 +41,7 @@
                 <th pSortableColumn="nom" style="min-width:6rem">Nom <p-sortIcon field="nom"></p-sortIcon></th>
                 <th pSortableColumn="adreca" style="min-width:8rem">Adreça <p-sortIcon field="adreca"></p-sortIcon></th>
                 <th pSortableColumn="email" style="min-width:8rem">Email <p-sortIcon field="email"></p-sortIcon></th>
-                <th pSortableColumn="telefon" style="min-width:8rem">Telefon <p-sortIcon field="telefon"></p-sortIcon></th>
+                <th pSortableColumn="telefon" style="min-width:8rem">Telèfon <p-sortIcon field="telefon"></p-sortIcon></th>
                 <th pSortableColumn="propietari" style="min-width:5rem">Propietari <p-sortIcon field="propietari"></p-sortIcon></th>
                 <th pSortableColumn="creador" style="min-width:5rem">Creat per <p-sortIcon field="creador"></p-sortIcon></th>
                 <th pSortableColumn="dataCreacio">Creat <p-sortIcon field="dataCreacio"></p-sortIcon></th>

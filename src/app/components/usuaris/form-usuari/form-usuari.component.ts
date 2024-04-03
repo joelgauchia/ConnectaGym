@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, OnInit, Output, SimpleChanges } from '@
 import { Usuari } from '../../../models/usuari.model';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Rol, RolNom } from '../../../models/rol.model';
+import { Propietari } from '../../../models/propietari.model';
 
 @Component({
   selector: 'app-form-usuari',
@@ -15,9 +16,10 @@ export class FormUsuariComponent implements OnInit {
   @Input() rols!: any[];
 
   @Output() successfullyEdited = new EventEmitter<Usuari>();
-  @Output() successfullyCreated = new EventEmitter<Usuari>();
+  @Output() successfullyCreated = new EventEmitter<{ usuari: Usuari, propietari?: Propietari }>();
 
   usuariForm!: FormGroup;
+  tipusPropietari: any[] = [];
 
   constructor(private fb: FormBuilder) { }
 
@@ -28,6 +30,7 @@ export class FormUsuariComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.tipusPropietari = ["INDIVIDUAL", "CADENA"];
     this.initForm();
   }
 
@@ -44,10 +47,23 @@ export class FormUsuariComponent implements OnInit {
         email: ['', [Validators.required, Validators.email]],
         nom: ['', Validators.required],
         password: ['', Validators.required],
-        actiu: ['', Validators.required],
+        actiu: [''],
         rols: ['', Validators.required],
-        nomUsuari: ['', Validators.required]
+        nomUsuari: ['', Validators.required],
+        telefon: [''], 
+        adreca: [''], 
+        dataNaixement: [''], 
+        genere: [''], 
+        tipus: ['']
       });
+      if (this.esRolGYMADMIN()) {
+        this.usuariForm.get('telefon')?.setValidators([Validators.required]);
+        this.usuariForm.get('adreca')?.setValidators([Validators.required]);
+        this.usuariForm.get('dataNaixement')?.setValidators([Validators.required]);
+        this.usuariForm.get('genere')?.setValidators([Validators.required]);
+        this.usuariForm.get('tipus')?.setValidators([Validators.required]);
+      }
+      this.usuariForm.updateValueAndValidity();
     }
     if (this.mode === 'editar' && this.usuari) {
       this.usuariForm.patchValue({
@@ -70,7 +86,6 @@ export class FormUsuariComponent implements OnInit {
 
   crearUsuari(): void {
     const rols: Rol[] = [];
-
     const selectedRoles: string[] = this.usuariForm.value.rols;
         
     if (selectedRoles.includes('SUPERADMIN')) {
@@ -86,9 +101,32 @@ export class FormUsuariComponent implements OnInit {
 
     const usuariGuardat: Usuari = this.usuariForm.value;
     usuariGuardat.rols = rols;
+    usuariGuardat.actiu = true;
     console.log(usuariGuardat);
+
+    let propietariGuardat: Propietari | undefined = undefined;
+    if (this.esRolGYMADMIN()) {
+      propietariGuardat = {
+        nom: usuariGuardat.nom,
+        email: usuariGuardat.email,
+        telefon: this.usuariForm.get('telefon')?.value,
+        adreca: this.usuariForm.get('adreca')?.value,
+        dataNaixement: this.usuariForm.get('dataNaixement')?.value,
+        genere: this.usuariForm.get('genere')?.value,
+        tipus: this.usuariForm.get('tipus')?.value,
+        creador: usuariGuardat,
+        dataCreacio: new Date(),
+        dataModificacio: new Date(),
+        gimnasos: []
+      }
+    }
+
     this.usuariForm.reset();
-    this.successfullyCreated.emit(usuariGuardat);
+    this.successfullyCreated.emit({ usuari: usuariGuardat, propietari: propietariGuardat });
+  }
+
+  esRolGYMADMIN(): boolean {
+    const rolSeleccionat = this.usuariForm.get('rols')?.value;
+    return rolSeleccionat === 'GYMADMIN';
   }
 }
-

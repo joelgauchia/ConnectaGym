@@ -2,7 +2,7 @@ import { Gimnas } from "./gimnas.model";
 import { Usuari } from "./usuari.model";
 
 export interface Propietari {
-    id: number;
+    id?: number;
     nom: string;
     email: string;
     telefon: string;

@@ -5,6 +5,7 @@ import { Usuari } from '../../models/usuari.model';
 import * as XLSX from 'xlsx';
 import { ExcelService } from '../../services/excel.service';
 import { TokenService } from '../../services/token.service';
+import { PropietarisService } from '../../services/propietaris.service';
 
 @Component({
   selector: 'app-usuaris',
@@ -27,6 +28,7 @@ export class UsuarisComponent implements OnInit {
 
   constructor(
     private usuarisService: UsuarisService, 
+    private propietarisService: PropietarisService,
     private messageService: MessageService, 
     private confirmationService: ConfirmationService, 
     private excelService: ExcelService,
@@ -64,15 +66,24 @@ export class UsuarisComponent implements OnInit {
   }
 
   usuariCreat(event: any) {
-    this.usuarisService.crearUsuari(event).subscribe(response => {
-      this.messageService.add({ severity: 'success', summary: 'Fet!', detail: "Usuari creat correctament" });
-      this.carregarUsuaris();
-      console.log(response);
-      this.crearUsuariDialog = false;
-    },
-    error => {
-      this.messageService.add({ severity: 'error', summary: 'Error', detail: "Usuari ja existent", life: 3000 });
-    });
+    const usuariGuardat = event.usuari;
+  const propietari = event.propietari;
+
+  this.usuarisService.crearUsuari(usuariGuardat).subscribe(response => {
+    this.messageService.add({ severity: 'success', summary: 'Fet!', detail: "Usuari creat correctament" });
+    this.carregarUsuaris();
+    console.log(response);
+
+    if (propietari) {
+      this.propietarisService.crearPropietari(propietari).subscribe(response => {
+        console.log(response);
+      });
+    }
+    this.crearUsuariDialog = false;
+  },
+  error => {
+    this.messageService.add({ severity: 'error', summary: 'Error', detail: "Usuari ja existent", life: 3000 });
+  });
   }
 
   editarUsuari(usuari: Usuari) {
