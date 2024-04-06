@@ -19,6 +19,11 @@ export class PropietarisService {
     return this.http.get<Propietari[]>(this.propietarisURL + 'llistat', { headers });
   }
 
+  getPropietarisCreadorActiu(): Observable<Propietari[]> {
+    const headers = new HttpHeaders().set('Authorization', 'Bearer ' + this.tokenService.getToken());
+    return this.http.get<Propietari[]>(this.propietarisURL + 'llistat-actiu', { headers });
+  }
+
   crearPropietari(propietari: Propietari): Observable<string> {
     const url = this.propietarisURL + 'crear';
     const headers = new HttpHeaders().set('Authorization', 'Bearer ' + this.tokenService.getToken());

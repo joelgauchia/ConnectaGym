@@ -16,14 +16,12 @@
     <p-table
         #dt
         [value]="quotes"
-        [rows]="10"
+        [rows]="5"
         [paginator]="true"
         [globalFilterFields]="['nom','preu','tipus','mesos','creador','dataCreacio','dataModificacio']"
         [tableStyle]="{ 'min-width': '75rem' }"
         [rowHover]="true"
         dataKey="id"
-        currentPageReportTemplate="Mostrant {first} de {last} dels {totalRecords} totals"
-        [showCurrentPageReport]="true" 
         [exportHeader]="'customExportHeader'"
     >
         <ng-template pTemplate="caption">

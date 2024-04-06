@@ -3,6 +3,7 @@ import { TipusLlicencia } from '../../../models/tipus-llicencia.model';
 import { TipusLlicenciaService } from '../../../services/tipusLlicencia.service';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { ExcelService } from '../../../services/excel.service';
+import { TokenService } from '../../../services/token.service';
 
 @Component({
   selector: 'app-tipus-llicencies',
@@ -25,7 +26,8 @@ export class TipusLlicenciesComponent implements OnInit {
     private tipusLlicenciaService: TipusLlicenciaService,
     private messageService: MessageService,
     private confirmationService: ConfirmationService,
-    private excelService: ExcelService
+    private excelService: ExcelService,
+    private tokenService: TokenService
   ) { }
 
   ngOnInit() {

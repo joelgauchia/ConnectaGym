@@ -52,7 +52,7 @@ export class LlicenciesComponent implements OnInit {
         }
       });
     });
-    this.tipusLlicenciaService.getTipusLlicencia().subscribe(response => {
+    this.tipusLlicenciaService.getTipusLlicenciaCreadorActiu().subscribe(response => {
       this.tipusLlicenciaFormulari = response;
     });
   }

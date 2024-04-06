@@ -19,6 +19,11 @@ export class MembresService {
         return this.http.get<Membre[]>(this.membresURL + 'llistat', { headers });
     }
 
+    getMembresCreadorActiu(): Observable<Membre[]> {
+        const headers = new HttpHeaders().set('Authorization', 'Bearer ' + this.tokenService.getToken());
+        return this.http.get<Membre[]>(this.membresURL + 'llistat-actiu', { headers });
+    }
+
     crearMembre(membre: Membre): Observable<string> {
         const url = this.membresURL + 'crear';
         const headers = new HttpHeaders().set('Authorization', 'Bearer ' + this.tokenService.getToken());

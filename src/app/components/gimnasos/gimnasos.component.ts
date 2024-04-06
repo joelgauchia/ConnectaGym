@@ -49,7 +49,7 @@ export class GimnasosComponent implements OnInit {
       });
     }
     if (this.tokenService.isGymAdmin() && !this.tokenService.isSuperAdmin()) {
-      this.gimnasosService.getGimnasos().subscribe(response => {
+      this.gimnasosService.getGimnasosCreadorActiu().subscribe(response => {
         response.forEach(gimnas => {
           console.log(gimnas);
           console.log(gimnas.creador.nomUsuari, " ", this.tokenService.getUsername());

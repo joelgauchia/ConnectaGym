@@ -25,6 +25,7 @@ export class PropietarisComponent implements OnInit {
     private messageService: MessageService, 
     private confirmationService: ConfirmationService, 
     private excelService: ExcelService,
+    private tokenService: TokenService
   ) { }
 
   ngOnInit() {
@@ -32,10 +33,18 @@ export class PropietarisComponent implements OnInit {
   }
 
   carregarPropietaris(): void {
-    this.propietarisService.getPropietaris().subscribe(response => {
-      this.propietaris = response;
-      console.log(this.propietaris);
-    });
+    if (this.tokenService.isSuperAdmin()) {
+      this.propietarisService.getPropietaris().subscribe(response => {
+        this.propietaris = response;
+        console.log(this.propietaris);
+      });
+    }
+    else {
+      this.propietarisService.getPropietarisCreadorActiu().subscribe(response => {
+        this.propietaris = response;
+        console.log(this.propietaris);
+      });
+    }
   }
 
   crearPropietari() {

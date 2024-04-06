@@ -41,7 +41,7 @@ export class FormMembresComponent implements OnInit {
   ngOnInit(): void {
     this.estat = ['ACTIU', 'INACTIU', 'SENSE'];
     this.initForm();
-    this.gimnasosService.getGimnasos().subscribe(response => {
+    this.gimnasosService.getGimnasosCreadorActiu().subscribe(response => {
       this.gimnasos = response;
     });
   }

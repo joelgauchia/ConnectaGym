@@ -19,6 +19,11 @@ export class QuotesService {
     return this.http.get<Quota[]>(this.quotesURL + 'llistat', { headers });
   }
 
+  getQuotesCreadorActiu(): Observable<Quota[]> {
+    const headers = new HttpHeaders().set('Authorization', 'Bearer ' + this.tokenService.getToken());
+    return this.http.get<Quota[]>(this.quotesURL + 'llistat-actiu', { headers });
+  }
+
   getQuotesByGimnasNom(gimnasNom: string): Observable<Quota[]> {
     const headers = new HttpHeaders().set('Authorization', 'Bearer ' + this.tokenService.getToken());
     const params = new HttpParams().set('nomGimnas', gimnasNom);

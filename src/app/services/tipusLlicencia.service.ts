@@ -19,6 +19,11 @@ export class TipusLlicenciaService {
         return this.http.get<TipusLlicencia[]>(this.tipusLlicenciaURL + 'llistat', { headers });
     }
 
+    getTipusLlicenciaCreadorActiu(): Observable<TipusLlicencia[]> {
+        const headers = new HttpHeaders().set('Authorization', 'Bearer ' + this.tokenService.getToken());
+        return this.http.get<TipusLlicencia[]>(this.tipusLlicenciaURL + 'llistat-actiu', { headers });
+    }
+
     actualitzarTipusLlicencia(id: number, tipusLlicencia: TipusLlicencia): Observable<TipusLlicencia> {
         const url = this.tipusLlicenciaURL + id;
         const headers = new HttpHeaders().set('Authorization', 'Bearer ' + this.tokenService.getToken());

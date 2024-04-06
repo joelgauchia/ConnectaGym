@@ -39,7 +39,7 @@ export class FormGimnasComponent implements OnInit {
 
   ngOnInit(): void {
     this.initForm();
-    this.propietarisService.getPropietaris().subscribe(response => {
+    this.propietarisService.getPropietarisCreadorActiu().subscribe(response => {
       this.propietaris = response;
       console.log(this.propietaris);
     });

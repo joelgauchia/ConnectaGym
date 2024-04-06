@@ -19,6 +19,11 @@ export class GimnasosService {
         return this.http.get<Gimnas[]>(this.gimnasosURL + 'llistat', { headers });
     }
 
+    getGimnasosCreadorActiu(): Observable<Gimnas[]> {
+        const headers = new HttpHeaders().set('Authorization', 'Bearer ' + this.tokenService.getToken());
+        return this.http.get<Gimnas[]>(this.gimnasosURL + 'llistat-actiu', { headers });
+    }
+
     crearGimnas(gimnas: Gimnas): Observable<string> {
         const url = this.gimnasosURL + 'crear';
         const headers = new HttpHeaders().set('Authorization', 'Bearer ' + this.tokenService.getToken());

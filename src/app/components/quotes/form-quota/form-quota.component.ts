@@ -39,7 +39,7 @@ export class FormQuotaComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.gimnasosService.getGimnasos().subscribe(response => {
+    this.gimnasosService.getGimnasosCreadorActiu().subscribe(response => {
       this.gimnasos = response;
     });
     this.initForm();

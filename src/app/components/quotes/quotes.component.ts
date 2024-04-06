@@ -3,6 +3,7 @@ import { Quota } from '../../models/quota.model';
 import { QuotesService } from '../../services/quotes.service';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { ExcelService } from '../../services/excel.service';
+import { TokenService } from '../../services/token.service';
 
 @Component({
   selector: 'app-quotes',
@@ -21,6 +22,7 @@ export class QuotesComponent implements OnInit {
     private quotesService: QuotesService,
     private messageService: MessageService,
     private confirmationService: ConfirmationService,
+    private tokenService: TokenService,
     private excelService: ExcelService
   ) { }
 
@@ -29,9 +31,16 @@ export class QuotesComponent implements OnInit {
   }
 
   carregarQuotes(): void {
-    this.quotesService.getQuotes().subscribe(response => {
-      this.quotes = response;
-    });
+    if (this.tokenService.isSuperAdmin()) {
+      this.quotesService.getQuotes().subscribe(response => {
+        this.quotes = response;
+      });
+    }
+    else {
+      this.quotesService.getQuotesCreadorActiu().subscribe(response => {
+        this.quotes = response;
+      });
+    }
   }
 
   crearQuota() {

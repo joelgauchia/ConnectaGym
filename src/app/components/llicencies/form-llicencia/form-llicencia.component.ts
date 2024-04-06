@@ -35,13 +35,13 @@ export class FormLlicenciaComponent implements OnInit {
 
   ngOnInit(): void {
     forkJoin([
-      this.propietarisService.getPropietaris(),
-      this.tipusLlicenciaService.getTipusLlicencia()
+      this.tipusLlicenciaService.getTipusLlicenciaCreadorActiu(),
+      this.propietarisService.getPropietarisCreadorActiu()
     ]).subscribe(response => {
-      this.propietaris = response[0];
-      console.log(this.propietaris);
-      this.tipusLlicencia = response[1];
+      this.tipusLlicencia = response[0];
       console.log(this.tipusLlicencia);
+      this.propietaris = response[1];
+      console.log(this.propietaris);
     });
     this.initForm();
   }
