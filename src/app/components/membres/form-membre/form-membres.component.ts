@@ -6,6 +6,7 @@ import { UsuarisService } from '../../../services/usuaris.service';
 import { TokenService } from '../../../services/token.service';
 import { GimnasosService } from '../../../services/gimnasos.service';
 import { Gimnas } from '../../../models/gimnas.model';
+import { Rol, RolNom } from '../../../models/rol.model';
 
 @Component({
   selector: 'app-form-membres',
@@ -39,11 +40,36 @@ export class FormMembresComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.gimnasos = [];
     this.estat = ['ACTIU', 'INACTIU', 'SENSE'];
+    this.getGimnasos();
     this.initForm();
-    this.gimnasosService.getGimnasosCreadorActiu().subscribe(response => {
-      this.gimnasos = response;
-    });
+  }
+
+  getGimnasos(): void {
+    if (this.tokenService.isSuperAdmin()) {
+      this.gimnasosService.getGimnasosCreadorActiu().subscribe(response => {
+        this.gimnasos = response;
+      });
+    }
+    else {
+      if (this.tokenService.isGymAdmin() && !this.tokenService.isSuperAdmin()) {
+        this.gimnasosService.getGimnasosCreadorActiu().subscribe(response => {
+          response.forEach(gimnas => {
+            console.log(gimnas);
+            console.log(gimnas.creador.nomUsuari, " ", this.tokenService.getUsername());
+            console.log(new Rol(RolNom.SUPERADMIN));
+            this.usuarisService.getUsuariByNomUsuari(this.tokenService.getUsername()).subscribe(usuari => {
+              console.log(usuari.nom, " ", gimnas.propietari.nom);
+              if ((gimnas.creador.rols.some(rol => rol.rolNom === RolNom.SUPERADMIN) && gimnas.propietari.nom === usuari.nom) || gimnas.creador.nomUsuari === this.tokenService.getUsername()) {
+                this.gimnasos.push(gimnas);
+              }
+            });
+          });
+          console.log(this.gimnasos);
+        });
+      }
+    }
   }
 
   initForm() {
