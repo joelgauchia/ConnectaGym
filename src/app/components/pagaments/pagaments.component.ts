@@ -5,6 +5,8 @@ import { Pagament } from '../../models/pagament.model';
 import { Membre } from '../../models/membre.model';
 import { MembresService } from '../../services/membres.service';
 import { ExcelService } from '../../services/excel.service';
+import { TokenService } from '../../services/token.service';
+import { UsuarisService } from '../../services/usuaris.service';
 
 @Component({
   selector: 'app-pagaments',
@@ -21,9 +23,10 @@ export class PagamentsComponent implements OnInit {
 
   constructor(
     private pagamentsService: PagamentsService,
-    private membresService: MembresService,
+    private tokenService: TokenService,
     private confirmationService: ConfirmationService,
     private messageService: MessageService,
+    private usuarisService: UsuarisService,
     private excelService: ExcelService
   ) { }
 
@@ -32,10 +35,28 @@ export class PagamentsComponent implements OnInit {
   }
 
   carregarPagaments() {
-    this.pagamentsService.getPagaments().subscribe(response => {
-      this.pagaments = response;
-      console.log(this.pagaments);
-    });
+    this.pagaments = [];
+    if (this.tokenService.isSuperAdmin()) {
+      this.pagamentsService.getPagaments().subscribe(response => {
+        this.pagaments = response;
+        console.log(this.pagaments);
+      });
+    }
+    else {
+      if (this.tokenService.isGymAdmin() && !this.tokenService.isSuperAdmin()) {
+        this.pagamentsService.getPagaments().subscribe(response => {
+          response.forEach(pagament => {
+            this.usuarisService.getUsuariByNomUsuari(this.tokenService.getUsername()).subscribe(usuari => {
+              if (pagament.gimnas.propietari.nom === usuari.nom) {
+                this.pagaments.push(pagament);
+              }
+            });
+          });
+
+          console.log(this.pagaments);
+        });
+      }
+    }
   }
 
 

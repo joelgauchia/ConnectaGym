@@ -6,6 +6,10 @@ import { MembresService } from '../../services/membres.service';
 import { Quota } from '../../models/quota.model';
 import { PagamentsService } from '../../services/pagaments.service';
 import { Pagament } from '../../models/pagament.model';
+import { TokenService } from '../../services/token.service';
+import { UsuarisService } from '../../services/usuaris.service';
+import { RolNom } from '../../models/rol.model';
+import { forkJoin, of, switchMap } from 'rxjs';
 
 @Component({
   selector: 'app-membres',
@@ -24,11 +28,13 @@ export class MembresComponent implements OnInit {
   cobrarMembreDialog: boolean = false;
 
   constructor(
-  private membresService: MembresService,
-  private pagamentsService: PagamentsService,
-  private messageService: MessageService,
-  private confirmationService: ConfirmationService,
-  private excelService: ExcelService
+    private membresService: MembresService,
+    private pagamentsService: PagamentsService,
+    private messageService: MessageService,
+    private confirmationService: ConfirmationService,
+    private excelService: ExcelService,
+    private tokenService: TokenService,
+    private usuarisService: UsuarisService,
   ) { }
 
   ngOnInit() {
@@ -36,26 +42,57 @@ export class MembresComponent implements OnInit {
   }
 
   carregarMembres(): void {
-    this.membresService.getMembres().subscribe(response => {
-      this.membres = response;
-      console.log(this.membres);
+    this.membres = [];
+    if (this.tokenService.isSuperAdmin()) {
+      this.membresService.getMembres().subscribe(response => {
+        this.membres = response;
+        console.log(this.membres);
+        this.actualitzarEstat();
+      });
+    }
+    else {
+      if (this.tokenService.isGymAdmin() && !this.tokenService.isSuperAdmin()) {
+        this.membresService.getMembresCreadorActiu().subscribe(response => {
+          const observables = response.map(membre => 
+            this.usuarisService.getUsuariByNomUsuari(this.tokenService.getUsername())
+              .pipe(
+                switchMap(usuari => {
+                  console.log(membre);
+                  console.log(membre.gimnas.creador.nom);
+                  console.log(usuari.nom);
+                  console.log(membre.gimnas.propietari.nom);
+                  if (membre.creador.nom === usuari.nom || (membre.creador.rols.some(rol => rol.rolNom === RolNom.SUPERADMIN) && membre.gimnas.propietari.nom === usuari.nom)) {
+                    this.membres.push(membre);
+                  }
+                  return of(null); // No retornem res, només per mantenir la coherència dels observables
+                })
+              )
+          );
+          forkJoin(observables).subscribe(() => {
+            console.log(this.membres);
+            this.actualitzarEstat();
+          });
+        });
+      }
+    }
+  }
   
-      this.membres.forEach(membre => {
-        this.pagamentsService.getPagamentActiu(membre).subscribe(pagament => {
-          if (pagament === null) {
-            this.pagamentsService.getPagamentsInactiusMembre(membre).subscribe(pagaments => {
-              console.log('inactius: ', pagaments);
-              if(pagaments === null || pagaments.length === 0) {
-                membre.estat = 'SENSE';
-              }
-              else membre.estat = 'INACTIU';
-            });
+  actualitzarEstat(): void {
+    this.membres.forEach(membre => {
+      this.pagamentsService.getPagamentActiu(membre).subscribe(pagament => {
+        if (pagament === null) {
+          this.pagamentsService.getPagamentsInactiusMembre(membre).subscribe(pagaments => {
+            console.log('inactius: ', pagaments);
+            if(pagaments === null || pagaments.length === 0) {
+              membre.estat = 'SENSE';
+            }
+            else membre.estat = 'INACTIU';
             this.membresService.actualitzarMembre(membre.id, membre).subscribe(response => {
               console.log(response);
             });
-          } 
-        }); 
-      });
+          });
+        } 
+      }); 
     });
   }
 

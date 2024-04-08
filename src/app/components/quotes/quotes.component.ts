@@ -4,6 +4,8 @@ import { QuotesService } from '../../services/quotes.service';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { ExcelService } from '../../services/excel.service';
 import { TokenService } from '../../services/token.service';
+import { UsuarisService } from '../../services/usuaris.service';
+import { RolNom } from '../../models/rol.model';
 
 @Component({
   selector: 'app-quotes',
@@ -22,6 +24,7 @@ export class QuotesComponent implements OnInit {
     private quotesService: QuotesService,
     private messageService: MessageService,
     private confirmationService: ConfirmationService,
+    private usuarisService: UsuarisService,
     private tokenService: TokenService,
     private excelService: ExcelService
   ) { }
@@ -31,15 +34,28 @@ export class QuotesComponent implements OnInit {
   }
 
   carregarQuotes(): void {
+    this.quotes = [];
     if (this.tokenService.isSuperAdmin()) {
       this.quotesService.getQuotes().subscribe(response => {
         this.quotes = response;
       });
     }
     else {
-      this.quotesService.getQuotesCreadorActiu().subscribe(response => {
-        this.quotes = response;
-      });
+      if (this.tokenService.isGymAdmin() && !this.tokenService.isSuperAdmin()) {
+        this.quotesService.getQuotesCreadorActiu().subscribe(response => {
+          response.forEach(quota => {
+            console.log(quota);
+            this.usuarisService.getUsuariByNomUsuari(this.tokenService.getUsername()).subscribe(usuari => {
+              if (quota.creador.nom === usuari.nom || (quota.creador.rols.some(rol => rol.rolNom === RolNom.SUPERADMIN) && quota.gimnas.propietari.nom === usuari.nom)) {
+                console.log(quota.gimnas.creador.nom);
+                console.log(usuari.nom);
+                this.quotes.push(quota);
+              }
+            });
+          });
+          console.log(this.quotes);
+        });
+      }
     }
   }
 
