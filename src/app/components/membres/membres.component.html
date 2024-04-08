@@ -16,7 +16,7 @@
     <p-table
         #dt
         [value]="membres"
-        [rows]="10"
+        [rows]="5"
         [paginator]="true"
         [globalFilterFields]="['nom','adreca','email','telefon','dataNaixement','estat','genere','gimnas.nom','creador.nom','dataCreacio','dataModificacio']"
         [tableStyle]="{ 'min-width': '75rem' }"
@@ -38,14 +38,14 @@
                 <th pSortableColumn="nom">Nom <p-sortIcon field="nom"></p-sortIcon></th>
                 <th pSortableColumn="email">Email <p-sortIcon field="email"></p-sortIcon></th>
                 <th pSortableColumn="telefon">Telèfon <p-sortIcon field="telefon"></p-sortIcon></th>
-                <th pSortableColumn="estat" style="min-width:8rem">Estat <p-sortIcon field="estat"></p-sortIcon></th>
-                <th pSortableColumn="genere">Gènere <p-sortIcon field="genere"></p-sortIcon></th>
-                <th pSortableColumn="dataNaixement" style="min-width:11rem">Data Naixement <p-sortIcon field="dataNaixement"></p-sortIcon></th>
+                <th pSortableColumn="estat" style="min-width:7rem">Estat <p-sortIcon field="estat"></p-sortIcon></th>
+                <th pSortableColumn="genere" style="min-width:8rem">Gènere <p-sortIcon field="genere"></p-sortIcon></th>
+                <th pSortableColumn="dataNaixement" style="min-width:10rem">Data Naixement <p-sortIcon field="dataNaixement"></p-sortIcon></th>
                 <th pSortableColumn="gimnas">Gimnàs <p-sortIcon field="gimnas"></p-sortIcon></th>
                 <th pSortableColumn="creador">Creat per <p-sortIcon field="creador"></p-sortIcon></th>
                 <th pSortableColumn="dataCreacio">Creat <p-sortIcon field="dataCreacio"></p-sortIcon></th>
                 <th pSortableColumn="dataModificacio">Modificat <p-sortIcon field="dataModificacio"></p-sortIcon></th>
-                <th style="min-width:15rem"></th>
+                <th style="min-width:12rem"></th>
             </tr>
         </ng-template>
         <ng-template pTemplate="body" let-membre>

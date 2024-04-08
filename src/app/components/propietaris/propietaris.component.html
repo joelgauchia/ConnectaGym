@@ -16,14 +16,12 @@
     <p-table
         #dt
         [value]="propietaris"
-        [rows]="10"
+        [rows]="5"
         [paginator]="true"
         [globalFilterFields]="['nom','email','telefon','dataNaixement','adreca','genere','dataModificacio','dataCreacio']"
         [tableStyle]="{ 'min-width': '75rem' }"
         [rowHover]="true"
         dataKey="id"
-        currentPageReportTemplate="Mostrant {first} de {last} dels {totalRecords} totals"
-        [showCurrentPageReport]="true"
         [exportHeader]="'customExportHeader'"
     >
         <ng-template pTemplate="caption">
