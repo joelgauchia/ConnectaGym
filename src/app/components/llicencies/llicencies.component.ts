@@ -39,18 +39,6 @@ export class LlicenciesComponent implements OnInit {
   carregarLlicencies(): void {
     this.llicenciesService.getLlicencies().subscribe(response => {
       this.llicencies = response;
-      console.log(this.llicencies);
-
-      this.llicencies.forEach(llicencia => {
-        const dataActual = new Date().getTime();
-        console.log(llicencia.dataVenciment);
-        console.log(dataActual);
-        const dataVenciment = new Date(llicencia.dataVenciment).getTime();
-        if (llicencia.activa && dataVenciment < dataActual) {
-          llicencia.activa = false;
-          this.llicenciesService.setInactiva(llicencia).subscribe(() => {});
-        }
-      });
     });
     this.tipusLlicenciaService.getTipusLlicenciaCreadorActiu().subscribe(response => {
       this.tipusLlicenciaFormulari = response;

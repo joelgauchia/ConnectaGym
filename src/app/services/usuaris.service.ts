@@ -20,6 +20,12 @@ export class UsuarisService {
     return this.http.get<Usuari>(url, { headers });
   }
 
+  getUsuariActiuByNomUsuari(nomUsuari: string): Observable<Usuari> {
+    const url = this.usuarisURL + 'actiu/' + nomUsuari;
+    const headers = new HttpHeaders().set('Authorization', 'Bearer ' + this.tokenService.getToken());
+    return this.http.get<Usuari>(url, { headers });
+  }
+
   getUsuaris(): Observable<Usuari[]> {
     const headers = new HttpHeaders().set('Authorization', 'Bearer ' + this.tokenService.getToken());
     return this.http.get<Usuari[]>(this.usuarisURL + 'llistat', { headers });

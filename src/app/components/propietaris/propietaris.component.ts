@@ -33,18 +33,10 @@ export class PropietarisComponent implements OnInit {
   }
 
   carregarPropietaris(): void {
-    if (this.tokenService.isSuperAdmin()) {
-      this.propietarisService.getPropietaris().subscribe(response => {
-        this.propietaris = response;
-        console.log(this.propietaris);
-      });
-    }
-    else {
-      this.propietarisService.getPropietarisCreadorActiu().subscribe(response => {
-        this.propietaris = response;
-        console.log(this.propietaris);
-      });
-    }
+    this.propietarisService.getPropietarisCreadorActiu().subscribe(response => {
+      this.propietaris = response;
+      console.log(this.propietaris);
+    });
   }
 
   crearPropietari() {
