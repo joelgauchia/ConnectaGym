@@ -25,6 +25,7 @@ export class FormMembresComponent implements OnInit {
   usuariCreador!: Usuari;
   gimnasos!: Gimnas[];
   estat!: any[]; 
+  esStaff: boolean = false;
 
   constructor(
     private fb: FormBuilder,
@@ -43,6 +44,7 @@ export class FormMembresComponent implements OnInit {
     this.gimnasos = [];
     this.estat = ['ACTIU', 'INACTIU', 'SENSE'];
     this.getGimnasos();
+    if (!this.tokenService.isGymAdmin() && !this.tokenService.isSuperAdmin()) this.esStaff = true;
     this.initForm();
   }
 
@@ -91,8 +93,12 @@ export class FormMembresComponent implements OnInit {
         adreca: ['', Validators.required],
         dataNaixement: ['', Validators.required],
         genere: ['', Validators.required],
-        gimnas: ['', Validators.required]
+        gimnas: ['']
       });
+      if (!this.esStaff) {
+        this.membreForm.get('gimnas')?.setValidators([Validators.required]);
+      }
+      this.membreForm.updateValueAndValidity();
     }
     if (this.mode === 'editar' && this.membre) {
       const dataNaixement = new Date(this.membre.dataNaixement);
@@ -118,7 +124,6 @@ export class FormMembresComponent implements OnInit {
     console.log(membreGuardat);
     this.membreForm.reset();
     this.successfullyEdited.emit(membreGuardat);
-    
   }
 
   crearMembre(): void {
@@ -126,6 +131,7 @@ export class FormMembresComponent implements OnInit {
     this.usuarisService.getUsuariByNomUsuari(this.tokenService.getUsername()).subscribe(response => {
       this.usuariCreador = response;
       membreGuardat.creador = this.usuariCreador;
+      if (this.esStaff) membreGuardat.gimnas = response.gimnasStaff;
       console.log(membreGuardat);
       this.membreForm.reset();
       this.successfullyCreated.emit(membreGuardat);

@@ -50,30 +50,36 @@ export class MembresComponent implements OnInit {
         this.actualitzarEstat();
       });
     }
-    else {
-      if (this.tokenService.isGymAdmin() && !this.tokenService.isSuperAdmin()) {
-        this.membresService.getMembresCreadorActiu().subscribe(response => {
-          const observables = response.map(membre => 
-            this.usuarisService.getUsuariByNomUsuari(this.tokenService.getUsername())
-              .pipe(
-                switchMap(usuari => {
-                  console.log(membre);
-                  console.log(membre.gimnas.creador.nom);
-                  console.log(usuari.nom);
-                  console.log(membre.gimnas.propietari.nom);
-                  if (membre.creador.nom === usuari.nom || (membre.creador.rols.some(rol => rol.rolNom === RolNom.SUPERADMIN) && membre.gimnas.propietari.nom === usuari.nom)) {
-                    this.membres.push(membre);
-                  }
-                  return of(null); // No retornem res, només per mantenir la coherència dels observables
-                })
-              )
-          );
-          forkJoin(observables).subscribe(() => {
-            console.log(this.membres);
-            this.actualitzarEstat();
-          });
+    else if (this.tokenService.isGymAdmin() && !this.tokenService.isSuperAdmin()) {
+      this.membresService.getMembresCreadorActiu().subscribe(response => {
+        const observables = response.map(membre => 
+          this.usuarisService.getUsuariByNomUsuari(this.tokenService.getUsername())
+            .pipe(
+              switchMap(usuari => {
+                console.log(membre);
+                console.log(membre.gimnas.creador.nom);
+                console.log(usuari.nom);
+                console.log(membre.gimnas.propietari.nom);
+                if (membre.creador.nom === usuari.nom || (membre.creador.rols.some(rol => rol.rolNom === RolNom.SUPERADMIN) && membre.gimnas.propietari.nom === usuari.nom)) {
+                  this.membres.push(membre);
+                }
+                return of(null); // No retornem res, només per mantenir la coherència dels observables
+              })
+            )
+        );
+        forkJoin(observables).subscribe(() => {
+          console.log(this.membres);
+          this.actualitzarEstat();
         });
-      }
+      });
+    }
+    else {
+      this.usuarisService.getUsuariActiuByNomUsuari(this.tokenService.getUsername()).subscribe(usuari => {
+        this.membresService.getMembresGimnas(usuari.gimnasStaff).subscribe(membres => {
+          this.membres = membres;
+          this.actualitzarEstat();
+        });
+      });
     }
   }
   

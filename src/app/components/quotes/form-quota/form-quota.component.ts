@@ -25,6 +25,7 @@ export class FormQuotaComponent implements OnInit {
   usuariCreador!: Usuari;
   gimnasos!: Gimnas[];
   tipus: string[] = ["MENSUAL","TRIMESTRAL","ANUAL"];
+  esStaff: boolean = false;
 
   constructor(
     private fb: FormBuilder,
@@ -42,6 +43,7 @@ export class FormQuotaComponent implements OnInit {
   ngOnInit(): void {
     this.gimnasos = [];
     this.getGimnasos();
+    if (!this.tokenService.isGymAdmin() && !this.tokenService.isSuperAdmin()) this.esStaff = true;
     this.initForm();
   }
 
@@ -83,8 +85,11 @@ export class FormQuotaComponent implements OnInit {
         nom: ['', Validators.required],
         preu: ['', Validators.required],
         tipus: ['', Validators.required],
-        gimnas: ['', Validators.required]
+        gimnas: ['']
       });
+      if (!this.esStaff) {
+        this.quotaForm.get('gimnas')?.setValidators([Validators.required]);
+      }
     }
     if (this.mode === 'editar' && this.quota) {
       this.quotaForm.patchValue({
@@ -113,6 +118,7 @@ export class FormQuotaComponent implements OnInit {
     this.usuarisService.getUsuariByNomUsuari(this.tokenService.getUsername()).subscribe(response => {
       this.usuariCreador = response;
       quotaGuardada.creador = this.usuariCreador;
+      if (this.esStaff) quotaGuardada.gimnas = response.gimnasStaff;
       console.log(quotaGuardada);
       this.quotaForm.reset();
       this.successfullyCreated.emit(quotaGuardada);

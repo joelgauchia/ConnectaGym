@@ -4,6 +4,7 @@ import { TokenService } from "./token.service";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { Membre } from "../models/membre.model";
+import { Gimnas } from "../models/gimnas.model";
 
 @Injectable({
     providedIn: 'root'
@@ -17,6 +18,11 @@ export class MembresService {
     getMembres(): Observable<Membre[]> {
         const headers = new HttpHeaders().set('Authorization', 'Bearer ' + this.tokenService.getToken());
         return this.http.get<Membre[]>(this.membresURL + 'llistat', { headers });
+    }
+
+    getMembresGimnas(gimnas: Gimnas): Observable<Membre[]> {
+        const headers = new HttpHeaders().set('Authorization', 'Bearer ' + this.tokenService.getToken());
+        return this.http.get<Membre[]>(this.membresURL + 'llistat/' + gimnas.id, { headers });
     }
 
     getMembresCreadorActiu(): Observable<Membre[]> {

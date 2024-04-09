@@ -1,3 +1,4 @@
+import { Gimnas } from "./gimnas.model";
 import { Rol } from "./rol.model";
 
 export interface Usuari {
@@ -8,4 +9,5 @@ export interface Usuari {
     dataCreacio: Date;
     dataModificacio: Date;
     rols: Rol[];
+    gimnasStaff: Gimnas;
 }

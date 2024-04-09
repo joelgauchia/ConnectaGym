@@ -3,6 +3,8 @@ import { Usuari } from '../../../models/usuari.model';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Rol, RolNom } from '../../../models/rol.model';
 import { Propietari } from '../../../models/propietari.model';
+import { GimnasosService } from '../../../services/gimnasos.service';
+import { Gimnas } from '../../../models/gimnas.model';
 
 @Component({
   selector: 'app-form-usuari',
@@ -20,8 +22,12 @@ export class FormUsuariComponent implements OnInit {
 
   usuariForm!: FormGroup;
   tipusPropietari: any[] = [];
+  gimnasos!: Gimnas[];
 
-  constructor(private fb: FormBuilder) { }
+  constructor(
+    private fb: FormBuilder,
+    private gimnasosService: GimnasosService
+  ) { }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['usuari'] && changes['usuari'].currentValue) {
@@ -31,6 +37,10 @@ export class FormUsuariComponent implements OnInit {
 
   ngOnInit(): void {
     this.tipusPropietari = ["INDIVIDUAL", "CADENA"];
+    this.gimnasos = [];
+    this.gimnasosService.getGimnasosCreadorActiu().subscribe(response => {
+      this.gimnasos = response;
+    });
     this.initForm();
   }
 
@@ -54,7 +64,8 @@ export class FormUsuariComponent implements OnInit {
         adreca: [''], 
         dataNaixement: [''], 
         genere: [''], 
-        tipus: ['']
+        tipus: [''],
+        gimnas: ['']
       });
       if (this.esRolGYMADMIN()) {
         this.usuariForm.get('telefon')?.setValidators([Validators.required]);
@@ -62,6 +73,9 @@ export class FormUsuariComponent implements OnInit {
         this.usuariForm.get('dataNaixement')?.setValidators([Validators.required]);
         this.usuariForm.get('genere')?.setValidators([Validators.required]);
         this.usuariForm.get('tipus')?.setValidators([Validators.required]);
+      }
+      if (this.esRolSTAFF()) {
+        this.usuariForm.get('gimnas')?.setValidators([Validators.required]);
       }
       this.usuariForm.updateValueAndValidity();
     }
@@ -102,7 +116,6 @@ export class FormUsuariComponent implements OnInit {
     const usuariGuardat: Usuari = this.usuariForm.value;
     usuariGuardat.rols = rols;
     usuariGuardat.actiu = true;
-    console.log(usuariGuardat);
 
     let propietariGuardat: Propietari | undefined = undefined;
     if (this.esRolGYMADMIN()) {
@@ -121,6 +134,12 @@ export class FormUsuariComponent implements OnInit {
       }
     }
 
+    if (this.esRolSTAFF()) {
+      usuariGuardat.gimnasStaff = this.usuariForm.get('gimnas')?.value;
+    }
+
+    console.log(usuariGuardat);
+
     this.usuariForm.reset();
     this.successfullyCreated.emit({ usuari: usuariGuardat, propietari: propietariGuardat });
   }
@@ -128,5 +147,10 @@ export class FormUsuariComponent implements OnInit {
   esRolGYMADMIN(): boolean {
     const rolSeleccionat = this.usuariForm.get('rols')?.value;
     return rolSeleccionat === 'GYMADMIN';
+  }
+
+  esRolSTAFF(): boolean {
+    const rolSeleccionat = this.usuariForm.get('rols')?.value;
+    return rolSeleccionat === 'STAFF';
   }
 }

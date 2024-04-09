@@ -42,20 +42,25 @@ export class PagamentsComponent implements OnInit {
         console.log(this.pagaments);
       });
     }
-    else {
-      if (this.tokenService.isGymAdmin() && !this.tokenService.isSuperAdmin()) {
-        this.pagamentsService.getPagaments().subscribe(response => {
-          response.forEach(pagament => {
-            this.usuarisService.getUsuariByNomUsuari(this.tokenService.getUsername()).subscribe(usuari => {
-              if (pagament.gimnas.propietari.nom === usuari.nom) {
-                this.pagaments.push(pagament);
-              }
-            });
+    else if (this.tokenService.isGymAdmin() && !this.tokenService.isSuperAdmin()) {
+      this.pagamentsService.getPagaments().subscribe(response => {
+        response.forEach(pagament => {
+          this.usuarisService.getUsuariByNomUsuari(this.tokenService.getUsername()).subscribe(usuari => {
+            if (pagament.gimnas.propietari.nom === usuari.nom) {
+              this.pagaments.push(pagament);
+            }
           });
-
-          console.log(this.pagaments);
         });
-      }
+
+        console.log(this.pagaments);
+      });
+    }
+    else {
+      this.usuarisService.getUsuariActiuByNomUsuari(this.tokenService.getUsername()).subscribe(usuari => {
+        this.pagamentsService.getPagamentsGimnas(usuari.gimnasStaff).subscribe(pagaments => {
+          this.pagaments = pagaments;
+        });
+      });
     }
   }
 

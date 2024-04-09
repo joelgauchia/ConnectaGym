@@ -79,6 +79,12 @@
             <p-dropdown formControlName="tipus" [options]="tipusPropietari" placeholder="Seleccioni un tipus" appendTo="body"></p-dropdown>
         </div>
     </div>
+    <div *ngIf="esRolSTAFF()">
+        <div class="field">
+            <label for="gimnas" class="form-label">S'encarregarà del gimnàs:</label>
+            <p-dropdown formControlName="gimnas" [options]="gimnasos" placeholder="Seleccioni un gimnàs" optionLabel="nom" appendTo="body"></p-dropdown>
+        </div>
+    </div>
     <div class="p-col-12">
         <button pButton type="submit" label="Guardar" [disabled]="!usuariForm.valid || (esRolGYMADMIN() && (!usuariForm.get('telefon')?.value || !usuariForm.get('adreca')?.value || !usuariForm.get('dataNaixement')?.value || !usuariForm.get('genere')?.value || !usuariForm.get('tipus')?.value))"></button>
     </div>

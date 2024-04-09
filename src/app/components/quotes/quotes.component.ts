@@ -40,22 +40,27 @@ export class QuotesComponent implements OnInit {
         this.quotes = response;
       });
     }
-    else {
-      if (this.tokenService.isGymAdmin() && !this.tokenService.isSuperAdmin()) {
-        this.quotesService.getQuotesCreadorActiu().subscribe(response => {
-          response.forEach(quota => {
-            console.log(quota);
-            this.usuarisService.getUsuariByNomUsuari(this.tokenService.getUsername()).subscribe(usuari => {
-              if (quota.creador.nom === usuari.nom || (quota.creador.rols.some(rol => rol.rolNom === RolNom.SUPERADMIN) && quota.gimnas.propietari.nom === usuari.nom)) {
-                console.log(quota.gimnas.creador.nom);
-                console.log(usuari.nom);
-                this.quotes.push(quota);
-              }
-            });
+    else if (this.tokenService.isGymAdmin() && !this.tokenService.isSuperAdmin()) {
+      this.quotesService.getQuotesCreadorActiu().subscribe(response => {
+        response.forEach(quota => {
+          console.log(quota);
+          this.usuarisService.getUsuariByNomUsuari(this.tokenService.getUsername()).subscribe(usuari => {
+            if (quota.creador.nom === usuari.nom || (quota.creador.rols.some(rol => rol.rolNom === RolNom.SUPERADMIN) && quota.gimnas.propietari.nom === usuari.nom)) {
+              console.log(quota.gimnas.creador.nom);
+              console.log(usuari.nom);
+              this.quotes.push(quota);
+            }
           });
-          console.log(this.quotes);
         });
-      }
+        console.log(this.quotes);
+      });
+    }
+    else {
+      this.usuarisService.getUsuariActiuByNomUsuari(this.tokenService.getUsername()).subscribe(usuari => {
+        this.quotesService.getQuotesByGimnasNom(usuari.gimnasStaff.nom).subscribe(quotes => {
+          this.quotes = quotes;
+        });
+      });
     }
   }
 

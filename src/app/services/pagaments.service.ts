@@ -5,6 +5,7 @@ import { Pagament } from '../models/pagament.model';
 import { environment } from '../environments/environment';
 import { TokenService } from './token.service';
 import { Membre } from '../models/membre.model';
+import { Gimnas } from '../models/gimnas.model';
 
 @Injectable({
   providedIn: 'root'
@@ -19,6 +20,11 @@ export class PagamentsService {
     const headers = new HttpHeaders().set('Authorization', 'Bearer ' + this.tokenService.getToken());
     return this.http.get<Pagament[]>(this.pagamentsURL + 'llistat', { headers });
   }
+
+  getPagamentsGimnas(gimnas: Gimnas): Observable<Pagament[]> {
+    const headers = new HttpHeaders().set('Authorization', 'Bearer ' + this.tokenService.getToken());
+    return this.http.get<Pagament[]>(this.pagamentsURL + 'llistat/' + gimnas.id, { headers });
+}
 
   getPagamentActiu(membre: Membre): Observable<Pagament> {
     const url = this.pagamentsURL + 'pagament/' + membre.id; 

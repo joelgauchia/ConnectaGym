@@ -67,23 +67,25 @@ export class UsuarisComponent implements OnInit {
 
   usuariCreat(event: any) {
     const usuariGuardat = event.usuari;
-  const propietari = event.propietari;
+    const propietari = event.propietari;
 
-  this.usuarisService.crearUsuari(usuariGuardat).subscribe(response => {
-    this.messageService.add({ severity: 'success', summary: 'Fet!', detail: "Usuari creat correctament" });
-    this.carregarUsuaris();
-    console.log(response);
+    console.log(usuariGuardat);
 
-    if (propietari) {
-      this.propietarisService.crearPropietari(propietari).subscribe(response => {
-        console.log(response);
-      });
-    }
-    this.crearUsuariDialog = false;
-  },
-  error => {
-    this.messageService.add({ severity: 'error', summary: 'Error', detail: "Usuari ja existent", life: 3000 });
-  });
+    this.usuarisService.crearUsuari(usuariGuardat).subscribe(response => {
+      this.messageService.add({ severity: 'success', summary: 'Fet!', detail: "Usuari creat correctament" });
+      this.carregarUsuaris();
+      console.log(response);
+
+      if (propietari) {
+        this.propietarisService.crearPropietari(propietari).subscribe(response => {
+          console.log(response);
+        });
+      }
+      this.crearUsuariDialog = false;
+    },
+    error => {
+      this.messageService.add({ severity: 'error', summary: 'Error', detail: "Usuari ja existent", life: 3000 });
+    });
   }
 
   editarUsuari(usuari: Usuari) {
