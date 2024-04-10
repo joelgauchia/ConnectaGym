@@ -1,1 +1,13 @@
-<p>missatgeria works!</p>
+<div class="flex align-items-center justify-content-start flex-shrink-0">
+    <p-toast></p-toast>
+    <h2>Missatgeria</h2>
+    <h3>Envia correus electrònics</h3>
+</div>
+<div>
+    <p-card header="Enviar e-mail">
+        <hr>
+        <div class="contingut">
+            <app-form-missatge [membres]="membres" (successfullyCreated)="enviarCorreu($event)"></app-form-missatge>
+        </div>
+    </p-card>
+</div>

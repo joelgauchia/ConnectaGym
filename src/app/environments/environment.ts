@@ -9,4 +9,5 @@ export const environment = {
     propietarisURL: 'http://localhost:8080/propietaris/',
     usuarisURL: 'http://localhost:8080/usuaris/',
     authURL: 'http://localhost:8080/auth/',
+    missatgesURL: 'http://localhost:8080/missatges/',
 };

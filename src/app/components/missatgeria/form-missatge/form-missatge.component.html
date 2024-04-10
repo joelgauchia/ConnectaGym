@@ -1,0 +1,17 @@
+<form [formGroup]="missatgeForm" (ngSubmit)="guardarMissatge()">
+    <div class="field" style="display: flex; flex-direction: column;">
+        <label for="membre" class="form-label">Missatge per a*</label>
+        <p-dropdown formControlName="membre" [options]="membres" placeholder="Seleccioni un membre" optionLabel="nom" appendTo="body"></p-dropdown>
+    </div>
+    <div class="field" style="display: flex; flex-direction: column;">
+        <label for="titol" class="form-label">Títol</label>
+        <input type="text" placeholder="Escriu el titol" pInputText formControlName="titol" style="width: 30%;"/>
+    </div>
+    <div class="field" style="display: flex; flex-direction: column;">
+        <label for="missatge" class="form-label">Missatge*</label>
+        <textarea rows="10" cols="30" pInputTextarea formControlName="missatge" style="width: 30%;"></textarea>
+    </div>
+    <div class="p-col-12">
+        <button pButton type="submit" label="Enviar" [disabled]="!missatgeForm.valid"></button>
+    </div>
+</form>

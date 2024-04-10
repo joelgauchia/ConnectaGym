@@ -24,6 +24,7 @@ import { FormGimnasComponent } from './gimnasos/form-gimnas/form-gimnas.componen
 import { FormMembresComponent } from './membres/form-membre/form-membres.component';
 import { CobrarMembreComponent } from './membres/cobrar-membre/cobrar-membre.component';
 import { FormQuotaComponent } from './quotes/form-quota/form-quota.component';
+import { FormMissatgeComponent } from './missatgeria/form-missatge/form-missatge.component';
 
 @NgModule({
   declarations: [
@@ -46,7 +47,7 @@ import { FormQuotaComponent } from './quotes/form-quota/form-quota.component';
     FormGimnasComponent, 
     FormMembresComponent, 
     CobrarMembreComponent, 
-    FormQuotaComponent
+    FormQuotaComponent, FormMissatgeComponent
   ],
   imports: [
     PrimengModule,

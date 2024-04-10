@@ -1,0 +1,40 @@
+h2 {
+    padding-right: 20px;
+    border-right: 2px solid #eee;
+}
+
+h3 {
+    padding-left: 20px;
+    color: var(--primary-color);
+}
+
+:host ::ng-deep .p-card-body { 
+    padding: 0 !important;
+    color: var(--primary-color) !important;
+
+} 
+
+:host ::ng-deep .p-card-title {
+    padding: 1.25rem;
+    color: black !important;
+    font-size: 1.25rem;
+    margin-bottom: 0 !important;
+}
+
+:host ::ng-deep .p-card-body {
+    margin-top: 1rem;
+}
+
+:host ::ng-deep .p-card-content { 
+    padding-top: 0 !important;
+} 
+
+hr {
+    opacity: 20%;
+    margin: 0 !important;
+}
+
+.contingut {
+    padding: 1.25rem !important;
+}
+
