@@ -33,6 +33,14 @@ h3 {
 
 @media print {
     .hide-on-print {
-      display: none !important;
+        display: none !important;
     }
-  }
+}
+
+:host ::ng-deep .p-datatable .p-datatable-header {
+    border-radius: 10px 10px 0px 0px;
+}
+
+:host ::ng-deep .p-datatable .p-datatable-footer {
+    border-radius: 0px 0px 10px 10px;
+}

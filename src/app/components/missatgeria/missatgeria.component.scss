@@ -10,15 +10,15 @@ h3 {
 
 :host ::ng-deep .p-card-body { 
     padding: 0 !important;
-    color: var(--primary-color) !important;
-
 } 
 
 :host ::ng-deep .p-card-title {
     padding: 1.25rem;
-    color: black !important;
+    color: white !important;
     font-size: 1.25rem;
     margin-bottom: 0 !important;
+    background-color: var(--primary-color);
+    border-radius: 6px 6px 0px 0px;
 }
 
 :host ::ng-deep .p-card-body {
@@ -28,6 +28,14 @@ h3 {
 :host ::ng-deep .p-card-content { 
     padding-top: 0 !important;
 } 
+
+:host ::ng-deep .p-datatable .p-datatable-header {
+    border-radius: 10px 10px 0px 0px;
+}
+
+:host ::ng-deep .p-datatable .p-datatable-footer {
+    border-radius: 0px 0px 10px 10px;
+}
 
 hr {
     opacity: 20%;
