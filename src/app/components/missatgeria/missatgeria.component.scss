@@ -8,21 +8,24 @@ h3 {
     color: var(--primary-color);
 }
 
+:host ::ng-deep .p-card {
+    background: #f9fafb;
+    border: 1px solid #e5e7eb;
+    border-radius: 6px !important;
+    box-shadow: none !important;
+    margin-bottom: 1.5rem !important;
+}
+
 :host ::ng-deep .p-card-body { 
     padding: 0 !important;
 } 
 
 :host ::ng-deep .p-card-title {
-    padding: 1.25rem;
-    color: white !important;
+    padding-top: 1rem;
+    padding-left: 1rem;
+    color: #374151;
     font-size: 1.25rem;
     margin-bottom: 0 !important;
-    background-color: var(--primary-color);
-    border-radius: 6px 6px 0px 0px;
-}
-
-:host ::ng-deep .p-card-body {
-    margin-top: 1rem;
 }
 
 :host ::ng-deep .p-card-content { 
