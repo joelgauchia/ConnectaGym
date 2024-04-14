@@ -4,6 +4,10 @@ import { Membre } from '../../models/membre.model';
 import { Missatge } from '../../models/missatge.model';
 import { EmailService } from '../../services/email.service';
 import { MessageService } from 'primeng/api';
+import { TokenService } from '../../services/token.service';
+import { UsuarisService } from '../../services/usuaris.service';
+import { forkJoin, of, switchMap } from 'rxjs';
+import { RolNom } from '../../models/rol.model';
 
 @Component({
   selector: 'app-missatgeria',
@@ -18,7 +22,9 @@ export class MissatgeriaComponent implements OnInit {
   constructor(
     private membresService: MembresService,
     private emailService: EmailService,
-    private messageService: MessageService
+    private messageService: MessageService,
+    private tokenService: TokenService,
+    private usuarisService: UsuarisService
   ) { }
 
   ngOnInit(): void {
@@ -26,10 +32,16 @@ export class MissatgeriaComponent implements OnInit {
   }
 
   getMembres(): void {
-    this.membresService.getMembresCreadorActiu().subscribe(response => {
-      this.membres = response;
-      console.log(this.membres);
-    });
+    if (this.tokenService.isStaff() && !this.tokenService.isGymAdmin()) {
+      console.log("staff");
+      this.usuarisService.getUsuariActiuByNomUsuari(this.tokenService.getUsername()).subscribe(usuari => {
+        console.log(usuari);
+        this.membresService.getMembresGimnas(usuari.gimnasStaff).subscribe(membres => {
+          console.log(membres);
+          this.membres = membres;
+        });
+      });
+    }
   }
 
   enviarCorreu(event: Missatge): void {

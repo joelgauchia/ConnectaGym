@@ -88,6 +88,27 @@ export class TokenService {
         return true;
     }
 
+    public isStaff(): boolean {
+        if (!this.isLogged()) {
+          return false;
+        }
+        const token = this.getToken();
+        let payload = '';
+        if (token !== null) {
+            payload = token.split('.')[1];
+        }
+        console.log(payload);
+        const payloadDecoded = atob(payload);
+        console.log(payloadDecoded);
+        const values = JSON.parse(payloadDecoded);
+        console.log(values);
+        const rols = values.rols;
+        if (rols.indexOf('STAFF') < 0) {
+          return false;
+        }
+        return true;
+    }
+
     public logOut(): void {
         sessionStorage.removeItem(TOKEN_KEY);
         this.router.navigate(['/login']);
