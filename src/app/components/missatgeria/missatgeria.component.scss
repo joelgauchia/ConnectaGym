@@ -1,0 +1,51 @@
+h2 {
+    padding-right: 20px;
+    border-right: 2px solid #eee;
+}
+
+h3 {
+    padding-left: 20px;
+    color: var(--primary-color);
+}
+
+:host ::ng-deep .p-card {
+    background: #f9fafb;
+    border: 1px solid #e5e7eb;
+    border-radius: 6px !important;
+    box-shadow: none !important;
+    margin-bottom: 1.5rem !important;
+}
+
+:host ::ng-deep .p-card-body { 
+    padding: 0 !important;
+} 
+
+:host ::ng-deep .p-card-title {
+    padding-top: 1rem;
+    padding-left: 1rem;
+    color: #374151;
+    font-size: 1rem;
+    margin-bottom: 0 !important;
+}
+
+:host ::ng-deep .p-card-content { 
+    padding-top: 0 !important;
+} 
+
+:host ::ng-deep .p-datatable .p-datatable-header {
+    border-radius: 10px 10px 0px 0px;
+}
+
+:host ::ng-deep .p-datatable .p-datatable-footer {
+    border-radius: 0px 0px 10px 10px;
+}
+
+hr {
+    opacity: 20%;
+    margin: 0 !important;
+}
+
+.contingut {
+    padding: 1.25rem !important;
+}
+

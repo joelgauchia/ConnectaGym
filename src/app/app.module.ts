@@ -11,7 +11,6 @@ import { LoginModule } from './login/login.module';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { ComponentsModule } from './components/components.module';
-import { CobrarMembreComponent } from './components/membres/cobrar-membre/cobrar-membre.component';
 
 @NgModule({
   declarations: [
