@@ -30,6 +30,12 @@ export class QuotesService {
     return this.http.get<Quota[]>(this.quotesURL + 'perGimnas', { headers, params });
   }
 
+  getQuotaByMembreNom(membreNom: string): Observable<Quota> {
+    const headers = new HttpHeaders().set('Authorization', 'Bearer ' + this.tokenService.getToken());
+    const params = new HttpParams().set('nomMembre', membreNom);
+    return this.http.get<Quota>(this.quotesURL + 'perMembre', { headers, params });
+  }
+
   crearQuota(quota: Quota): Observable<string> {
     const url = this.quotesURL + 'crear';
     const headers = new HttpHeaders().set('Authorization', 'Bearer ' + this.tokenService.getToken());

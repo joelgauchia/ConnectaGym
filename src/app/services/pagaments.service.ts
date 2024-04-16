@@ -24,7 +24,7 @@ export class PagamentsService {
   getPagamentsGimnas(gimnas: Gimnas): Observable<Pagament[]> {
     const headers = new HttpHeaders().set('Authorization', 'Bearer ' + this.tokenService.getToken());
     return this.http.get<Pagament[]>(this.pagamentsURL + 'llistat/' + gimnas.id, { headers });
-}
+  }
 
   getPagamentActiu(membre: Membre): Observable<Pagament> {
     const url = this.pagamentsURL + 'pagament/' + membre.id; 

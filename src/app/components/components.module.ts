@@ -25,6 +25,8 @@ import { FormMembresComponent } from './membres/form-membre/form-membres.compone
 import { CobrarMembreComponent } from './membres/cobrar-membre/cobrar-membre.component';
 import { FormQuotaComponent } from './quotes/form-quota/form-quota.component';
 import { FormMissatgeComponent } from './missatgeria/form-missatge/form-missatge.component';
+import { FormCrearVisitaComponent } from './visites/form-crear-visita/form-crear-visita.component';
+import { FormCrearVisitaRegularComponent } from './visites/form-crear-visita-regular/form-crear-visita-regular.component';
 
 @NgModule({
   declarations: [
@@ -38,7 +40,6 @@ import { FormMissatgeComponent } from './missatgeria/form-missatge/form-missatge
     PropietarisComponent,
     QuotesComponent,
     UsuarisComponent,
-    VisitesComponent, 
     FormUsuariComponent, 
     FormPropietariComponent, 
     TipusLlicenciesComponent, 
@@ -47,7 +48,11 @@ import { FormMissatgeComponent } from './missatgeria/form-missatge/form-missatge
     FormGimnasComponent, 
     FormMembresComponent, 
     CobrarMembreComponent, 
-    FormQuotaComponent, FormMissatgeComponent
+    FormQuotaComponent, 
+    FormMissatgeComponent,
+    VisitesComponent,
+    FormCrearVisitaComponent,
+    FormCrearVisitaRegularComponent
   ],
   imports: [
     PrimengModule,

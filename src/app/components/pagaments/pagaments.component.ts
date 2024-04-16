@@ -25,6 +25,7 @@ export class PagamentsComponent implements OnInit {
     private pagamentsService: PagamentsService,
     private tokenService: TokenService,
     private confirmationService: ConfirmationService,
+    private membresService: MembresService,
     private messageService: MessageService,
     private usuarisService: UsuarisService,
     private excelService: ExcelService
@@ -75,6 +76,11 @@ export class PagamentsComponent implements OnInit {
         this.pagamentsService.eliminarPagament(pagament).subscribe(response => {
           this.messageService.add({ severity: 'success', summary: 'Fet!', detail: response, life: 3000 });
           this.carregarPagaments();
+          const membreActualitzat: Membre = pagament.membre;
+          membreActualitzat.estat = 'SENSE';
+          this.membresService.actualitzarMembre(membreActualitzat.id, membreActualitzat).subscribe(response => {
+            console.log(response);
+          });
         }, 
         error => {
           this.messageService.add({ severity: 'error', summary: 'Error', detail: error.error, life: 5000 });
