@@ -1,0 +1,32 @@
+<p-toast></p-toast>
+<form [formGroup]="visitaForm" (ngSubmit)="crearVisitaMembre()">
+    <div class="field">
+        <label for="membre" class="form-label">Nom del membre</label>
+        <p-dropdown formControlName="membre" [options]="membres" optionLabel="nom" appendTo="body" (onChange)="actualitzarMembre($event)"></p-dropdown>
+    </div>
+    <div class="field" style="display:flex; justify-content:center">
+        <p-card *ngIf="membre">
+            <h3>{{ membre.nom }}</h3>
+            <p>{{ membre.email }}</p>
+            <p-tag [value]="membre.estat" [severity]="(membre.estat === 'ACTIU' || membre.estat === 'SENSE') ? (membre.estat === 'ACTIU' ? 'success' : 'warning') : 'danger'"></p-tag>
+            <div *ngIf="pagament">
+                <hr>
+                <h4>{{ pagament.quota.nom }}</h4>
+                <p>Actiu fins el {{ pagament.dataFinal | date:"dd/MM/yyyy HH:mm" }}</p>
+            </div>    
+            <div *ngIf="!pagament">
+                <p style="color: red; font-size: 12px;">*S'ha de pagar la quota abans de registrar més visites</p>
+            </div>
+        </p-card>
+    </div>
+    <div *ngIf="visitaForm.valid && membre.estat === 'ACTIU'" class="p-col-12">
+        <button pButton type="submit" label="Crear"></button>
+    </div>
+    <div *ngIf="visitaForm.valid && (membre.estat === 'SENSE' || membre.estat === 'INACTIU')" class="p-col-12">
+        <button pButton type="submit" label="Pagar quota"></button>
+    </div>
+</form>
+
+<p-dialog *ngIf="membre" [(visible)]="pagarDialog" [style]="{ width: '450px' }" header="Realitzar pagament per a {{membre.nom}}" [modal]="true" styleClass="p-fluid">
+    <app-cobrar-membre [membre]="membre" (successfullyCreated)="pagamentRealitzat($event)"></app-cobrar-membre>
+</p-dialog>
