@@ -20,6 +20,10 @@ export class DashboardComponent implements OnInit {
   propietarisTotals!: number;
   dataActual: Date = new Date();
 
+  data: any;
+  options: any;
+  ventesPerMes: any;
+
   constructor(
     private visitesService: VisitesService,
     private propietarisService: PropietarisService,
@@ -35,7 +39,7 @@ export class DashboardComponent implements OnInit {
     });
     this.getGimnasos();
     this.getPropietaris();
-    this.getLlicencies();
+    this.getVentesLlicencies();
   }
 
   getGimnasos(): void {
@@ -50,13 +54,72 @@ export class DashboardComponent implements OnInit {
     });
   }
 
-  getLlicencies(): void {
-    this.ventesTotals = 0;
+  getVentesLlicencies(): void {
     this.llicenciesService.getLlicencies().subscribe(llicencies => {
-      console.log(llicencies);
-      llicencies.forEach(llicencia => {
-        this.ventesTotals += llicencia.preu;
-      });
+        this.ventesPerMes = new Array(12).fill(0); 
+        llicencies.forEach(llicencia => {
+            const dataVenta = new Date (llicencia.dataInici);
+            const mes = dataVenta.getMonth();
+            this.ventesPerMes[mes] += llicencia.preu;
+            console.log(mes);
+            this.ventesTotals += llicencia.preu;
+        });
+        this.iniciarCharts();
     });
+}
+
+  iniciarCharts(): void {
+    const documentStyle = getComputedStyle(document.documentElement);
+    const textColor = documentStyle.getPropertyValue('--text-color');
+    const textColorSecondary = documentStyle.getPropertyValue('--text-color-secondary');
+    const surfaceBorder = documentStyle.getPropertyValue('--surface-border');
+    
+    this.data = {
+        labels: ['Gener', 'Febrer', 'Març', 'Abril', 'Maig', 'Juny', 'Juliol','Agost','Setembre','Octubre','Novembre','Desembre'],
+        datasets: [
+            {
+                label: 'Facturació (€)',
+                backgroundColor: documentStyle.getPropertyValue('--blue-500'),
+                borderColor: documentStyle.getPropertyValue('--blue-500'),
+                data: this.ventesPerMes
+            }
+        ]
+    };
+
+    this.options = {
+        maintainAspectRatio: false,
+        aspectRatio: 1,
+        plugins: {
+            legend: {
+                labels: {
+                    color: textColor
+                }
+            }
+        },
+        scales: {
+            x: {
+                ticks: {
+                    color: textColorSecondary,
+                    font: {
+                        weight: 500
+                    }
+                },
+                grid: {
+                    color: surfaceBorder,
+                    drawBorder: false
+                }
+            },
+            y: {
+                ticks: {
+                    color: textColorSecondary
+                },
+                grid: {
+                    color: surfaceBorder,
+                    drawBorder: false
+                }
+            }
+
+        }
+    };
   }
 }

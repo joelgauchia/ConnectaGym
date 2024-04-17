@@ -3,7 +3,7 @@
     <h3>Dashboard</h3>
 </div>
 <div class="estadistiques pt-1 pb-1 px-1">
-    <div class="flex flex-row justify-content-start">
+    <div class="flex flex-row justify-content-start mb-5">
         <p-card class="mr-5">
             <div class="flex flex-row justify-content-between">
                 <div class="flex flex-column justify-content-start mr-5">
@@ -47,6 +47,11 @@
                     <i class="pi pi-calendar mr-2 valor"></i>
                 </div>
             </div>
+        </p-card>
+    </div>
+    <div class="flex flex-row justify-content-start">
+        <p-card>
+            <p-chart type="bar" [data]="data" [options]="options"></p-chart>
         </p-card>
     </div>
 </div>
