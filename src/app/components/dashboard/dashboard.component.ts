@@ -6,6 +6,8 @@ import { VisitesService } from '../../services/visites.service';
 import { PropietarisService } from '../../services/propietaris.service';
 import { LlicenciesService } from '../../services/llicencies.service';
 import { GimnasosService } from '../../services/gimnasos.service';
+import { MembresService } from '../../services/membres.service';
+import { PagamentsService } from '../../services/pagaments.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -14,18 +16,32 @@ import { GimnasosService } from '../../services/gimnasos.service';
 })
 export class DashboardComponent implements OnInit {
 
+  dataActual: Date = new Date();
   usuari!: Usuari;
   ventesTotals!: number;
   gimnasosTotals!: number;
   propietarisTotals!: number;
-  dataActual: Date = new Date();
+  membresTotals!: number;
+  facturacioPropietari!: number;
+  visitesTotalsPropietari!: number;
+  membresNous!: number;
 
-  data: any;
-  options: any;
+  dataBarres: any;
+  dataDonut: any;
+  dataVisitesMembres: any;
+
+  optionsBarres: any;
+  optionsDonut: any;
+  optionsDonutPropietari: any;
   ventesPerMes: any;
+
+  esGymAdmin: boolean = false;
+  esSuperAdmin: boolean = false;
 
   constructor(
     private visitesService: VisitesService,
+    private membresService: MembresService,
+    private pagamentsService: PagamentsService,
     private propietarisService: PropietarisService,
     private llicenciesService: LlicenciesService,
     private gimnasosService: GimnasosService,
@@ -37,9 +53,18 @@ export class DashboardComponent implements OnInit {
     this.usuarisService.getUsuariByNomUsuari(this.tokenService.getUsername()).subscribe(usuari => {
       this.usuari = usuari;
     });
-    this.getGimnasos();
-    this.getPropietaris();
-    this.getVentesLlicencies();
+    if (this.tokenService.isGymAdmin()) this.esGymAdmin = true;
+    if (this.tokenService.isSuperAdmin()) this.esSuperAdmin = true;
+    if (this.esSuperAdmin) {
+      this.getGimnasos();
+      this.getPropietaris();
+      this.getVentesLlicencies();
+    }
+    else if (this.esGymAdmin && !this.esSuperAdmin) {
+      this.getPagamentsMensuals();
+      this.getMembresPropietari();
+      this.getVisitesPropietari();
+    }
   }
 
   getGimnasos(): void {
@@ -55,18 +80,62 @@ export class DashboardComponent implements OnInit {
   }
 
   getVentesLlicencies(): void {
+    this.ventesTotals = 0;
     this.llicenciesService.getLlicencies().subscribe(llicencies => {
         this.ventesPerMes = new Array(12).fill(0); 
         llicencies.forEach(llicencia => {
-            const dataVenta = new Date (llicencia.dataInici);
+            const dataVenta = new Date(llicencia.dataInici);
             const mes = dataVenta.getMonth();
             this.ventesPerMes[mes] += llicencia.preu;
-            console.log(mes);
             this.ventesTotals += llicencia.preu;
         });
         this.iniciarCharts();
     });
-}
+  }
+
+  getMembresPropietari(): void {
+    this.membresTotals = 0;
+    this.membresNous = 0;
+    this.membresService.getMembres().subscribe(membres => {
+      membres.forEach(membre => {
+        if (membre.gimnas.propietari.nom === this.usuari.nom) {
+          this.membresTotals++;
+          const mesCreacio = new Date(membre.dataCreacio).getMonth();
+          if (mesCreacio === this.dataActual.getMonth()) this.membresNous++;
+        }
+      });
+    });
+  }
+
+  getPagamentsMensuals(): void {
+    this.ventesPerMes = 0;
+    this.facturacioPropietari = 0;
+    this.pagamentsService.getPagaments().subscribe(pagaments => {
+      this.ventesPerMes = new Array(12).fill(0); 
+      pagaments.forEach(pagament => {
+        if (pagament.gimnas.propietari.nom === this.usuari.nom) {
+          const mesPagament = new Date(pagament.dataInici).getMonth();
+          const mesActual = new Date().getMonth();
+          this.ventesPerMes[mesPagament] += pagament.quantitat;
+          if (mesPagament === mesActual) this.facturacioPropietari += pagament.quantitat;
+        }
+        console.log(this.facturacioPropietari);
+      });
+      this.iniciarCharts();
+    });
+  }
+
+  getVisitesPropietari(): void {
+    this.visitesTotalsPropietari = 0;
+    this.visitesService.getVisites().subscribe(visites => {
+      console.log("visites");
+      visites.forEach(visita => {
+        console.log(visita);
+        if (visita.gimnas.propietari.nom === this.usuari.nom) this.visitesTotalsPropietari++;
+      });
+      this.iniciarCharts();
+    });
+  }
 
   iniciarCharts(): void {
     const documentStyle = getComputedStyle(document.documentElement);
@@ -74,7 +143,7 @@ export class DashboardComponent implements OnInit {
     const textColorSecondary = documentStyle.getPropertyValue('--text-color-secondary');
     const surfaceBorder = documentStyle.getPropertyValue('--surface-border');
     
-    this.data = {
+    this.dataBarres = {
         labels: ['Gener', 'Febrer', 'Març', 'Abril', 'Maig', 'Juny', 'Juliol','Agost','Setembre','Octubre','Novembre','Desembre'],
         datasets: [
             {
@@ -86,10 +155,36 @@ export class DashboardComponent implements OnInit {
         ]
     };
 
-    this.options = {
+    this.dataDonut = {
+      labels: ['Propietaris','Gimnasos'],
+      datasets: [
+          {
+              data: [this.propietarisTotals, this.gimnasosTotals],
+              backgroundColor: [documentStyle.getPropertyValue('--purple-500'), documentStyle.getPropertyValue('--green-500')],
+              hoverBackgroundColor: [documentStyle.getPropertyValue('--purple-400'), documentStyle.getPropertyValue('--green-400')]
+          }
+      ]
+    }
+
+    this.dataVisitesMembres = {
+      labels: ['Membres', 'Visites'],
+      datasets: [
+          {
+              data: [this.membresTotals, this.visitesTotalsPropietari],
+              backgroundColor: [documentStyle.getPropertyValue('--green-500'), documentStyle.getPropertyValue('--purple-500')],
+              hoverBackgroundColor: [documentStyle.getPropertyValue('--green-400'), documentStyle.getPropertyValue('--purple-400')]
+          }
+      ]
+    }
+
+    this.optionsBarres = {
         maintainAspectRatio: false,
         aspectRatio: 1,
         plugins: {
+            title: {
+              display: true,
+              text: 'Facturació anual per mesos'
+            },
             legend: {
                 labels: {
                     color: textColor
@@ -118,8 +213,35 @@ export class DashboardComponent implements OnInit {
                     drawBorder: false
                 }
             }
-
         }
     };
+
+    this.optionsDonut = {
+        plugins: {
+          title: {
+            display: true,
+            text: 'Total de propietaris i gimnasos'
+          },
+            legend: {
+                labels: {
+                    color: textColor
+                }
+            }
+        }
+    };
+
+    this.optionsDonutPropietari = {
+      plugins: {
+        title: {
+          display: true,
+          text: 'Total de visites i membres'
+        },
+          legend: {
+              labels: {
+                  color: textColor
+              }
+          }
+      }
+  };
   }
 }
