@@ -13,8 +13,8 @@
     <p-table
         #dt
         [value]="pagaments"
-        [rows]="5"
         [paginator]="true"
+        [rows]="5"
         [globalFilterFields]="['membre.nom','quota.nom','quantitat','dataInici','dataFi','gimnas.nom']"
         [tableStyle]="{ 'min-width': '75rem' }"
         [rowHover]="true"

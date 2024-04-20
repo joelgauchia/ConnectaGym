@@ -55,11 +55,8 @@ export class TokenService {
         if (token !== null) {
             payload = token.split('.')[1];
         }
-        console.log(payload);
         const payloadDecoded = atob(payload);
-        console.log(payloadDecoded);
         const values = JSON.parse(payloadDecoded);
-        console.log(values);
         const rols = values.rols;
         if (rols.indexOf('GYMADMIN') < 0) {
           return false;
@@ -76,11 +73,8 @@ export class TokenService {
         if (token !== null) {
             payload = token.split('.')[1];
         }
-        console.log(payload);
         const payloadDecoded = atob(payload);
-        console.log(payloadDecoded);
         const values = JSON.parse(payloadDecoded);
-        console.log(values);
         const rols = values.rols;
         if (rols.indexOf('SUPERADMIN') < 0) {
           return false;
@@ -97,11 +91,8 @@ export class TokenService {
         if (token !== null) {
             payload = token.split('.')[1];
         }
-        console.log(payload);
         const payloadDecoded = atob(payload);
-        console.log(payloadDecoded);
         const values = JSON.parse(payloadDecoded);
-        console.log(values);
         const rols = values.rols;
         if (rols.indexOf('STAFF') < 0) {
           return false;

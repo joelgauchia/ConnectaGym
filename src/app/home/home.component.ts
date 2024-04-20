@@ -14,6 +14,7 @@ import { Usuari } from '../models/usuari.model';
 export class HomeComponent implements OnInit {
   selectedComponent: string = '';
   llicencies!: Llicencia[];
+  usuari!: Usuari;
 
   constructor (
     private selectedComponentService: SelectedComponentService,
@@ -23,9 +24,17 @@ export class HomeComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.getUsuariLoguejat();
     this.selectedComponentService.selectedComponent$.subscribe(componentName => {
       this.selectedComponent = componentName;
       this.comprovarLlicenciesExpirades();
+    });
+  }
+
+  getUsuariLoguejat(): void {
+    this.usuarisService.getUsuariByNomUsuari(this.tokenService.getUsername()).subscribe(usuari => {
+      this.usuari = usuari;
+      console.log(this.usuari);
     });
   }
 

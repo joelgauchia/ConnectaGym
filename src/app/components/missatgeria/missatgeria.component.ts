@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { MembresService } from '../../services/membres.service';
 import { Membre } from '../../models/membre.model';
 import { Missatge } from '../../models/missatge.model';
@@ -8,6 +8,7 @@ import { TokenService } from '../../services/token.service';
 import { UsuarisService } from '../../services/usuaris.service';
 import { forkJoin, of, switchMap } from 'rxjs';
 import { RolNom } from '../../models/rol.model';
+import { Usuari } from '../../models/usuari.model';
 
 @Component({
   selector: 'app-missatgeria',
@@ -16,6 +17,8 @@ import { RolNom } from '../../models/rol.model';
   providers: [MessageService]
 })
 export class MissatgeriaComponent implements OnInit {
+
+  @Input() usuari!: Usuari;
 
   membres!: Membre[];
 
@@ -34,12 +37,9 @@ export class MissatgeriaComponent implements OnInit {
   getMembres(): void {
     if (this.tokenService.isStaff() && !this.tokenService.isGymAdmin()) {
       console.log("staff");
-      this.usuarisService.getUsuariActiuByNomUsuari(this.tokenService.getUsername()).subscribe(usuari => {
-        console.log(usuari);
-        this.membresService.getMembresGimnas(usuari.gimnasStaff).subscribe(membres => {
-          console.log(membres);
-          this.membres = membres;
-        });
+      this.membresService.getMembresGimnas(this.usuari.gimnasStaff).subscribe(membres => {
+        console.log(membres);
+        this.membres = membres;
       });
     }
   }

@@ -6,5 +6,5 @@ import { Component } from '@angular/core';
   styleUrl: './ajustaments.component.scss'
 })
 export class AjustamentsComponent {
-
+  
 }

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Quota } from '../../models/quota.model';
 import { QuotesService } from '../../services/quotes.service';
 import { ConfirmationService, MessageService } from 'primeng/api';
@@ -6,6 +6,7 @@ import { ExcelService } from '../../services/excel.service';
 import { TokenService } from '../../services/token.service';
 import { UsuarisService } from '../../services/usuaris.service';
 import { RolNom } from '../../models/rol.model';
+import { Usuari } from '../../models/usuari.model';
 
 @Component({
   selector: 'app-quotes',
@@ -14,6 +15,8 @@ import { RolNom } from '../../models/rol.model';
   providers: [MessageService, ConfirmationService]
 })
 export class QuotesComponent implements OnInit {
+
+  @Input() usuari!: Usuari;
 
   quotes!: Quota[];
   quota!: Quota;
@@ -42,24 +45,13 @@ export class QuotesComponent implements OnInit {
     }
     else if (this.tokenService.isGymAdmin() && !this.tokenService.isSuperAdmin()) {
       this.quotesService.getQuotesCreadorActiu().subscribe(response => {
-        response.forEach(quota => {
-          console.log(quota);
-          this.usuarisService.getUsuariByNomUsuari(this.tokenService.getUsername()).subscribe(usuari => {
-            if (quota.creador.nom === usuari.nom || (quota.creador.rols.some(rol => rol.rolNom === RolNom.SUPERADMIN) && quota.gimnas.propietari.nom === usuari.nom)) {
-              console.log(quota.gimnas.creador.nom);
-              console.log(usuari.nom);
-              this.quotes.push(quota);
-            }
-          });
-        });
+        this.quotes = response.filter(quota => quota.creador.nom === this.usuari.nom || (quota.creador.rols.some(rol => rol.rolNom === RolNom.SUPERADMIN) && quota.gimnas.propietari.nom === this.usuari.nom) || (quota.creador.rols.some(rol => rol.rolNom === RolNom.STAFF) && quota.gimnas.propietari.nom === this.usuari.nom));
         console.log(this.quotes);
       });
     }
     else {
-      this.usuarisService.getUsuariActiuByNomUsuari(this.tokenService.getUsername()).subscribe(usuari => {
-        this.quotesService.getQuotesByGimnasNom(usuari.gimnasStaff.nom).subscribe(quotes => {
-          this.quotes = quotes;
-        });
+      this.quotesService.getQuotesByGimnasNom(this.usuari.gimnasStaff.nom).subscribe(quotes => {
+        this.quotes = quotes;
       });
     }
   }

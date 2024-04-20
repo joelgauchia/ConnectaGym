@@ -69,7 +69,7 @@
 </div>
 
 <p-dialog [(visible)]="crearGimnasDialog" [style]="{ width: '450px' }" header="Crear un nou Gimnàs" [modal]="true" styleClass="p-fluid">
-    <app-form-gimnas [mode]="'crear'" (successfullyCreated)="gimnasCreat($event)"></app-form-gimnas>
+    <app-form-gimnas [mode]="'crear'" [usuari]="usuari" (successfullyCreated)="gimnasCreat($event)"></app-form-gimnas>
 </p-dialog>
 
 <p-dialog [(visible)]="editarGimnasDialog" [style]="{ width: '450px' }" header="Detalls del Gimnàs" [modal]="true" styleClass="p-fluid">

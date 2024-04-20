@@ -69,7 +69,7 @@
 </div>
 
 <p-dialog [(visible)]="crearQuotaDialog" [style]="{ width: '450px' }" header="Crear una nova Quota" [modal]="true" styleClass="p-fluid">
-    <app-form-quota [mode]="'crear'" (successfullyCreated)="quotaCreada($event)"></app-form-quota>
+    <app-form-quota [mode]="'crear'" [usuari]="usuari" (successfullyCreated)="quotaCreada($event)"></app-form-quota>
 </p-dialog>
 
 <p-dialog [(visible)]="editarQuotaDialog" [style]="{ width: '450px' }" header="Detalls de la Quota" [modal]="true" styleClass="p-fluid">

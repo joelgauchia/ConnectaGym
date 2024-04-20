@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { ExcelService } from '../../services/excel.service';
 import { GimnasosService } from '../../services/gimnasos.service';
@@ -6,6 +6,7 @@ import { Gimnas } from '../../models/gimnas.model';
 import { TokenService } from '../../services/token.service';
 import { Rol, RolNom } from '../../models/rol.model';
 import { UsuarisService } from '../../services/usuaris.service';
+import { Usuari } from '../../models/usuari.model';
 
 @Component({
   selector: 'app-gimnasos',
@@ -15,6 +16,8 @@ import { UsuarisService } from '../../services/usuaris.service';
 })
 export class GimnasosComponent implements OnInit {
 
+  @Input() usuari!: Usuari;
+  
   gimnasos!: Gimnas[];
   gimnas!: Gimnas;
   submitted: boolean = false;

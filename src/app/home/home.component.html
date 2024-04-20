@@ -11,25 +11,25 @@
       <app-propietaris></app-propietaris>
     </div>
     <div *ngIf="selectedComponent === 'gimnasos'">
-      <app-gimnasos></app-gimnasos>
+      <app-gimnasos [usuari]="usuari"></app-gimnasos>
     </div>
     <div *ngIf="selectedComponent === 'usuaris'">
-      <app-usuaris></app-usuaris>
+      <app-usuaris [usuari]="usuari"></app-usuaris>
     </div>
     <div *ngIf="selectedComponent === 'membres'">
-      <app-membres></app-membres>
+      <app-membres [usuari]="usuari"></app-membres>
     </div>
     <div *ngIf="selectedComponent === 'quotes'">
-      <app-quotes></app-quotes>
+      <app-quotes [usuari]="usuari"></app-quotes>
     </div>
     <div *ngIf="selectedComponent === 'pagaments'">
-      <app-pagaments></app-pagaments>
+      <app-pagaments [usuari]="usuari"></app-pagaments>
     </div>
     <div *ngIf="selectedComponent === 'missatgeria'">
-      <app-missatgeria></app-missatgeria>
+      <app-missatgeria [usuari]="usuari"></app-missatgeria>
     </div>
     <div *ngIf="selectedComponent === 'visites'">
-      <app-visites></app-visites>
+      <app-visites [usuari]="usuari"></app-visites>
     </div>
     <div *ngIf="selectedComponent === 'ajustaments'">
       <app-ajustaments></app-ajustaments>

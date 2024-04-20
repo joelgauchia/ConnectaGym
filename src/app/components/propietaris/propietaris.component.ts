@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { ExcelService } from '../../services/excel.service';
 import { TokenService } from '../../services/token.service';
 import { Propietari } from '../../models/propietari.model';
 import { PropietarisService } from '../../services/propietaris.service';
+import { Usuari } from '../../models/usuari.model';
 
 @Component({
   selector: 'app-propietaris',

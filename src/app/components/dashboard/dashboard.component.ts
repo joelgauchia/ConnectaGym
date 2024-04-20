@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { TokenService } from '../../services/token.service';
 import { UsuarisService } from '../../services/usuaris.service';
 import { Usuari } from '../../models/usuari.model';
@@ -16,9 +16,10 @@ import { map, switchMap } from 'rxjs';
   styleUrl: './dashboard.component.scss'
 })
 export class DashboardComponent implements OnInit {
+  
+  usuari!: Usuari;
 
   dataActual: Date = new Date();
-  usuari!: Usuari;
   ventesTotals!: number;
   gimnasosTotals!: number;
   propietarisTotals!: number;
@@ -52,15 +53,15 @@ export class DashboardComponent implements OnInit {
     private propietarisService: PropietarisService,
     private llicenciesService: LlicenciesService,
     private gimnasosService: GimnasosService,
+    private usuarisService: UsuarisService,
     private tokenService: TokenService,
-    private usuarisService: UsuarisService
   ) { }
 
   ngOnInit(): void {
     this.usuarisService.getUsuariByNomUsuari(this.tokenService.getUsername()).pipe(
-        map(usuari => {
-            this.usuari = usuari;
-        })
+      map(usuari => {
+          this.usuari = usuari;
+      })
     ).subscribe(() => {
         if (this.tokenService.isGymAdmin()) this.esGymAdmin = true;
         if (this.tokenService.isSuperAdmin()) this.esSuperAdmin = true;
@@ -166,7 +167,6 @@ export class DashboardComponent implements OnInit {
 
   getMembresGimnasStaff(): void {
     this.membresNous = 0;
-    console.log(this.usuari);
     this.membresService.getMembresGimnas(this.usuari.gimnasStaff).subscribe(membres => {
       this.membresTotals = membres.length;
       membres.forEach(membre => {

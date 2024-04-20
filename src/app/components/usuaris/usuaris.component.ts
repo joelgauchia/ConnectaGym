@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { UsuarisService } from '../../services/usuaris.service';
 import { Usuari } from '../../models/usuari.model';
@@ -15,8 +15,9 @@ import { PropietarisService } from '../../services/propietaris.service';
 })
 export class UsuarisComponent implements OnInit {
 
+  @Input() usuari!: Usuari;
+
   usuaris!: Usuari[];
-  usuari!: Usuari;
   submitted: boolean = false;
 
   selectedRol: string = '';
@@ -113,8 +114,7 @@ export class UsuarisComponent implements OnInit {
           this.messageService.add({ severity: 'success', summary: 'Fet!', detail: response, life: 3000 });
           this.carregarUsuaris();
 
-          const username = this.tokenService.getUsername();
-          if (username === usuari.nomUsuari) {
+          if (this.usuari.nomUsuari === usuari.nomUsuari) {
               this.tokenService.logOut();
           }
         });

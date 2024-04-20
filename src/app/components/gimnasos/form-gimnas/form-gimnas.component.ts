@@ -16,6 +16,7 @@ export class FormGimnasComponent implements OnInit {
 
   @Input() mode!: string;
   @Input() gimnas!: Gimnas;
+  @Input() usuari!: Usuari;
 
   @Output() successfullyEdited = new EventEmitter<Gimnas>();
   @Output() successfullyCreated = new EventEmitter<Gimnas>();
@@ -75,13 +76,11 @@ export class FormGimnasComponent implements OnInit {
 
   crearGimnas(): void {
     const gimnasGuardat: Gimnas = this.gimnasForm.value;
-    this.usuarisService.getUsuariByNomUsuari(this.tokenService.getUsername()).subscribe(response => {
-      this.usuariCreador = response;
-      gimnasGuardat.creador = this.usuariCreador;
-      console.log(gimnasGuardat);
-      this.gimnasForm.reset();
-      this.successfullyCreated.emit(gimnasGuardat);
-    });
+    this.usuariCreador = this.usuari;
+    gimnasGuardat.creador = this.usuariCreador;
+    console.log(gimnasGuardat);
+    this.gimnasForm.reset();
+    this.successfullyCreated.emit(gimnasGuardat);
   }
 
   guardarGimnas(): void {
