@@ -1,5 +1,5 @@
 <div class="flex align-items-center justify-content-start flex-shrink-0">
-    <h2 *ngIf="usuari">Benvingut, {{usuari.nom}}</h2>
+    <h2 *ngIf="usuari">Benvingut/da, {{usuari.nom}}</h2>
     <h3>Dashboard</h3>
 </div>
 <div class="pt-1 pb-1 px-1">
@@ -13,9 +13,12 @@
                             <p *ngIf="esSuperAdmin" class="mt-1 mb-1 m-r1">{{ventesTotals}}€</p>
                             <h4 *ngIf="!esSuperAdmin && esGymAdmin" class="mt-1 mb-1 mr-1">Facturació mensual</h4>
                             <p *ngIf="!esSuperAdmin && esGymAdmin" class="mt-1 mb-1 m-r1">{{facturacioPropietari}}€</p>
+                            <h4 *ngIf="!esSuperAdmin && !esGymAdmin" class="mt-1 mb-1 mr-1">Visites mensuals</h4>
+                            <p *ngIf="!esSuperAdmin && !esGymAdmin" class="mt-1 mb-1 m-r1">{{visitesMensuals}}</p>
                         </div>
                         <div class="flex justify-content-end ml-5 align-items-center">
-                            <i class="pi pi-money-bill mr-2 valor"></i>
+                            <i *ngIf="esGymAdmin" class="pi pi-money-bill mr-2 valor"></i>
+                            <i *ngIf="!esSuperAdmin && !esGymAdmin" class="pi pi-id-card mr-2 valor"></i>
                         </div>
                     </div>
                 </p-card>
@@ -24,12 +27,12 @@
                         <div class="flex flex-column justify-content-start mr-6">
                             <h4 *ngIf="esSuperAdmin" class="mt-1 mb-1 mr-1">Gimnasos</h4>
                             <p *ngIf="esSuperAdmin" class="mt-1 mb-1 m-r1">{{gimnasosTotals}}</p>
-                            <h4 *ngIf="!esSuperAdmin && esGymAdmin" class="mt-1 mb-1 mr-1">Total membres</h4>
-                            <p *ngIf="!esSuperAdmin && esGymAdmin" class="mt-1 mb-1 m-r1">{{membresTotals}}</p>
+                            <h4 *ngIf="!esSuperAdmin" class="mt-1 mb-1 mr-1">Total membres</h4>
+                            <p *ngIf="!esSuperAdmin" class="mt-1 mb-1 m-r1">{{membresTotals}}</p>
                         </div>
                         <div class="flex justify-content-end ml-6 align-items-center">
-                            <i *ngIf="esSuperAdmin" class="pi pi-bolt mr-2 valor"></i>
-                            <i *ngIf="!esSuperAdmin && esGymAdmin" class="pi pi-users mr-2 valor"></i>
+                            <i *ngIf="esSuperAdmin" class="pi pi-home mr-2 valor"></i>
+                            <i *ngIf="!esSuperAdmin" class="pi pi-users mr-2 valor"></i>
                         </div>
                     </div>
                 </p-card>
@@ -38,7 +41,8 @@
                 <div class="flex flex-row justify-content-start" style="width: 100%;">
                     <p-card>
                         <p-chart *ngIf="esSuperAdmin" type="line" [data]="dataBarres" [options]="optionsBarres" width="300" height="300"></p-chart>
-                        <p-chart *ngIf="!esSuperAdmin && esGymAdmin" type="doughnut" [data]="dataVisitesMembres" [options]="optionsDonut" width="300" height="300"></p-chart>
+                        <p-chart *ngIf="!esSuperAdmin && esGymAdmin" type="doughnut" [data]="dataVisitesMembresPropietari" [options]="optionsDonutPropietari" width="300" height="300"></p-chart>
+                        <p-chart *ngIf="!esSuperAdmin && !esGymAdmin" type="line" [data]="dataVisitesMensualsStaff" [options]="optionsBarresVisitesMensualsStaff" width="300" height="300"></p-chart>
                     </p-card>  
                 </div>
             </div>
@@ -50,12 +54,12 @@
                         <div class="flex flex-column justify-content-start mr-5">
                             <h4 *ngIf="esSuperAdmin" class="mt-1 mb-1 mr-1">Propietaris</h4>
                             <p *ngIf="esSuperAdmin" class="mt-1 mb-1 m-r1">{{propietarisTotals}}</p>
-                            <h4 *ngIf="!esSuperAdmin && esGymAdmin" class="mt-1 mb-1 mr-1">Nous membres</h4>
-                            <p *ngIf="!esSuperAdmin && esGymAdmin" class="mt-1 mb-1 m-r1">{{membresNous}}</p>
+                            <h4 *ngIf="!esSuperAdmin" class="mt-1 mb-1 mr-1">Nous membres</h4>
+                            <p *ngIf="!esSuperAdmin" class="mt-1 mb-1 m-r1">{{membresNous}}</p>
                         </div>
                         <div class="flex justify-content-end ml-5 align-items-center">
                             <i *ngIf="esSuperAdmin" class="pi pi-user mr-2 valor"></i>
-                            <i *ngIf="!esSuperAdmin && esGymAdmin" class="pi pi-user-plus mr-2 valor"></i>
+                            <i *ngIf="!esSuperAdmin" class="pi pi-user-plus mr-2 valor"></i>
                         </div>
                     </div>
                 </p-card>
@@ -76,6 +80,7 @@
                     <p-card>
                         <p-chart *ngIf="esSuperAdmin" type="doughnut" [data]="dataDonut" [options]="optionsDonutPropietari" width="300" height="300"></p-chart>
                         <p-chart *ngIf="!esSuperAdmin && esGymAdmin" type="line" [data]="dataBarres" [options]="optionsBarres" width="300" height="300"></p-chart>
+                        <p-chart *ngIf="!esSuperAdmin && !esGymAdmin" type="doughnut" [data]="dataVisitesMembresStaff" [options]="optionsDonutPropietari" width="300" height="300"></p-chart>
                     </p-card>
                 </div>
             </div>
