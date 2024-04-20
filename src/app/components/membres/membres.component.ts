@@ -60,7 +60,7 @@ export class MembresComponent implements OnInit {
                 console.log(membre.gimnas.creador.nom);
                 console.log(usuari.nom);
                 console.log(membre.gimnas.propietari.nom);
-                if (membre.creador.nom === usuari.nom || (membre.creador.rols.some(rol => rol.rolNom === RolNom.SUPERADMIN) && membre.gimnas.propietari.nom === usuari.nom)) {
+                if (membre.creador.nom === usuari.nom || (membre.creador.rols.some(rol => rol.rolNom === RolNom.SUPERADMIN) && membre.gimnas.propietari.nom === usuari.nom) || (membre.creador.rols.some(rol => rol.rolNom === RolNom.STAFF) && membre.gimnas.propietari.nom === usuari.nom)) {
                   this.membres.push(membre);
                 }
                 return of(null); // No retornem res, només per mantenir la coherència dels observables
