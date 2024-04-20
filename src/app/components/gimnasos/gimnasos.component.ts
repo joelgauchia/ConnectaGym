@@ -35,7 +35,7 @@ export class GimnasosComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    if (this.tokenService.isGymAdmin()) this.esGymAdmin= true;
+    if (this.tokenService.isGymAdmin()) this.esGymAdmin = true;
     if (this.tokenService.isSuperAdmin()) this.esSuperAdmin = true;
     this.carregarGimnasos();
   }

@@ -17,6 +17,8 @@ import { RadioButtonModule } from 'primeng/radiobutton';
 import { CalendarModule } from 'primeng/calendar';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import { FieldsetModule } from 'primeng/fieldset';
+import { ChartModule } from 'primeng/chart';
+import { PanelModule } from 'primeng/panel';
 
 @NgModule({
     declarations: [],
@@ -38,7 +40,9 @@ import { FieldsetModule } from 'primeng/fieldset';
         RadioButtonModule,
         CalendarModule,
         InputTextareaModule,
-        FieldsetModule
+        FieldsetModule,
+        ChartModule,
+        PanelModule
     ]
 })
 export class PrimengModule { }

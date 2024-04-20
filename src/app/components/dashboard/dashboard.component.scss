@@ -8,6 +8,10 @@ h3 {
     color: var(--primary-color);
 }
 
+:host ::ng-deep .p-element {
+    width: 100% !important
+}
+
 :host ::ng-deep .p-card-content { 
     padding: 0 !important;
 } 
