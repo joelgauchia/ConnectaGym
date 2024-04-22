@@ -53,17 +53,7 @@ export class GimnasosComponent implements OnInit {
     }
     if (this.tokenService.isGymAdmin() && !this.tokenService.isSuperAdmin()) {
       this.gimnasosService.getGimnasosCreadorActiu().subscribe(response => {
-        response.forEach(gimnas => {
-          console.log(gimnas);
-          console.log(gimnas.creador.nomUsuari, " ", this.tokenService.getUsername());
-          console.log(new Rol(RolNom.SUPERADMIN));
-          this.usuarisService.getUsuariByNomUsuari(this.tokenService.getUsername()).subscribe(usuari => {
-            console.log(usuari.nom, " ", gimnas.propietari.nom);
-            if ((gimnas.creador.rols.some(rol => rol.rolNom === RolNom.SUPERADMIN) && gimnas.propietari.nom === usuari.nom) || gimnas.creador.nomUsuari === this.tokenService.getUsername()) {
-              this.gimnasos.push(gimnas);
-            }
-          });
-        });
+        this.gimnasos = response.filter(gimnas => (gimnas.creador.rols.some(rol => rol.rolNom === RolNom.SUPERADMIN) && gimnas.propietari.nom === this.usuari.nom) || gimnas.creador.nomUsuari === this.tokenService.getUsername());
         console.log(this.gimnasos);
       });
     }

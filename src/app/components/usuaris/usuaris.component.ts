@@ -26,6 +26,7 @@ export class UsuarisComponent implements OnInit {
 
   crearUsuariDialog: boolean = false;
   editarUsuariDialog: boolean = false;
+  esGymAdmin: boolean = false;
 
   constructor(
     private usuarisService: UsuarisService, 
@@ -46,10 +47,21 @@ export class UsuarisComponent implements OnInit {
   }
 
   carregarUsuaris(): void {
-    this.usuarisService.getUsuaris().subscribe(response => {
-      this.usuaris = response;
-      console.log(this.usuaris);
-    });
+    if (this.tokenService.isSuperAdmin()) {
+      this.usuarisService.getUsuaris().subscribe(response => {
+        this.usuaris = response;
+        console.log(this.usuaris);
+      });
+    }
+    else {
+      this.esGymAdmin = true;
+      this.usuarisService.getUsuaris().subscribe(response => {
+        console.log(response);
+        console.log(this.usuari);
+        this.usuaris = response.filter(usuari => usuari.gimnasStaff !== null && usuari.gimnasStaff.propietari.nom === this.usuari.nom);
+        console.log(this.usuaris);
+      });
+    }
   }
 
   getRol(rols: any[]): string {

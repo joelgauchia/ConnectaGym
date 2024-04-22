@@ -55,8 +55,7 @@ export class MembresComponent implements OnInit {
     }
     else if (this.tokenService.isGymAdmin() && !this.tokenService.isSuperAdmin()) {
       this.membresService.getMembresCreadorActiu().subscribe(response => {
-        this.membres = response.filter(membre => membre)
-        response.forEach(membre => membre.creador.nom === this.usuari.nom || (membre.creador.rols.some(rol => rol.rolNom === RolNom.SUPERADMIN) && membre.gimnas.propietari.nom === this.usuari.nom) || (membre.creador.rols.some(rol => rol.rolNom === RolNom.STAFF) && membre.gimnas.propietari.nom === this.usuari.nom));
+        this.membres = response.filter(membre => membre.creador.nom === this.usuari.nom || (membre.creador.rols.some(rol => rol.rolNom === RolNom.SUPERADMIN) && membre.gimnas.propietari.nom === this.usuari.nom) || (membre.creador.rols.some(rol => rol.rolNom === RolNom.STAFF) && membre.gimnas.propietari.nom === this.usuari.nom));
         this.actualitzarEstat();
       });
     }

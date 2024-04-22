@@ -57,7 +57,7 @@ export class FormQuotaComponent implements OnInit {
     else {
       if (this.tokenService.isGymAdmin() && !this.tokenService.isSuperAdmin()) {
         this.gimnasosService.getGimnasosCreadorActiu().subscribe(response => {
-          this.gimnasos = response.filter(gimnas => (gimnas.creador.rols.some(rol => rol.rolNom === RolNom.SUPERADMIN) && gimnas.propietari.nom === this.usuari.nom) || gimnas.creador.nomUsuari === this.tokenService.getUsername());
+          this.gimnasos = response.filter(gimnas => (gimnas.creador.rols.some(rol => rol.rolNom === RolNom.SUPERADMIN) && gimnas.propietari.nom === this.usuari?.nom) || gimnas.creador.nomUsuari === this.tokenService.getUsername());
           console.log(this.gimnasos);
         });     
       }
