@@ -57,9 +57,11 @@ export class UsuarisComponent implements OnInit {
       this.esGymAdmin = true;
       this.usuarisService.getUsuaris().subscribe(response => {
         console.log(response);
-        console.log(this.usuari);
-        this.usuaris = response.filter(usuari => usuari.gimnasStaff !== null && usuari.gimnasStaff.propietari.nom === this.usuari.nom);
-        console.log(this.usuaris);
+        this.usuarisService.getUsuariActiuByNomUsuari(this.tokenService.getUsername()).subscribe(usuari => {
+          this.usuari = usuari;
+          this.usuaris = response.filter(usuari => usuari.gimnasStaff !== null && usuari.gimnasStaff.propietari.nom === this.usuari.nom);
+          console.log(this.usuaris);
+        });
       });
     }
   }

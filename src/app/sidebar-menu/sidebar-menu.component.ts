@@ -51,6 +51,7 @@ export class SidebarMenuComponent implements OnInit {
   }
 
   logOutUser(): void {
+    this.selectedComponentService.showComponent('dashboard');
     this.tokenService.logOut();
   }
 }

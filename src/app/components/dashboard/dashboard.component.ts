@@ -141,6 +141,18 @@ export class DashboardComponent implements OnInit {
     });
   }
 
+  getMembresGimnasStaff(): void {
+    this.membresNous = 0;
+    this.membresService.getMembresGimnas(this.usuari.gimnasStaff).subscribe(membres => {
+      this.membresTotals = membres.length;
+      membres.forEach(membre => {
+        const mesCreacio = new Date(membre.dataCreacio).getMonth();
+        if (mesCreacio === this.dataActual.getMonth()) this.membresNous++;
+      });
+    });
+    console.log(this.membresTotals);
+  }
+
   getVisites(): void {
     this.visitesTotalsPropietari = 0;
     this.visitesTotalsStaff = 0;
@@ -161,18 +173,8 @@ export class DashboardComponent implements OnInit {
           }
         }
       });
+      console.log(this.visitesTotalsStaff);
       this.iniciarCharts();
-    });
-  }
-
-  getMembresGimnasStaff(): void {
-    this.membresNous = 0;
-    this.membresService.getMembresGimnas(this.usuari.gimnasStaff).subscribe(membres => {
-      this.membresTotals = membres.length;
-      membres.forEach(membre => {
-        const mesCreacio = new Date(membre.dataCreacio).getMonth();
-        if (mesCreacio === this.dataActual.getMonth()) this.membresNous++;
-      });
     });
   }
 
