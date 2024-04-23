@@ -58,7 +58,7 @@ export class HomeComponent implements OnInit {
             this.usuarisService.actualitzarUsuari(inactiu.nomUsuari, inactiu).subscribe(usuari => {
               console.log(this.tokenService.getUsername());
               console.log(usuari);
-              if (this.tokenService.getUsername() === usuari.nomUsuari) {
+              if (this.tokenService.getUsername() === inactiu.nomUsuari) {
                 this.tokenService.logOut();
               }
             });

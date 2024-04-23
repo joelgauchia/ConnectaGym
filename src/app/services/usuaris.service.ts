@@ -31,10 +31,10 @@ export class UsuarisService {
     return this.http.get<Usuari[]>(this.usuarisURL + 'llistat', { headers });
   }
 
-  actualitzarUsuari(nomUsuari: string, usuari: Usuari): Observable<Usuari> {
+  actualitzarUsuari(nomUsuari: string, usuari: Usuari): Observable<string> {
     const url = this.usuarisURL + nomUsuari;
     const headers = new HttpHeaders().set('Authorization', 'Bearer ' + this.tokenService.getToken());
-    return this.http.put<Usuari>(url, usuari, { headers });
+    return this.http.put(url, usuari, { headers, responseType: 'text' });
   }
 
   crearUsuari(usuari: Usuari): Observable<Usuari> {

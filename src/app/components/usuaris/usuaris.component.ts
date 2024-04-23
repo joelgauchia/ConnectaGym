@@ -111,9 +111,13 @@ export class UsuarisComponent implements OnInit {
 
   usuariEditat(event: any) {
     this.usuarisService.actualitzarUsuari(event.nomUsuari, event).subscribe(response => {
-      this.messageService.add({ severity: 'success', summary: 'Fet!', detail: "Usuari editat correctament", life: 3000 });
+      this.messageService.add({ severity: 'success', summary: 'Fet!', detail: response, life: 3000 });
       this.carregarUsuaris();
       console.log(response);
+    },
+    error => { 
+      this.messageService.add({ severity: 'error', summary: 'Error', detail: error.error, life: 5000 });
+      this.carregarUsuaris();
     });
     this.editarUsuariDialog = false;
   }
@@ -129,8 +133,11 @@ export class UsuarisComponent implements OnInit {
           this.carregarUsuaris();
 
           if (this.usuari.nomUsuari === usuari.nomUsuari) {
-              this.tokenService.logOut();
+            this.tokenService.logOut();
           }
+        },
+        error => {
+          this.messageService.add({ severity: 'error', summary: 'Error', detail: error.error, life: 5000 });
         });
       }
     });
