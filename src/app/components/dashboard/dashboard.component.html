@@ -78,7 +78,7 @@
             <div class="flex flex-row justify-content-start mb-5 mr-5">
                 <div class="flex flex-row justify-content-start" style="width: 100%;">
                     <p-card>
-                        <p-chart *ngIf="esSuperAdmin" type="doughnut" [data]="dataDonut" [options]="optionsDonutPropietari" width="300" height="300"></p-chart>
+                        <p-chart *ngIf="esSuperAdmin" type="doughnut" [data]="dataDonut" [options]="optionsDonut" width="300" height="300"></p-chart>
                         <p-chart *ngIf="!esSuperAdmin && esGymAdmin" type="line" [data]="dataBarres" [options]="optionsBarres" width="300" height="300"></p-chart>
                         <p-chart *ngIf="!esSuperAdmin && !esGymAdmin" type="doughnut" [data]="dataVisitesMembresStaff" [options]="optionsDonutPropietari" width="300" height="300"></p-chart>
                     </p-card>

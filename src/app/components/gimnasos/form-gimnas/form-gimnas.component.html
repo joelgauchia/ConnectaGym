@@ -37,7 +37,7 @@
         <label for="telefon" class="form-label">Telèfon</label>
         <input type="tel" id="telefon" pInputText formControlName="telefon" pattern="[0-9]{9}"/>
     </div>
-    <div class="field">
+    <div *ngIf="!esGymadmin" class="field">
         <label for="propietari" class="form-label">Propietari</label>
         <p-dropdown formControlName="propietari" [options]="propietaris" optionLabel="nom" placeholder="Seleccioni un propietari" appendTo="body"></p-dropdown>
     </div>

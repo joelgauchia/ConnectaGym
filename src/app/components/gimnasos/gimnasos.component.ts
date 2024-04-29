@@ -64,12 +64,12 @@ export class GimnasosComponent implements OnInit {
   }
 
   gimnasCreat(event: any) {
+    console.log(event);
     this.gimnasosService.crearGimnas(event).subscribe(response => {
       this.messageService.add({ severity: 'success', summary: 'Fet', detail: response, life: 3000 });
       this.carregarGimnasos();
     }, 
     error => {
-      console.log(error.error);
       this.messageService.add({ severity: 'error', summary: 'Error', detail: error.error, life: 5000 });
     });
     this.crearGimnasDialog = false;
