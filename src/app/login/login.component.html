@@ -15,9 +15,7 @@
             <label for="password1" class="block text-900 font-medium mb-2">Contrasenya</label>
             <input id="password1" type="password" placeholder="Entra la contrasenya" pInputText formControlName="password" class="w-full mb-3">
     
-            <div class="flex align-items-center justify-content-end mb-6">
-                <a class="font-medium no-underline ml-2 text-blue-500 text-right cursor-pointer" [routerLink]="['/register']">Encara no estàs registrat?</a>
-            </div>
+            <div class="flex align-items-center justify-content-end mb-6"></div>
     
             <button pButton pRipple label="Sign In" icon="pi pi-user" class="w-full" (click)="login()" [disabled]="!loginForm.valid"></button>
         </div>
