@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { SelectedComponentService } from '../services/selected-component.service';
-import { TokenService } from '../services/token.service';
-import { LlicenciesService } from '../services/llicencies.service';
-import { Llicencia } from '../models/llicencia.model';
-import { UsuarisService } from '../services/usuaris.service';
-import { Usuari } from '../models/usuari.model';
+import { SelectedComponentService } from '../../services/selected-component.service';
+import { TokenService } from '../../services/token.service';
+import { LlicenciesService } from '../../services/llicencies.service';
+import { Llicencia } from '../../models/llicencia.model';
+import { UsuarisService } from '../../services/usuaris.service';
+import { Usuari } from '../../models/usuari.model';
 
 @Component({
   selector: 'app-home',

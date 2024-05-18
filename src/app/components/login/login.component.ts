@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthService } from '../services/auth.service';
+import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
-import { LoginUsuari } from '../models/login-usuari.model';
-import { TokenService } from '../services/token.service';
+import { LoginUsuari } from '../../models/login-usuari.model';
+import { TokenService } from '../../services/token.service';
 import { MessageService } from 'primeng/api';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { UsuarisService } from '../services/usuaris.service';
+import { UsuarisService } from '../../services/usuaris.service';
 
 @Component({
   selector: 'app-login',
