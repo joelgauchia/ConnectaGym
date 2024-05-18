@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 
-import { PrimengModule } from '../primeng/primeng.module';
+import { PrimengModule } from '../primeng.module';
 import { SidebarMenuComponent } from './sidebar-menu/sidebar-menu.component';
 import { AjustamentsComponent } from './ajustaments/ajustaments.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
