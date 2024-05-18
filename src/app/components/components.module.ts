@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 
 import { PrimengModule } from '../primeng/primeng.module';
-import { SidebarMenuModule } from '../sidebar-menu/sidebar-menu.module';
+import { SidebarMenuComponent } from './sidebar-menu/sidebar-menu.component';
 import { AjustamentsComponent } from './ajustaments/ajustaments.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { GimnasosComponent } from './gimnasos/gimnasos.component';
@@ -52,7 +52,8 @@ import { FormCrearVisitaRegularComponent } from './visites/form-crear-visita-reg
     FormMissatgeComponent,
     VisitesComponent,
     FormCrearVisitaComponent,
-    FormCrearVisitaRegularComponent
+    FormCrearVisitaRegularComponent,
+    SidebarMenuComponent
   ],
   imports: [
     PrimengModule,
@@ -71,7 +72,8 @@ import { FormCrearVisitaRegularComponent } from './visites/form-crear-visita-reg
     PropietarisComponent,
     QuotesComponent,
     UsuarisComponent,
-    VisitesComponent
+    VisitesComponent,
+    SidebarMenuComponent
   ]
 })
 export class ComponentsModule { }
