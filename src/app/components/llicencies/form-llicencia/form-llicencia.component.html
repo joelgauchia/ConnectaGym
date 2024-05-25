@@ -1,0 +1,14 @@
+<form [formGroup]="llicenciaForm" (ngSubmit)="crearLlicencia()">
+    <div class="field">
+        <label for="propietari" class="form-label">Selecciona un propietari:</label>
+        <p-dropdown formControlName="propietari" [options]="propietaris" optionLabel="nom" appendTo="body"></p-dropdown>
+    </div>
+    <div class="field">
+        <label for="tipusLlicencia" class="form-label">Selecciona un tipus de llicència:</label>
+        <p-dropdown formControlName="tipusLlicencia" [options]="tipusLlicencia" optionLabel="nom" appendTo="body"></p-dropdown>
+    </div>
+    <div class="p-col-12">
+        <button pButton type="submit" label="Crear" [disabled]="!llicenciaForm.valid"></button>
+    </div>
+</form>
+

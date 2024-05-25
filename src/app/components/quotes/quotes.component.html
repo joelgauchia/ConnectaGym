@@ -1,0 +1,93 @@
+<div class="flex align-items-center justify-content-start flex-shrink-0">
+    <h2>Administrar Quotes</h2>
+    <h3>Llista de quotes</h3>
+</div>
+<div class="card">
+    <p-toast></p-toast>
+    <p-toolbar styleClass="mb-4 gap-2">
+        <ng-template pTemplate="left">
+            <button pButton pRipple label="Nova Quota" icon="pi pi-plus" class="mr-2" (click)="crearQuota()"></button>
+        </ng-template>
+        <ng-template pTemplate="right">
+            <button pButton pRipple label="Exportar Taula" icon="pi pi-upload" class="mr-2" (click)="exportToExcel()"></button>
+        </ng-template>
+    </p-toolbar> 
+
+    <p-table
+        #dt
+        [value]="quotes"
+        [rows]="5"
+        [paginator]="true"
+        [globalFilterFields]="['nom','preu','tipus','mesos','creador','dataCreacio','dataModificacio']"
+        [tableStyle]="{ 'min-width': '75rem' }"
+        [rowHover]="true"
+        dataKey="id"
+        [exportHeader]="'customExportHeader'"
+    >
+        <ng-template pTemplate="caption">
+            <div class="flex align-items-center justify-content-between">
+                <h5 class="m-0">Gestiona quotes</h5>
+                <span class="p-input-icon-left">
+                    <i class="pi pi-search"></i>
+                    <input pInputText type="text" (input)="dt.filterGlobal($any($event.target).value, 'contains')" placeholder="Busca..." />
+                </span>
+            </div>
+        </ng-template>
+        <ng-template pTemplate="header">
+            <tr>
+                <th pSortableColumn="nom" style="min-width:6rem">Nom <p-sortIcon field="nom"></p-sortIcon></th>
+                <th pSortableColumn="preu" style="min-width:8rem">Preu <p-sortIcon field="preu"></p-sortIcon></th>
+                <th pSortableColumn="tipus" style="min-width:8rem">Tipus <p-sortIcon field="tipus"></p-sortIcon></th>
+                <th pSortableColumn="mesos" style="min-width:8rem">Mesos <p-sortIcon field="mesos"></p-sortIcon></th>
+                <th pSortableColumn="gimnas" style="min-width:5rem">Gimnàs <p-sortIcon field="gimnas"></p-sortIcon></th>
+                <th pSortableColumn="creador" style="min-width:5rem">Creat per <p-sortIcon field="creador"></p-sortIcon></th>
+                <th pSortableColumn="dataCreacio">Creat <p-sortIcon field="dataCreacio"></p-sortIcon></th>
+                <th pSortableColumn="dataModificacio">Modificat <p-sortIcon field="dataModificacio"></p-sortIcon></th>
+                <th style="min-width:9rem"></th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-quota>
+            <tr>
+                <td>{{ quota.nom }}</td>
+                <td>{{ quota.preu | currency: 'EUR'}}</td>
+                <td>{{ quota.tipus }}</td>
+                <td>{{ quota.mesos }}</td>
+                <td>{{ quota.gimnas.nom }}</td>
+                <td>{{ quota.creador.nom }}</td>
+                <td>{{ quota.dataCreacio | date:"dd/MM/yyyy HH:mm" }}</td>
+                <td>{{ quota.dataModificacio | date:"dd/MM/yyyy HH:mm" }}</td>
+                <td>
+                    <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-help mr-2" (click)="editarQuota(quota)"></button>
+                    <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="eliminarQuota(quota)"></button>
+                </td>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="summary">
+            <div class="flex align-items-center justify-content-between">S'han trobat {{ quotes ? quotes.length : 0 }} quotes</div>
+        </ng-template>
+    </p-table>
+</div>
+
+<p-dialog [(visible)]="crearQuotaDialog" [style]="{ width: '450px' }" header="Crear una nova Quota" [modal]="true" styleClass="p-fluid">
+    <app-form-quota [mode]="'crear'" [usuari]="usuari" (successfullyCreated)="quotaCreada($event)"></app-form-quota>
+</p-dialog>
+
+<p-dialog [(visible)]="editarQuotaDialog" [style]="{ width: '450px' }" header="Detalls de la Quota" [modal]="true" styleClass="p-fluid">
+    <app-form-quota [mode]="'editar'" [quota]="quota" (successfullyEdited)="quotaEditada($event)"></app-form-quota>
+</p-dialog>
+
+<p-confirmDialog #cd>
+    <ng-template pTemplate="headless" let-message>
+        <div class="flex flex-column align-items-center p-5 surface-overlay border-round">
+            <div class="border-circle bg-primary inline-flex justify-content-center align-items-center h-6rem w-6rem -mt-8">
+                <i class="pi pi-exclamation-triangle text-5xl"></i>
+            </div>
+            <span class="font-bold text-2xl block mb-2 mt-4">{{ message.header }}</span>
+            <p class="mb-0">{{ message.message }}</p>
+            <div class="flex align-items-center gap-2 mt-4">
+                <button pButton label="Cancel·la" (click)="cd.reject()" class="p-button-outlined w-8rem "></button>
+                <button pButton label="Elimina" (click)="cd.accept()" class="w-8rem"></button>
+            </div>
+        </div>
+    </ng-template>
+</p-confirmDialog>

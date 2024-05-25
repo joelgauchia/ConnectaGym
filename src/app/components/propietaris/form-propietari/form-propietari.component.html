@@ -1,0 +1,69 @@
+<form *ngIf="mode === 'editar'" [formGroup]="propietariForm" (ngSubmit)="guardarPropietari()">
+    <div class="field">
+        <label for="nom" class="form-label">Nom i Cognoms</label>
+        <input type="text" id="nom" pInputText formControlName="nom"/>
+    </div>
+    <div class="field">
+        <label for="email" class="form-label">Email</label>
+        <input type="email" id="email" pInputText formControlName="email"/>
+    </div>
+    <div class="field">
+        <label for="telefon" class="form-label">Telèfon</label>
+        <input type="tel" id="telefon" pInputText formControlName="telefon" pattern="[0-9]{9}"/>
+    </div>
+    <div class="field">
+        <label for="adreca" class="form-label">Adreça</label>
+        <input type="text" id="adreca" pInputText formControlName="adreca"/>
+    </div>
+    <div class="field">
+        <label for="dataNaixement" class="form-label">Data de Naixement</label>
+        <p-calendar formControlName="dataNaixement" [showIcon]="true" [showTime]="true" inputId="dataNaixement" appendTo="body"></p-calendar>
+    </div>
+    <div class="p-col-12">
+        <button pButton type="submit" label="Guardar" [disabled]="!propietariForm.valid"></button>
+    </div>
+</form>
+
+<form *ngIf="mode === 'crear'" [formGroup]="propietariForm" (ngSubmit)="crearPropietari()">
+    <div class="field">
+        <label for="nom" class="form-label">Nom i Cognoms</label>
+        <input type="text" id="nom" pInputText formControlName="nom"/>
+    </div>
+    <div class="field">
+        <label for="email" class="form-label">Email</label>
+        <input type="email" id="email" pInputText formControlName="email"/>
+    </div>
+    <div class="field">
+        <label for="telefon" class="form-label">Telèfon</label>
+        <input type="tel" id="telefon" pInputText formControlName="telefon" pattern="[0-9]{9}"/>
+    </div>
+    <div class="field">
+        <label for="adreca" class="form-label">Adreça</label>
+        <input type="text" id="adreca" pInputText formControlName="adreca"/>
+    </div>
+    <div class="field">
+        <label for="dataNaixement" class="form-label">Data de Naixement</label>
+        <p-calendar formControlName="dataNaixement" [showIcon]="true" [showTime]="true" inputId="dataNaixement" appendTo="body"></p-calendar>
+    </div>
+    <div class="field">
+        <label for="genere" class="form-label">Gènere</label>
+        <div class="flex flex-wrap gap-3">
+            <div class="flex align-items-center">
+                <p-radioButton name="genere" value="M" formControlName="genere" inputId="masculi"></p-radioButton>
+                <label for="maculi" class="ml-2">M</label>
+            </div>
+            
+            <div class="flex align-items-center">
+                <p-radioButton name="genere" value="F" formControlName="genere" inputId="femeni"></p-radioButton>
+                <label for="femeni" class="ml-2">F</label>
+            </div>
+        </div>
+    </div>
+    <div class="field">
+        <label for="tipus" class="form-label">Propietari de cadena o gimnàs individual?</label>
+        <p-dropdown formControlName="tipus" [options]="tipus" placeholder="Seleccioni un tipus" appendTo="body"></p-dropdown>
+    </div>
+    <div class="p-col-12">
+        <button pButton type="submit" label="Guardar" [disabled]="!propietariForm.valid"></button>
+    </div>
+</form>

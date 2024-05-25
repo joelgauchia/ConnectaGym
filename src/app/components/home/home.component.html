@@ -1,0 +1,38 @@
+<div class="container">
+  <app-sidebar-menu class="sidebar"></app-sidebar-menu>
+  <div class="main-content">
+    <div *ngIf="selectedComponent === 'dashboard'">
+      <app-dashboard></app-dashboard>
+    </div>
+    <div *ngIf="selectedComponent === 'llicencies'">
+      <app-llicencies></app-llicencies>
+    </div>
+    <div *ngIf="selectedComponent === 'propietaris'">
+      <app-propietaris></app-propietaris>
+    </div>
+    <div *ngIf="selectedComponent === 'gimnasos'">
+      <app-gimnasos [usuari]="usuari"></app-gimnasos>
+    </div>
+    <div *ngIf="selectedComponent === 'usuaris'">
+      <app-usuaris [usuari]="usuari"></app-usuaris>
+    </div>
+    <div *ngIf="selectedComponent === 'membres'">
+      <app-membres [usuari]="usuari"></app-membres>
+    </div>
+    <div *ngIf="selectedComponent === 'quotes'">
+      <app-quotes [usuari]="usuari"></app-quotes>
+    </div>
+    <div *ngIf="selectedComponent === 'pagaments'">
+      <app-pagaments [usuari]="usuari"></app-pagaments>
+    </div>
+    <div *ngIf="selectedComponent === 'missatgeria'">
+      <app-missatgeria [usuari]="usuari"></app-missatgeria>
+    </div>
+    <div *ngIf="selectedComponent === 'visites'">
+      <app-visites [usuari]="usuari"></app-visites>
+    </div>
+    <div *ngIf="selectedComponent === 'ajustaments'">
+      <app-ajustaments></app-ajustaments>
+    </div>
+  </div>
+</div> 

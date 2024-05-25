@@ -1,0 +1,93 @@
+<div class="flex align-items-center justify-content-start flex-shrink-0">
+    <h2>Administrar Usuaris</h2>
+    <h3>Llista d'usuaris</h3>
+</div>
+<div class="card">
+    <p-toast></p-toast>
+    <p-toolbar styleClass="mb-4 gap-2">
+        <ng-template pTemplate="left">
+            <button pButton pRipple label="Nou Usuari" icon="pi pi-plus" class="mr-2" (click)="crearUsuari()"></button>
+        </ng-template>
+        <ng-template pTemplate="right">
+            <button pButton pRipple label="Exportar Taula" icon="pi pi-upload" class="mr-2" (click)="exportToExcel()"></button>
+        </ng-template>
+    </p-toolbar>
+
+    <p-table
+        #dt
+        [value]="usuaris"
+        [rows]="5"
+        [paginator]="true"
+        [globalFilterFields]="['nom','nomUsuari','rols','email','dataModificacio','dataCreacio']"
+        [tableStyle]="{ 'min-width': '75rem' }"
+        [rowHover]="true"
+        dataKey="id"
+        [exportHeader]="'customExportHeader'"
+    >
+        <ng-template pTemplate="caption">
+            <div class="flex align-items-center justify-content-between">
+                <h5 class="m-0">Gestiona usuaris</h5>
+                <span class="p-input-icon-left">
+                    <i class="pi pi-search"></i>
+                    <input pInputText type="text" (input)="dt.filterGlobal($any($event.target).value, 'contains')" placeholder="Busca..." />
+                </span>
+            </div>
+        </ng-template>
+        <ng-template pTemplate="header">
+            <tr>
+                <th pSortableColumn="nom" style="min-width:15rem">Nom <p-sortIcon field="nom"></p-sortIcon></th>
+                <th pSortableColumn="nomUsuari" style="min-width:10rem">Nom Usuari <p-sortIcon field="nomUsuari"></p-sortIcon></th>
+                <th pSortableColumn="email" style="min-width:15rem">Email <p-sortIcon field="email"></p-sortIcon></th>
+                <th pSortableColumn="rols" style="min-width:10rem">Rol <p-sortIcon field="rols"></p-sortIcon></th>
+                <th>Actiu</th>
+                <th pSortableColumn="dataCreacio" style="min-width:10rem">Creat <p-sortIcon field="dataCreacio"></p-sortIcon></th>
+                <th pSortableColumn="dataModificacio" style="min-width:10rem">Modificat <p-sortIcon field="dataModificacio"></p-sortIcon></th>
+                <th style="min-width:10rem"></th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-usuari>
+            <tr>
+                <td>{{ usuari.nom }}</td>
+                <td>{{ usuari.nomUsuari }}</td>
+                <td>{{ usuari.email }}</td>
+                <td>{{ getRol(usuari.rols) }}</td>
+                <td>
+                    <p-tag [value]="usuari.actiu" [severity]="usuari.actiu === true ? 'success' : 'danger'"></p-tag>
+                </td>
+                <td>{{ usuari.dataCreacio | date:"dd/MM/yyyy HH:mm" }}</td>
+                <td>{{ usuari.dataModificacio | date:"dd/MM/yyyy HH:mm" }}</td>
+                <td>
+                    <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-help mr-2" (click)="editarUsuari(usuari)"></button>
+                    <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="eliminarUsuari(usuari)"></button>
+                </td>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="summary">
+            <div class="flex align-items-center justify-content-between">S'han trobat {{ usuaris ? usuaris.length : 0 }} usuaris</div>
+        </ng-template>
+    </p-table>
+</div>
+
+<p-dialog [(visible)]="editarUsuariDialog" [style]="{ width: '450px' }" header="Detalls de l'usuari" [modal]="true" styleClass="p-fluid">
+    <app-form-usuari [mode]="'editar'" [usuari]="usuari" (successfullyEdited)="usuariEditat($event)"></app-form-usuari>
+</p-dialog>
+
+<p-dialog [(visible)]="crearUsuariDialog" [style]="{ width: '800px' }" header="Crear un nou Usuari" [modal]="true" styleClass="p-fluid">
+    <app-form-usuari [mode]="'crear'" [usuari]="usuari" [esGymAdmin]="esGymAdmin" [rols]="rols" (successfullyCreated)="usuariCreat($event)"></app-form-usuari>
+</p-dialog>
+
+<p-confirmDialog #cd>
+    <ng-template pTemplate="headless" let-message>
+        <div class="flex flex-column align-items-center p-5 surface-overlay border-round">
+            <div class="border-circle bg-primary inline-flex justify-content-center align-items-center h-6rem w-6rem -mt-8">
+                <i class="pi pi-exclamation-triangle text-5xl"></i>
+            </div>
+            <span class="font-bold text-2xl block mb-2 mt-4">{{ message.header }}</span>
+            <p class="mb-0">{{ message.message }}</p>
+            <div class="flex align-items-center gap-2 mt-4">
+                <button pButton label="Cancel·la" (click)="cd.reject()" class="p-button-outlined w-8rem "></button>
+                <button pButton label="Elimina" (click)="cd.accept()" class="w-8rem"></button>
+            </div>
+        </div>
+    </ng-template>
+</p-confirmDialog>

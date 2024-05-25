@@ -1,0 +1,9 @@
+<form [formGroup]="visitaRegularForm" (ngSubmit)="crearVisitaRegular()">
+    <div class="field">
+        <label for="preu" class="form-label">Preu a pagar</label>
+        <input type="number" id="preu" pInputText formControlName="preu"/>
+    </div>
+    <div class="p-col-12">
+        <button pButton type="submit" label="Crear" [disabled]="!visitaRegularForm.valid"></button>
+    </div>
+</form>

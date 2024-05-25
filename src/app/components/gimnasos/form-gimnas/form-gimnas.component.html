@@ -1,0 +1,47 @@
+<form *ngIf="mode === 'editar'" [formGroup]="gimnasForm" (ngSubmit)="guardarGimnas()">
+    <div class="field">
+        <label for="nom" class="form-label">Nom</label>
+        <input type="text" id="nom" pInputText formControlName="nom"/>
+    </div>
+    <div class="field">
+        <label for="adreca" class="form-label">Adreça</label>
+        <input type="text" id="adreca" pInputText formControlName="adreca"/>
+    </div>
+    <div class="field">
+        <label for="email" class="form-label">Email</label>
+        <input type="email" id="email" pInputText formControlName="email"/>
+    </div>
+    <div class="field">
+        <label for="telefon" class="form-label">Telèfon</label>
+        <input type="tel" id="telefon" pInputText formControlName="telefon" pattern="[0-9]{9}"/>
+    </div>
+    <div class="p-col-12">
+        <button pButton type="submit" label="Guardar" [disabled]="!gimnasForm.valid"></button>
+    </div>
+</form>
+
+<form *ngIf="mode === 'crear'" [formGroup]="gimnasForm" (ngSubmit)="crearGimnas()">
+    <div class="field">
+        <label for="nom" class="form-label">Nom</label>
+        <input type="text" id="nom" pInputText formControlName="nom"/>
+    </div>
+    <div class="field">
+        <label for="adreca" class="form-label">Adreça</label>
+        <input type="text" id="adreca" pInputText formControlName="adreca"/>
+    </div>
+    <div class="field">
+        <label for="email" class="form-label">Email</label>
+        <input type="email" id="email" pInputText formControlName="email"/>
+    </div>
+    <div class="field">
+        <label for="telefon" class="form-label">Telèfon</label>
+        <input type="tel" id="telefon" pInputText formControlName="telefon" pattern="[0-9]{9}"/>
+    </div>
+    <div *ngIf="!esGymadmin" class="field">
+        <label for="propietari" class="form-label">Propietari</label>
+        <p-dropdown formControlName="propietari" [options]="propietaris" optionLabel="nom" placeholder="Seleccioni un propietari" appendTo="body"></p-dropdown>
+    </div>
+    <div class="p-col-12">
+        <button pButton type="submit" label="Guardar" [disabled]="!gimnasForm.valid"></button>
+    </div>
+</form>

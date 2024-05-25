@@ -1,0 +1,21 @@
+<form [formGroup]="tipusLlicenciaForm" (ngSubmit)="tractarTipusLlicencia()">
+    <div class="field">
+        <label for="nom" class="form-label">Nom</label>
+        <input type="text" id="nom" pInputText formControlName="nom"/>
+    </div>
+    <div class="field">
+        <label for="preu" class="form-label">Preu</label>
+        <input type="text" id="preu" pInputText formControlName="preu"/>
+    </div>
+    <div *ngIf="mode === 'crear'" class="field">
+        <label for="durada" class="form-label">Seleccioneu la duració</label>
+        <p-dropdown formControlName="durada" [options]="durada" appendTo="body"></p-dropdown>
+    </div>
+    <div *ngIf="mode === 'crear'" class="field">
+        <label for="tipus" class="form-label">Llicència per a individual o cadena</label>
+        <p-dropdown formControlName="tipus" [options]="tipus" appendTo="body"></p-dropdown>
+    </div>
+    <div class="p-col-12">
+        <button pButton type="submit" label="Guardar" [disabled]="!tipusLlicenciaForm.valid"></button>
+    </div>
+</form>

@@ -1,0 +1,123 @@
+<div *ngIf="!veureTipusLlicencia" class="flex align-items-center justify-content-start flex-shrink-0">
+    <h2>Administrar Llicències</h2>
+    <h3>Llista de llicències</h3>
+</div>
+<div class="card" *ngIf="!veureTipusLlicencia">
+    <p-toast></p-toast>
+    <p-toolbar styleClass="mb-4 gap-2">
+        <ng-template pTemplate="left">
+            <button pButton pRipple label="Nova Llicència" icon="pi pi-plus" class="p-button-success mr-2" (click)="crearLlicencia()"></button>
+            <button pButton pRipple label="Tipus de llicències" icon="pi pi-question-circle" class="p-button-help mr-2" (click)="tipusLlicencia()"></button>
+        </ng-template>
+        <ng-template pTemplate="right">
+            <button pButton pRipple label="Exportar Taula" icon="pi pi-upload" class="mr-2" (click)="exportToExcel()"></button>
+        </ng-template>
+    </p-toolbar> 
+
+    <p-table
+        #dt
+        [value]="llicencies"
+        [rows]="5"
+        [paginator]="true"
+        [globalFilterFields]="['propietari','nom','preu','activa','dataInici','dataVenciment']"
+        [tableStyle]="{ 'min-width': '75rem' }"
+        [rowHover]="true"
+        dataKey="id"
+        [exportHeader]="'customExportHeader'"
+    >
+        <ng-template pTemplate="caption">
+            <div class="flex align-items-center justify-content-between">
+                <h5 class="m-0">Gestiona llicències del software ConnectaGym</h5>
+                <span class="p-input-icon-left">
+                    <i class="pi pi-search"></i>
+                    <input pInputText type="text" (input)="dt.filterGlobal($any($event.target).value, 'contains')" placeholder="Busca..." />
+                </span>
+            </div>
+        </ng-template>
+        <ng-template pTemplate="header">
+            <tr>
+                <th pSortableColumn="propietari" style="min-width:5rem">Propietari <p-sortIcon field="propietari"></p-sortIcon></th>
+                <th pSortableColumn="nom" style="min-width:6rem">Nom <p-sortIcon field="nom"></p-sortIcon></th>
+                <th pSortableColumn="preu" style="min-width:8rem">Preu <p-sortIcon field="preu"></p-sortIcon></th>
+                <th pSortableColumn="activa">Activa <p-sortIcon field="activa"></p-sortIcon></th>
+                <th pSortableColumn="dataInici">Data Inici <p-sortIcon field="dataInici"></p-sortIcon></th>
+                <th pSortableColumn="dataVenciment">Data Venciment <p-sortIcon field="dataVenciment"></p-sortIcon></th>
+                <th style="min-width:9rem"></th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-llicencia>
+            <tr>
+                <td>{{ llicencia.propietari.nom }}</td>
+                <td>{{ llicencia.tipusLlicencia.nom }}</td>
+                <td>{{ llicencia.preu | currency: 'EUR' }}</td>
+                <td>
+                    <p-tag [value]="llicencia.activa" [severity]="llicencia.activa === true ? 'success' : 'danger'"></p-tag>
+                </td>
+                <td>{{ llicencia.dataInici | date:"dd/MM/yyyy HH:mm" }}</td>
+                <td>{{ llicencia.dataVenciment | date:"dd/MM/yyyy HH:mm" }}</td>
+                <td>
+                    <button pButton pRipple icon="pi pi-eye" class="p-button-rounded mr-2" (click)="veureLlicencia(llicencia)"></button>
+                    <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="eliminarLlicencia(llicencia)"></button>
+                    <p-dialog [(visible)]="veureLlicenciaDialog" header="Rebut de la llicència" [style]="{ width: '450px' }" [modal]="true" styleClass="p-fluid">
+                        <div class="invoice-container">
+                            <div class="invoice-details">
+                                <div class="invoice-row">
+                                    <span class="invoice-label">Propietari:</span>
+                                    <span class="invoice-value">{{ llicencia.propietari.nom }}</span>
+                                </div>
+                                <div class="invoice-row">
+                                    <span class="invoice-label">Tipus de Llicència:</span>
+                                    <span class="invoice-value">{{ llicencia.tipusLlicencia.nom }}</span>
+                                </div>
+                                <div class="invoice-row">
+                                    <span class="invoice-label">Preu:</span>
+                                    <span class="invoice-value">{{ llicencia.preu | currency: 'EUR' }}</span>
+                                </div>
+                                <div class="invoice-row">
+                                    <span class="invoice-label">Activa:</span>
+                                    <span class="invoice-value">{{ llicencia.activa ? 'Sí' : 'No' }}</span>
+                                </div>
+                                <div class="invoice-row">
+                                    <span class="invoice-label">Data d'Inici:</span>
+                                    <span class="invoice-value">{{ llicencia.dataInici | date: 'dd/MM/yyyy' }}</span>
+                                </div>
+                                <div class="invoice-row">
+                                    <span class="invoice-label">Data de Venciment:</span>
+                                    <span class="invoice-value">{{ llicencia.dataVenciment | date: 'dd/MM/yyyy' }}</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="p-col-12">
+                            <button pButton pRipple icon="pi pi-print" class="mr-2 hide-on-print" label="Imprimir" (click)="imprimirRebut()"></button>
+                        </div>
+                    </p-dialog>
+                </td>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="summary">
+            <div class="flex align-items-center justify-content-between">S'han trobat {{ llicencies ? llicencies.length : 0 }} llicències</div>
+        </ng-template>
+    </p-table>
+</div>
+
+<app-tipus-llicencies *ngIf="veureTipusLlicencia" [veureTipus]="veureTipusLlicencia" (veureLlicencies)="veureLlicencies()"></app-tipus-llicencies>
+
+<p-dialog [(visible)]="crearLlicenciaDialog" [style]="{ width: '450px' }" header="Crear una nova Llicència" [modal]="true" styleClass="p-fluid">
+    <app-form-llicencia [tipusLlicencia]="tipusLlicenciaFormulari" (successfullyCreated)="llicenciaCreada($event)"></app-form-llicencia>
+</p-dialog>
+
+<p-confirmDialog #cd>
+    <ng-template pTemplate="headless" let-message>
+        <div class="flex flex-column align-items-center p-5 surface-overlay border-round">
+            <div class="border-circle bg-primary inline-flex justify-content-center align-items-center h-6rem w-6rem -mt-8">
+                <i class="pi pi-exclamation-triangle text-5xl"></i>
+            </div>
+            <span class="font-bold text-2xl block mb-2 mt-4">{{ message.header }}</span>
+            <p class="mb-0">{{ message.message }}</p>
+            <div class="flex align-items-center gap-2 mt-4">
+                <button pButton label="Cancel·la" (click)="cd.reject()" class="p-button-outlined w-8rem "></button>
+                <button pButton label="Elimina" (click)="cd.accept()" class="w-8rem"></button>
+            </div>
+        </div>
+    </ng-template>
+</p-confirmDialog>
