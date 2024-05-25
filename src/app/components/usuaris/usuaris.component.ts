@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { UsuarisService } from '../../services/usuaris.service';
 import { Usuari } from '../../models/usuari.model';
@@ -15,8 +15,9 @@ import { PropietarisService } from '../../services/propietaris.service';
 })
 export class UsuarisComponent implements OnInit {
 
+  @Input() usuari!: Usuari;
+
   usuaris!: Usuari[];
-  usuari!: Usuari;
   submitted: boolean = false;
 
   selectedRol: string = '';
@@ -25,6 +26,7 @@ export class UsuarisComponent implements OnInit {
 
   crearUsuariDialog: boolean = false;
   editarUsuariDialog: boolean = false;
+  esGymAdmin: boolean = false;
 
   constructor(
     private usuarisService: UsuarisService, 
@@ -45,10 +47,23 @@ export class UsuarisComponent implements OnInit {
   }
 
   carregarUsuaris(): void {
-    this.usuarisService.getUsuaris().subscribe(response => {
-      this.usuaris = response;
-      console.log(this.usuaris);
-    });
+    if (this.tokenService.isSuperAdmin()) {
+      this.usuarisService.getUsuaris().subscribe(response => {
+        this.usuaris = response;
+        console.log(this.usuaris);
+      });
+    }
+    else {
+      this.esGymAdmin = true;
+      this.usuarisService.getUsuaris().subscribe(response => {
+        console.log(response);
+        this.usuarisService.getUsuariActiuByNomUsuari(this.tokenService.getUsername()).subscribe(usuari => {
+          this.usuari = usuari;
+          this.usuaris = response.filter(usuari => usuari.gimnasStaff !== null && usuari.gimnasStaff.propietari.nom === this.usuari.nom);
+          console.log(this.usuaris);
+        });
+      });
+    }
   }
 
   getRol(rols: any[]): string {
@@ -96,9 +111,13 @@ export class UsuarisComponent implements OnInit {
 
   usuariEditat(event: any) {
     this.usuarisService.actualitzarUsuari(event.nomUsuari, event).subscribe(response => {
-      this.messageService.add({ severity: 'success', summary: 'Fet!', detail: "Usuari editat correctament", life: 3000 });
+      this.messageService.add({ severity: 'success', summary: 'Fet!', detail: response, life: 3000 });
       this.carregarUsuaris();
       console.log(response);
+    },
+    error => { 
+      this.messageService.add({ severity: 'error', summary: 'Error', detail: error.error, life: 5000 });
+      this.carregarUsuaris();
     });
     this.editarUsuariDialog = false;
   }
@@ -113,10 +132,12 @@ export class UsuarisComponent implements OnInit {
           this.messageService.add({ severity: 'success', summary: 'Fet!', detail: response, life: 3000 });
           this.carregarUsuaris();
 
-          const username = this.tokenService.getUsername();
-          if (username === usuari.nomUsuari) {
-              this.tokenService.logOut();
+          if (this.usuari.nomUsuari === usuari.nomUsuari) {
+            this.tokenService.logOut();
           }
+        },
+        error => {
+          this.messageService.add({ severity: 'error', summary: 'Error', detail: error.error, life: 5000 });
         });
       }
     });

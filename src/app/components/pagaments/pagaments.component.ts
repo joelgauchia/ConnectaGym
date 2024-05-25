@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { PagamentsService } from '../../services/pagaments.service';
 import { Pagament } from '../../models/pagament.model';
@@ -7,6 +7,7 @@ import { MembresService } from '../../services/membres.service';
 import { ExcelService } from '../../services/excel.service';
 import { TokenService } from '../../services/token.service';
 import { UsuarisService } from '../../services/usuaris.service';
+import { Usuari } from '../../models/usuari.model';
 
 @Component({
   selector: 'app-pagaments',
@@ -15,6 +16,8 @@ import { UsuarisService } from '../../services/usuaris.service';
   providers: [MessageService, ConfirmationService]
 })
 export class PagamentsComponent implements OnInit {
+
+  @Input() usuari!: Usuari;
 
   pagaments!: Pagament[];
   pagament!: Pagament;
@@ -27,7 +30,6 @@ export class PagamentsComponent implements OnInit {
     private confirmationService: ConfirmationService,
     private membresService: MembresService,
     private messageService: MessageService,
-    private usuarisService: UsuarisService,
     private excelService: ExcelService
   ) { }
 
@@ -45,26 +47,16 @@ export class PagamentsComponent implements OnInit {
     }
     else if (this.tokenService.isGymAdmin() && !this.tokenService.isSuperAdmin()) {
       this.pagamentsService.getPagaments().subscribe(response => {
-        response.forEach(pagament => {
-          this.usuarisService.getUsuariByNomUsuari(this.tokenService.getUsername()).subscribe(usuari => {
-            if (pagament.gimnas.propietari.nom === usuari.nom) {
-              this.pagaments.push(pagament);
-            }
-          });
-        });
-
+        this.pagaments = response.filter(pagament => pagament.gimnas.propietari.nom === this.usuari.nom);
         console.log(this.pagaments);
       });
     }
     else {
-      this.usuarisService.getUsuariActiuByNomUsuari(this.tokenService.getUsername()).subscribe(usuari => {
-        this.pagamentsService.getPagamentsGimnas(usuari.gimnasStaff).subscribe(pagaments => {
-          this.pagaments = pagaments;
-        });
+      this.pagamentsService.getPagamentsGimnas(this.usuari.gimnasStaff).subscribe(pagaments => {
+        this.pagaments = pagaments;
       });
     }
   }
-
 
   eliminarPagament(pagament: Pagament) {
     this.pagament = pagament;

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { TokenService } from '../../services/token.service';
 import { UsuarisService } from '../../services/usuaris.service';
 import { Usuari } from '../../models/usuari.model';
@@ -16,9 +16,10 @@ import { map, switchMap } from 'rxjs';
   styleUrl: './dashboard.component.scss'
 })
 export class DashboardComponent implements OnInit {
+  
+  usuari!: Usuari;
 
   dataActual: Date = new Date();
-  usuari!: Usuari;
   ventesTotals!: number;
   gimnasosTotals!: number;
   propietarisTotals!: number;
@@ -52,45 +53,42 @@ export class DashboardComponent implements OnInit {
     private propietarisService: PropietarisService,
     private llicenciesService: LlicenciesService,
     private gimnasosService: GimnasosService,
+    private usuarisService: UsuarisService,
     private tokenService: TokenService,
-    private usuarisService: UsuarisService
   ) { }
 
   ngOnInit(): void {
     this.usuarisService.getUsuariByNomUsuari(this.tokenService.getUsername()).pipe(
-        map(usuari => {
-            this.usuari = usuari;
-        })
+      map(usuari => {
+          this.usuari = usuari;
+      })
     ).subscribe(() => {
         if (this.tokenService.isGymAdmin()) this.esGymAdmin = true;
         if (this.tokenService.isSuperAdmin()) this.esSuperAdmin = true;
 
         if (this.esSuperAdmin) {
-            this.getGimnasos();
-            this.getPropietaris();
-            this.getVentesLlicencies();
+            this.getGimnasosPropietarisVendesLlicenciesSuperAdmin();
         }
         else if (this.esGymAdmin && !this.esSuperAdmin) {
-            this.getPagamentsMensuals();
-            this.getMembresPropietari();
-            this.getVisites();
+            this.getPagamentsMensualsMembresVisitesPropietari();
         }
         else {
-            this.getMembresGimnasStaff();
-            this.getVisites();
+            this.getVisitesMembresGimnasStaff();
         }
     });
   }
 
-  getGimnasos(): void {
+  getGimnasosPropietarisVendesLlicenciesSuperAdmin(): void {
     this.gimnasosService.getGimnasos().subscribe(gimnasos => {
       this.gimnasosTotals = gimnasos.length;
+      this.getPropietaris();
     });
   }
 
   getPropietaris(): void {
     this.propietarisService.getPropietaris().subscribe(propietaris => {
       this.propietarisTotals = propietaris.length;
+      this.getVentesLlicencies();
     });
   }
 
@@ -108,21 +106,7 @@ export class DashboardComponent implements OnInit {
     });
   }
 
-  getMembresPropietari(): void {
-    this.membresTotals = 0;
-    this.membresNous = 0;
-    this.membresService.getMembres().subscribe(membres => {
-      membres.forEach(membre => {
-        if (membre.gimnas.propietari.nom === this.usuari.nom) {
-          this.membresTotals++;
-          const mesCreacio = new Date(membre.dataCreacio).getMonth();
-          if (mesCreacio === this.dataActual.getMonth()) this.membresNous++;
-        }
-      });
-    });
-  }
-
-  getPagamentsMensuals(): void {
+  getPagamentsMensualsMembresVisitesPropietari(): void {
     this.ventesPerMes = 0;
     this.facturacioPropietari = 0;
     this.pagamentsService.getPagaments().subscribe(pagaments => {
@@ -136,7 +120,36 @@ export class DashboardComponent implements OnInit {
         }
         console.log(this.facturacioPropietari);
       });
-      this.iniciarCharts();
+      this.getMembresPropietari();
+    });
+  }
+
+  getMembresPropietari(): void {
+    this.membresTotals = 0;
+    this.membresNous = 0;
+    this.membresService.getMembres().subscribe(membres => {
+      membres.forEach(membre => {
+        if (membre.gimnas.propietari.nom === this.usuari.nom) {
+          this.membresTotals++;
+          const mesCreacio = new Date(membre.dataCreacio).getMonth();
+          if (mesCreacio === this.dataActual.getMonth()) this.membresNous++;
+        }
+      });
+      this.getVisites();
+    });
+  }
+
+  getVisitesMembresGimnasStaff(): void {
+    this.membresNous = 0;
+    this.membresService.getMembresGimnas(this.usuari.gimnasStaff).subscribe(membres => {
+      console.log(membres.length);
+      this.membresTotals = membres.length;
+      console.log(this.membresTotals);
+      membres.forEach(membre => {
+        const mesCreacio = new Date(membre.dataCreacio).getMonth();
+        if (mesCreacio === this.dataActual.getMonth()) this.membresNous++;
+      });
+      this.getVisites();
     });
   }
 
@@ -160,19 +173,8 @@ export class DashboardComponent implements OnInit {
           }
         }
       });
+      console.log(this.visitesTotalsStaff);
       this.iniciarCharts();
-    });
-  }
-
-  getMembresGimnasStaff(): void {
-    this.membresNous = 0;
-    console.log(this.usuari);
-    this.membresService.getMembresGimnas(this.usuari.gimnasStaff).subscribe(membres => {
-      this.membresTotals = membres.length;
-      membres.forEach(membre => {
-        const mesCreacio = new Date(membre.dataCreacio).getMonth();
-        if (mesCreacio === this.dataActual.getMonth()) this.membresNous++;
-      });
     });
   }
 

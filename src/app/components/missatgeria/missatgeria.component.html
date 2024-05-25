@@ -7,7 +7,7 @@
     <p-card header="Utilitzi la missatgeria per a notificar clients sobre promocions, avisos, etc." [style]="{'width':'50%'}"></p-card>
     <p-card [style]="{'width':'50%'}">
         <div class="contingut">
-            <app-form-missatge [membres]="membres" (successfullyCreated)="enviarCorreu($event)"></app-form-missatge>
+            <app-form-missatge [membres]="membres" [usuari]="usuari" (successfullyCreated)="enviarCorreu($event)"></app-form-missatge>
         </div>
     </p-card>
 </div>

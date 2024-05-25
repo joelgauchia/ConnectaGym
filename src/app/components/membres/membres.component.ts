@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { ExcelService } from '../../services/excel.service';
 import { Membre } from '../../models/membre.model';
@@ -10,6 +10,7 @@ import { TokenService } from '../../services/token.service';
 import { UsuarisService } from '../../services/usuaris.service';
 import { RolNom } from '../../models/rol.model';
 import { forkJoin, of, switchMap } from 'rxjs';
+import { Usuari } from '../../models/usuari.model';
 
 @Component({
   selector: 'app-membres',
@@ -18,6 +19,8 @@ import { forkJoin, of, switchMap } from 'rxjs';
   providers: [MessageService, ConfirmationService]
 })
 export class MembresComponent implements OnInit {
+
+  @Input() usuari!: Usuari;
 
   membres!: Membre[];
   membre!: Membre;
@@ -52,25 +55,8 @@ export class MembresComponent implements OnInit {
     }
     else if (this.tokenService.isGymAdmin() && !this.tokenService.isSuperAdmin()) {
       this.membresService.getMembresCreadorActiu().subscribe(response => {
-        const observables = response.map(membre => 
-          this.usuarisService.getUsuariByNomUsuari(this.tokenService.getUsername())
-            .pipe(
-              switchMap(usuari => {
-                console.log(membre);
-                console.log(membre.gimnas.creador.nom);
-                console.log(usuari.nom);
-                console.log(membre.gimnas.propietari.nom);
-                if (membre.creador.nom === usuari.nom || (membre.creador.rols.some(rol => rol.rolNom === RolNom.SUPERADMIN) && membre.gimnas.propietari.nom === usuari.nom)) {
-                  this.membres.push(membre);
-                }
-                return of(null); // No retornem res, només per mantenir la coherència dels observables
-              })
-            )
-        );
-        forkJoin(observables).subscribe(() => {
-          console.log(this.membres);
-          this.actualitzarEstat();
-        });
+        this.membres = response.filter(membre => membre.creador.nom === this.usuari.nom || (membre.creador.rols.some(rol => rol.rolNom === RolNom.SUPERADMIN) && membre.gimnas.propietari.nom === this.usuari.nom) || (membre.creador.rols.some(rol => rol.rolNom === RolNom.STAFF) && membre.gimnas.propietari.nom === this.usuari.nom));
+        this.actualitzarEstat();
       });
     }
     else {

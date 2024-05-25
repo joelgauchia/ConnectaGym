@@ -73,7 +73,7 @@
 </p-dialog>
 
 <p-dialog [(visible)]="crearUsuariDialog" [style]="{ width: '800px' }" header="Crear un nou Usuari" [modal]="true" styleClass="p-fluid">
-    <app-form-usuari [mode]="'crear'" [rols]="rols" (successfullyCreated)="usuariCreat($event)"></app-form-usuari>
+    <app-form-usuari [mode]="'crear'" [usuari]="usuari" [esGymAdmin]="esGymAdmin" [rols]="rols" (successfullyCreated)="usuariCreat($event)"></app-form-usuari>
 </p-dialog>
 
 <p-confirmDialog #cd>

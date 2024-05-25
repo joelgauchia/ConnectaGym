@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { ExcelService } from '../../services/excel.service';
 import { GimnasosService } from '../../services/gimnasos.service';
@@ -6,6 +6,7 @@ import { Gimnas } from '../../models/gimnas.model';
 import { TokenService } from '../../services/token.service';
 import { Rol, RolNom } from '../../models/rol.model';
 import { UsuarisService } from '../../services/usuaris.service';
+import { Usuari } from '../../models/usuari.model';
 
 @Component({
   selector: 'app-gimnasos',
@@ -15,6 +16,8 @@ import { UsuarisService } from '../../services/usuaris.service';
 })
 export class GimnasosComponent implements OnInit {
 
+  @Input() usuari!: Usuari;
+  
   gimnasos!: Gimnas[];
   gimnas!: Gimnas;
   submitted: boolean = false;
@@ -50,17 +53,7 @@ export class GimnasosComponent implements OnInit {
     }
     if (this.tokenService.isGymAdmin() && !this.tokenService.isSuperAdmin()) {
       this.gimnasosService.getGimnasosCreadorActiu().subscribe(response => {
-        response.forEach(gimnas => {
-          console.log(gimnas);
-          console.log(gimnas.creador.nomUsuari, " ", this.tokenService.getUsername());
-          console.log(new Rol(RolNom.SUPERADMIN));
-          this.usuarisService.getUsuariByNomUsuari(this.tokenService.getUsername()).subscribe(usuari => {
-            console.log(usuari.nom, " ", gimnas.propietari.nom);
-            if ((gimnas.creador.rols.some(rol => rol.rolNom === RolNom.SUPERADMIN) && gimnas.propietari.nom === usuari.nom) || gimnas.creador.nomUsuari === this.tokenService.getUsername()) {
-              this.gimnasos.push(gimnas);
-            }
-          });
-        });
+        this.gimnasos = response.filter(gimnas => (gimnas.creador.rols.some(rol => rol.rolNom === RolNom.SUPERADMIN) && gimnas.propietari.nom === this.usuari.nom) || gimnas.creador.nomUsuari === this.tokenService.getUsername());
         console.log(this.gimnasos);
       });
     }
@@ -71,12 +64,12 @@ export class GimnasosComponent implements OnInit {
   }
 
   gimnasCreat(event: any) {
+    console.log(event);
     this.gimnasosService.crearGimnas(event).subscribe(response => {
       this.messageService.add({ severity: 'success', summary: 'Fet', detail: response, life: 3000 });
       this.carregarGimnasos();
     }, 
     error => {
-      console.log(error.error);
       this.messageService.add({ severity: 'error', summary: 'Error', detail: error.error, life: 5000 });
     });
     this.crearGimnasDialog = false;

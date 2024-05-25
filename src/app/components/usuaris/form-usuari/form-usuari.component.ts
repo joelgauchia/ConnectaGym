@@ -14,6 +14,7 @@ import { Gimnas } from '../../../models/gimnas.model';
 export class FormUsuariComponent implements OnInit {
 
   @Input() mode!: string;
+  @Input() esGymAdmin!: boolean;
   @Input() usuari!: Usuari;
   @Input() rols!: any[];
 
@@ -38,9 +39,17 @@ export class FormUsuariComponent implements OnInit {
   ngOnInit(): void {
     this.tipusPropietari = ["INDIVIDUAL", "CADENA"];
     this.gimnasos = [];
-    this.gimnasosService.getGimnasosCreadorActiu().subscribe(response => {
-      this.gimnasos = response;
-    });
+    if (this.esGymAdmin) {
+      this.gimnasosService.getGimnasos().subscribe(response => {
+        this.gimnasos = response.filter(gimnas => gimnas.propietari.nom === this.usuari?.nom);
+        console.log(this.gimnasos);
+      });
+    } 
+    else {
+      this.gimnasosService.getGimnasosCreadorActiu().subscribe(response => {
+        this.gimnasos = response;
+      });
+    }
     this.initForm();
   }
 
@@ -67,6 +76,10 @@ export class FormUsuariComponent implements OnInit {
         tipus: [''],
         gimnas: ['']
       });
+      if (this.esGymAdmin) {
+        this.usuariForm.get('rols')?.setValidators([]);
+        this.usuariForm.get('gimnas')?.setValidators([Validators.required]);
+      }
       if (this.esRolGYMADMIN()) {
         this.usuariForm.get('telefon')?.setValidators([Validators.required]);
         this.usuariForm.get('adreca')?.setValidators([Validators.required]);
@@ -134,7 +147,7 @@ export class FormUsuariComponent implements OnInit {
       }
     }
 
-    if (this.esRolSTAFF()) {
+    if (this.esRolSTAFF() || this.esGymAdmin) {
       usuariGuardat.gimnasStaff = this.usuariForm.get('gimnas')?.value;
     }
 

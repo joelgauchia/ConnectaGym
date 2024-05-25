@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { MessageService } from 'primeng/api';
 import { ExcelService } from '../../services/excel.service';
 import { Visita } from '../../models/visita.model';
@@ -6,6 +6,7 @@ import { VisitesService } from '../../services/visites.service';
 import { UsuarisService } from '../../services/usuaris.service';
 import { TokenService } from '../../services/token.service';
 import { Gimnas } from '../../models/gimnas.model';
+import { Usuari } from '../../models/usuari.model';
 
 @Component({
   selector: 'app-visites',
@@ -14,6 +15,8 @@ import { Gimnas } from '../../models/gimnas.model';
   providers: [MessageService]
 })
 export class VisitesComponent implements OnInit {
+
+  @Input() usuari!: Usuari;
 
   visites!: Visita[];
   visita!: Visita;
@@ -35,12 +38,10 @@ export class VisitesComponent implements OnInit {
   }
 
   carregarVisites(): void {
-    this.usuarisService.getUsuariActiuByNomUsuari(this.tokenService.getUsername()).subscribe(usuari => {
-      this.visitesService.getVisitesByGimnasNom(usuari.gimnasStaff.nom).subscribe(visites => {
-        this.visites = visites;
-        this.gimnas = usuari.gimnasStaff;
-        console.log(this.visites);
-      });
+    this.visitesService.getVisitesByGimnasNom(this.usuari.gimnasStaff.nom).subscribe(visites => {
+      this.visites = visites;
+      this.gimnas = this.usuari.gimnasStaff;
+      console.log(this.visites);
     });
   }
 

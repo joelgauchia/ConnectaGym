@@ -1,9 +1,9 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Sidebar } from 'primeng/sidebar';
-import { TokenService } from '../services/token.service';
-import { SelectedComponentService } from '../services/selected-component.service';
-import { UsuarisService } from '../services/usuaris.service';
-import { Usuari } from '../models/usuari.model';
+import { TokenService } from '../../services/token.service';
+import { SelectedComponentService } from '../../services/selected-component.service';
+import { UsuarisService } from '../../services/usuaris.service';
+import { Usuari } from '../../models/usuari.model';
 
 @Component({
   selector: 'app-sidebar-menu',
@@ -51,6 +51,7 @@ export class SidebarMenuComponent implements OnInit {
   }
 
   logOutUser(): void {
+    this.selectedComponentService.showComponent('dashboard');
     this.tokenService.logOut();
   }
 }

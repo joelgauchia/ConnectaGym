@@ -13,6 +13,7 @@ import { Usuari } from '../../../models/usuari.model';
 })
 export class FormMissatgeComponent implements OnInit {
 
+  @Input() usuari!: Usuari;
   @Input() membres!: Membre[];
   @Output() successfullyCreated = new EventEmitter<Missatge>(); 
 
@@ -38,12 +39,10 @@ export class FormMissatgeComponent implements OnInit {
 
   guardarMissatge(): void {
     const nouMissatge: Missatge = this.missatgeForm.value;
-    this.usuarisService.getUsuariActiuByNomUsuari(this.tokenService.getUsername()).subscribe(response => {
-      nouMissatge.remitent = response;
-      nouMissatge.dataEnviament = new Date();
-      console.log(nouMissatge);
-      this.missatgeForm.reset();
-      this.successfullyCreated.emit(nouMissatge);
-    });
+    nouMissatge.remitent = this.usuari;
+    nouMissatge.dataEnviament = new Date();
+    console.log(nouMissatge);
+    this.missatgeForm.reset();
+    this.successfullyCreated.emit(nouMissatge);
   }
 }

@@ -77,7 +77,7 @@
 </div>
 
 <p-dialog [(visible)]="crearMembreDialog" [style]="{ width: '450px' }" header="Crear un nou Membre" [modal]="true" styleClass="p-fluid">
-    <app-form-membres [mode]="'crear'" (successfullyCreated)="membreCreat($event)"></app-form-membres>
+    <app-form-membres [mode]="'crear'" [usuari]="usuari" (successfullyCreated)="membreCreat($event)"></app-form-membres>
 </p-dialog>
 
 <p-dialog [(visible)]="editarMembreDialog" [style]="{ width: '450px' }" header="Detalls del Membre" [modal]="true" styleClass="p-fluid">

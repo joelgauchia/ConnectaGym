@@ -43,7 +43,7 @@
         <label for="email" class="form-label">Email</label>
         <input type="email" id="email" pInputText formControlName="email"/>
     </div>
-    <div class="field">
+    <div *ngIf="!esGymAdmin"  class="field">
         <label for="rols" class="form-label">Rol</label>
         <p-dropdown [options]="rols" formControlName="rols" placeholder="Escull el rol" appendTo="body"></p-dropdown>
     </div>
@@ -79,7 +79,7 @@
             <p-dropdown formControlName="tipus" [options]="tipusPropietari" placeholder="Seleccioni un tipus" appendTo="body"></p-dropdown>
         </div>
     </div>
-    <div *ngIf="esRolSTAFF()">
+    <div *ngIf="esRolSTAFF() || esGymAdmin">
         <div class="field">
             <label for="gimnas" class="form-label">S'encarregarà del gimnàs:</label>
             <p-dropdown formControlName="gimnas" [options]="gimnasos" placeholder="Seleccioni un gimnàs" optionLabel="nom" appendTo="body"></p-dropdown>

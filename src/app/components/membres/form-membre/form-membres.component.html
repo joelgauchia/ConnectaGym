@@ -65,7 +65,7 @@
     </div>
     <div *ngIf="!esStaff" class="field">
         <label for="gimnas" class="form-label">Gimnàs</label>
-        <p-dropdown formControlName="gimnas" [options]="gimnasos" [editable]="true" placeholder="Seleccioni un gimnàs" optionLabel="nom" appendTo="body"></p-dropdown>
+        <p-dropdown formControlName="gimnas" [options]="gimnasos" placeholder="Seleccioni un gimnàs" optionLabel="nom" appendTo="body"></p-dropdown>
     </div>
     <div class="p-col-12">
         <button pButton type="submit" label="Guardar" [disabled]="!membreForm.valid"></button>
