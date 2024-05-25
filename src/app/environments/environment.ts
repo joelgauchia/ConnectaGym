@@ -12,3 +12,4 @@ export const environment = {
     missatgesURL: 'http://localhost:8080/missatges/',
     visitesURL: 'http://localhost:8080/visites/',
 };
+
