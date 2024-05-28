@@ -19,6 +19,7 @@ import { InputTextareaModule } from 'primeng/inputtextarea';
 import { FieldsetModule } from 'primeng/fieldset';
 import { ChartModule } from 'primeng/chart';
 import { PanelModule } from 'primeng/panel';
+import { MenuModule } from 'primeng/menu';
 
 @NgModule({
     declarations: [],
@@ -42,7 +43,8 @@ import { PanelModule } from 'primeng/panel';
         InputTextareaModule,
         FieldsetModule,
         ChartModule,
-        PanelModule
+        PanelModule,
+        MenuModule
     ]
 })
 export class PrimengModule { }
