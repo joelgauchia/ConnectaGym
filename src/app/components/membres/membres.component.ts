@@ -137,10 +137,6 @@ export class MembresComponent implements OnInit {
     });
   }
 
-  veureMembre(membre: Membre) {
-
-  }
-
   cobrarMembre(membre: Membre) {
     this.membre = membre;
     this.cobrarMembreDialog = true;

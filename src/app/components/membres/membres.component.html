@@ -63,10 +63,11 @@
                 <td>{{ membre.dataCreacio | date:"dd/MM/yyyy HH:mm" }}</td>
                 <td>{{ membre.dataModificacio | date:"dd/MM/yyyy HH:mm" }}</td>
                 <td>
-                    <button *ngIf="membre.estat === 'ACTIU'" pButton pRipple icon="pi pi-eye" class="p-button-rounded mr-1" (click)="veureMembre(membre)"></button>
-                    <button *ngIf="membre.estat === 'SENSE' || membre.estat === 'INACTIU'" pButton pRipple icon="pi pi-wallet" class="p-button-rounded p-button-success mr-1" (click)="cobrarMembre(membre)"></button>
-                    <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-help mr-1" (click)="editarMembre(membre)"></button>
-                    <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning mr-1" (click)="eliminarMembre(membre)"></button>
+                    <div class="flex justify-content-end">
+                        <button *ngIf="membre.estat === 'SENSE' || membre.estat === 'INACTIU'" pButton pRipple icon="pi pi-wallet" class="p-button-rounded p-button-success mr-1" (click)="cobrarMembre(membre)"></button>
+                        <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-help mr-1" (click)="editarMembre(membre)"></button>
+                        <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning mr-1" (click)="eliminarMembre(membre)"></button>
+                    </div>                
                 </td>
             </tr>
         </ng-template>

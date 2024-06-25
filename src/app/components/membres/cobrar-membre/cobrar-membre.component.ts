@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, SimpleChanges } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { QuotesService } from '../../../services/quotes.service';
 import { Quota } from '../../../models/quota.model';
@@ -23,16 +23,25 @@ export class CobrarMembreComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    const nomGimnas: string = this.membre.gimnas.nom;
-    this.quotesService.getQuotesByGimnasNom(nomGimnas).subscribe(response => {
-      this.quotes = response;
-    });
     this.initForm();
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes['membre'] && changes['membre'].currentValue) {
+      this.loadQuotesForMembre();
+    }
   }
 
   initForm() {
     this.cobrarForm = this.fb.group({
       quota: ['', Validators.required]
+    });
+  }
+
+  loadQuotesForMembre() {
+    const nomGimnas: string = this.membre.gimnas.nom;
+    this.quotesService.getQuotesByGimnasNom(nomGimnas).subscribe(response => {
+      this.quotes = response;
     });
   }
 

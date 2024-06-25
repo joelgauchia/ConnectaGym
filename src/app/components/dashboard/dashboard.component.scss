@@ -16,6 +16,10 @@ h3 {
     padding: 0 !important;
 } 
 
+:host ::ng-deep .p-card {
+    flex: 1
+}
+
 .valor {
     color: var(--primary-color);
 }
